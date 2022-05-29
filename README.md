@@ -1,1 +1,1 @@
-# parchis
+# PARCHIS
