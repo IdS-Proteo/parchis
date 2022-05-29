@@ -1,2 +1,4 @@
 PROGRAMMER_NOTES.txt
 .idea/
+doc/non-tracked/*
+_in/
