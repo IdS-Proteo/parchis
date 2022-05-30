@@ -1,3 +1,4 @@
+# A #Player token that live somehow in a #Cell of a #Board. Only 4 of this per player could exist.
 class Token
 
   attr_reader :color, :position_id, :label

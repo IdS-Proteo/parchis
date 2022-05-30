@@ -12,7 +12,7 @@ PLATFORMS
 
 DEPENDENCIES
   bundler
-  gosu
+  gosu (~> 1.4, >= 1.4.3)
   rake
   yard
 

@@ -9,5 +9,5 @@ group :development do
 end
 
 group :production do
-  gem 'gosu'
+  gem 'gosu', '~> 1.4', '>= 1.4.3'
 end
