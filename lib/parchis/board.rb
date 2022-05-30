@@ -1,3 +1,4 @@
+# Parchis #Board.
 class Board
 
   attr_reader :cells

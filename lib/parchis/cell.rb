@@ -1,3 +1,4 @@
+# An instance of this class is a #Cell from a #Board.
 class Cell
 
   attr_reader :tokens, :coords_top, :coords_mid, :coords_bottom, :coords_aux
@@ -139,6 +140,7 @@ class Cell
   # @param token [Token]
   # @return [Boolean] returns false if not possible, true if the operation ran successfully
   def place_token(token)
+    # ATTENTION: Mockering.
     @tokens << token
     true
   end
