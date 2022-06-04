@@ -127,9 +127,9 @@ class Cell
   # @param id [Integer]
   def initialize(id)
     # view related attributes. Some cells doesn't have data for top and bottom
-    @coords_top = {x: COORDS[id][:top][:x] , y: COORDS[id][:top][:y] } rescue {} #: i.e.: {x: 403, y: 677}
-    @coords_mid = {x: COORDS[id][:mid][:x] , y: COORDS[id][:mid][:y] } #: i.e.: {x: 424, y: 677}
-    @coords_bottom = {x: COORDS[id][:bottom][:x] , y: COORDS[id][:bottom][:y] } rescue {} #: i.e.: {x: 445, y: 677}
+    @coords_top = {x: COORDS[id][:top][:x] , y: COORDS[id][:top][:y]} rescue {} #: i.e.: {x: 403, y: 677}
+    @coords_mid = {x: COORDS[id][:mid][:x] , y: COORDS[id][:mid][:y]} #: i.e.: {x: 424, y: 677}
+    @coords_bottom = {x: COORDS[id][:bottom][:x] , y: COORDS[id][:bottom][:y]} rescue {} #: i.e.: {x: 445, y: 677}
     # auxiliary fourth place for finish cells
     @coords_aux = {x: COORDS[id][:aux][:x] , y: COORDS[id][:aux][:y] } if(FINISH_CELLS.include?(id))
     # model related attributes
