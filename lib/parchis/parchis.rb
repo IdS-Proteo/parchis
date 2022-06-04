@@ -5,7 +5,7 @@ The game could be in one of three phases:
   1. Start screen
   2. Lobby of a match
   3. Match
-=end
+=end 
 class Parchis < Gosu::Window
   
   WIDTH = 1254
