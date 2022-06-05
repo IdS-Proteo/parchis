@@ -36,7 +36,15 @@ class TestParchis < MiniTest::Test
 
     end
 
+    def initialize_phase_3
+
+    end
+
     def test_draw_phase_3
+
+    end
+
+    def test_draw_cells_contents
 
     end
 
@@ -44,8 +52,6 @@ class TestParchis < MiniTest::Test
 
     end
 
-    def test_draw_cells_contents
-
-    end
+    
 
 end

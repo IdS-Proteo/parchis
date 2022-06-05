@@ -4,7 +4,20 @@ class TestBoard < MiniTest::Test
         @board=Board.new([player1,player2,player3,player4])
     end
 
+    def test_next_turn
+
+    end
+
+
+    def test_player_turn
+
+    end
+
     def test_debug_tokens_positioning
+        
+    end
+
+    def test_assign_tokens_to_players
         
     end
 
@@ -12,12 +25,8 @@ class TestBoard < MiniTest::Test
 
     end
 
-    def assign_tokens_to_players
-
-    end
-
-    def assign_color_to_players
-
+    def test_assign_color_to_players
+        
     end
 
 end

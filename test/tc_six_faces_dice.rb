@@ -8,4 +8,4 @@ class TestSixFacesDice < MiniTest::Test
     
     end
     
-    end
+end

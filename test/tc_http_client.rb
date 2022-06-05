@@ -12,6 +12,14 @@ class TestHTTPClient < MiniTest::Test
 
    end
 
+   def test_post_joining_to_lobby
+
+   end
+
+   def test_get_lobby_state
+
+   end
+
    def test_post_match
 
    end
