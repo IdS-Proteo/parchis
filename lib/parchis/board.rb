@@ -9,19 +9,20 @@ class Board
   RED_HOUSE_CELLS = 109..112
   GREEN_HOUSE_CELLS = 113..116
 
-  attr_reader :cells, :players
+  attr_reader :cells, :players, :player_turn
 
   # @param players [Array<Player>]
-  def initialize(players)
+  # @param player_turn [Integer, nil] can't be out of the range of 0..(@players.length - 1)
+  def initialize(players, player_turn: nil)
     initialize_cells()
     @players = players
-    assign_color_to_players()
+    assign_color_to_players() if !@players.first.color
     # assign tokens to each player
     @tokens = []
     assign_tokens_to_players()
     # the player turn points to the index of @players, and it continues clockwise
 =begin
-    @player_turn = rand(1..players.length) - 1
+    @player_turn = player_turn || rand(1..players.length) - 1
 =end
     # ATTENTION: Uncomment previous line after debugging, now forcing first player
     @player_turn = 0

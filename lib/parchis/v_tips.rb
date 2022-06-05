@@ -8,7 +8,7 @@ class VTips < VWidget
   Y_POS = 326
   Z_POS = 1
   MAX_CHARS_PER_TIP = 61 #: 66 total, so 61 + "TIP: "
-  HOLD_TIP = 2 # in seconds
+  HOLD_TIP = 25 # in seconds
 
   # @param font [Gosu::Font]
   def initialize(font: nil)
