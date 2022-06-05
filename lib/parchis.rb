@@ -15,6 +15,12 @@ require_relative 'parchis/board'
 require_relative 'parchis/player'
 require_relative 'parchis/token'
 require_relative 'parchis/http_client'
+require_relative 'parchis/v_widget'
+require_relative 'parchis/v_actions'
+require_relative 'parchis/v_countdown'
+require_relative 'parchis/v_stats'
+require_relative 'parchis/v_current_turn'
+require_relative 'parchis/v_tips'
 
 # initialize app
 Parchis.new.show()

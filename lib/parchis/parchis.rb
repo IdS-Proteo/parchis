@@ -73,14 +73,7 @@ class Parchis < Gosu::Window
           reset_to_phase_1()
         elsif(button_down?(Gosu::KB_I) && @players.first.host)
           # try to initialize phase 3
-          if(@players.size >= 2)
-            # initialize phase 3
-            @phase = [3]
-            @board = Board.new(@players)
-            @dice = Dice.new()
-          else
-            enqueue_error('Participantes insuficientes.')
-          end
+          @players.size >= 2 ? initialize_phase_3() : enqueue_error('Participantes insuficientes.')
         end
       when 3
         if(button_down?(Gosu::KB_ESCAPE) && (button_down?(Gosu::KB_LEFT_SHIFT) || button_down?(Gosu::KB_RIGHT_SHIFT)))
@@ -130,6 +123,7 @@ class Parchis < Gosu::Window
 
     # common font
     @font_v = Gosu::Font.new(16)
+    @font_big_v = Gosu::Font.new(32)
   end
 
   # @param error_message [String]
@@ -176,6 +170,20 @@ class Parchis < Gosu::Window
     @font_v.draw_text("ERROR: #{@errors.join('. ')}", 50, 595, 1, 1, 1, 0xff_ff0000) if !@errors.empty?
   end
 
+  # WIP: ...
+  # Initializes phase 3.
+  def initialize_phase_3
+    @phase = [3]
+    @board = Board.new(@players)
+    @dice = Dice.new()
+    # widgets
+    @v_countdown = VCountdown.new(font: @font_big_v)
+    @v_actions = VActions.new(font: @font_v)
+    @v_stats = VStats.new(font: @font_v)
+    @v_tips = VTips.new(font: @font_v)
+    @v_current_turn = VCurrentTurn.new(font: @font_big_v)
+  end
+
   # Phase 3.
   def draw_phase_3
     # draw board
@@ -183,7 +191,8 @@ class Parchis < Gosu::Window
     draw_cells_content()
     # dice
     @dices_v[@dice.last_roll].draw(HEIGHT, BORDERS, 1)
-    #
+    # widgets
+    @v_countdown.draw()
   end
 
   def draw_cells_content
