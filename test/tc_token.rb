@@ -1,0 +1,1 @@
+class TestToken < MiniTest::Test
