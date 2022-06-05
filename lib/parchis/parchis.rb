@@ -39,26 +39,21 @@ class Parchis < Gosu::Window
             reset_to_phase_1()
           elsif(button_down?(Gosu::KB_RETURN) || button_down?(Gosu::KB_ENTER))
             possible_match_id = self.text_input.text
+            # success could be false (if problem) or an Integer indicating player id assigned/reserved
             success, object = HTTPClient.get_match_lobby_existence(match_id: possible_match_id)
             # the match lobby could exists or not, be full, or could exist a problem, in which case, report the feedback/error
             success ? capture_name(match_id: possible_match_id, player_id: success) : enqueue_error(object)
           end
         elsif(@phase[1] == :capturing_name)
-          if(button_down?(Gosu::KB_ESCAPE))
-            reset_to_phase_1()
-          elsif((button_down?(Gosu::KB_RETURN) || button_down?(Gosu::KB_ENTER)) && !self.text_input.text.empty?)
+          if((button_down?(Gosu::KB_RETURN) || button_down?(Gosu::KB_ENTER)) && !self.text_input.text.empty?)
             # this is you (local: true)
             @players = []
             @players[@player_id] = Player.new(name: self.text_input.text, local: true, host: !!@hosting)
             # ATTENTION: For the sake of testing:
             @players << Player.new(name: 'Foolano', local: false, host: false)
             # ATTENTION: For the sake of testing ends
-            # unnatach text buffer from window
-            self.text_input = nil
             # switch to phase 2
-            @lobby_updater = LobbyUpdater.new(players: @players, match_id: @match_id, player_id: @player_id)
-            @lobby_updater.join_lobby()
-            @phase = [2]
+            initialize_phase_2()
           end
         else
           if(button_down?(Gosu::KB_C))
@@ -66,7 +61,7 @@ class Parchis < Gosu::Window
             success, string = HTTPClient.get_new_match_id()
             if(success)
               @hosting = true
-              capture_name(match_id: string)
+              capture_name(match_id: string, player_id: 0)
             else
               # report the error
               enqueue_error(string)
@@ -85,15 +80,25 @@ class Parchis < Gosu::Window
           reset_to_phase_1()
         elsif(button_down?(Gosu::KB_I) && @players[@player_id].host)
           # try to initialize phase 3
-          @players.size >= 2 ? initialize_phase_3() : enqueue_error('Participantes insuficientes.')
+          @players.compact.size >= 2 ? initialize_phase_3() : enqueue_error('Participantes insuficientes.')
         end
-
+        # update the lobby
+        if((response = @lobby_updater.update()) == false)
+          # something went wrong, report error
+          enqueue_error("No es posible actualizar el lobby, problema en el server.")
+        elsif(response.first == :game_started)
+          # game started by the host, switch to phase 3
+          @players = response[1..-1]
+          initialize_phase_3(started_by_other: true)
+        else
+          @players = response
+        end
       when 3
         if(button_down?(Gosu::KB_ESCAPE) && (button_down?(Gosu::KB_LEFT_SHIFT) || button_down?(Gosu::KB_RIGHT_SHIFT)))
           # quit this match
           HTTPClient.post_match_quit()
           reset_to_phase_1()
-        elsif(@board.player_turn.local)
+        elsif(@board.player_turn.local?)
           # only in this case the player can interact
           if(button_down?(Gosu::KB_SPACE) && @board.player_turn.can_roll_dice?)
 
@@ -125,7 +130,7 @@ class Parchis < Gosu::Window
   private
 
   # @param possible_match_id [String]
-  # @param player_id [Integer], 0..3
+  # @param player_id [Integer], 0..X
   # Sets the @match_id and establish the "capture name" subphase.
   def capture_name(match_id:, player_id:)
     @match_id = match_id
@@ -196,6 +201,15 @@ class Parchis < Gosu::Window
     @phase = [1]
   end
 
+  # Initializes phase 2.
+  def initialize_phase_2
+    # unnatach text buffer from window
+    self.text_input = nil
+    @lobby_updater = LobbyUpdater.new(players: @players, match_id: @match_id, player_id: @player_id)
+    @lobby_updater.join_lobby()
+    @phase = [2]
+  end
+
   # TODO: On this phase, we are already "online", so update lobby every X seconds. This mean update @players.
   # Phase 2.
   def draw_phase_2
@@ -203,17 +217,26 @@ class Parchis < Gosu::Window
     # match id
     @font_v.draw_text(@match_id, 110, 160, 1)
     # players
-    @players.each_with_index {|player, index| @font_v.draw_text(player.name, 50, 250 + (index * 25), 1, 1, 1, player.host ? 0xff_0000ff : 0xff_00ff00)}
+    @players.compact.each_with_index {|player, index| @font_v.draw_text(player.name, 50, 250 + (index * 25), 1, 1, 1, player.host ? 0xff_0000ff : 0xff_00ff00)}
     # draw any error if exist
     @font_v.draw_text("ERROR: #{@errors.join('. ')}", 50, 595, 1, 1, 1, 0xff_ff0000) if !@errors.empty?
   end
 
   # WIP: ...
   # Initializes phase 3.
-  def initialize_phase_3
+  def initialize_phase_3(started_by_other: false)
     @phase = [3]
-    @board = Board.new(@players)
     @dice = Dice.new()
+    # clean @players of empty slots generated by player entering and leaving the lobby, note that after this, @player_id has no meaning
+    @players.compact!
+    @player_id = nil
+    if(started_by_other)
+      @board = Board.new(@players, player_turn: HTTPClient.get_player_turn(match_id: @match_id))
+    else
+      @board = Board.new(@players)
+      # push this data to the server
+      HTTPClient.post_match_started(match_id: @match_id, colors: @players.map {|player| player.color}, player_turn: @board.player_turn)
+    end
     # widgets
     @v_countdown = VCountdown.new(font: @font_big_v)
     @v_actions = VActions.new(font: @font_v)
