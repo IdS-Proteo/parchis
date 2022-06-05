@@ -1,0 +1,1 @@
+class TestPlayer < MiniTest::Test
