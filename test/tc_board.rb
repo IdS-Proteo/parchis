@@ -12,6 +12,14 @@ class TestBoard < MiniTest::Test
 
     end
 
+    def assign_tokens_to_players
+
+    end
+
+    def assign_color_to_players
+
+    end
+
 end
 
 

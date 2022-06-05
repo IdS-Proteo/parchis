@@ -44,7 +44,8 @@ class TestParchis < MiniTest::Test
 
     end
 
+    def test_draw_cells_contents
 
-
+    end
 
 end
