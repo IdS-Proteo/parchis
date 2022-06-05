@@ -1,3 +1,5 @@
+require_relative '../lib/parchis/http_client'
+
 class TestHTTPClient < MiniTest::Test
 
    def setup

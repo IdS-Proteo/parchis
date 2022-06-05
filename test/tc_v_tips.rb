@@ -1,3 +1,5 @@
+require_relative '../lib/parchis/v_tips'
+
 class TestVTips < MiniTest::Test
 
     def setup

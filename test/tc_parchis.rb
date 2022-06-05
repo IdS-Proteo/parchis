@@ -1,3 +1,5 @@
+require_relative '../lib/parchis/parchis'
+
 class TestParchis < MiniTest::Test
 
     def setup

@@ -1,3 +1,5 @@
+require_relative '../lib/parchis/v_countdown'
+
 class TestVCountdown < MiniTest::Test
 
     def setup

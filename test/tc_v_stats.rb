@@ -1,3 +1,5 @@
+require_relative '../lib/parchis/v_stats'
+
 class TestVStats < MiniTest::Test
 
     def setup

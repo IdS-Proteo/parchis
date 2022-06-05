@@ -1,3 +1,5 @@
+require_relative '../lib/parchis/dice'
+
 class TestDice < MiniTest::Test
 
     def setup

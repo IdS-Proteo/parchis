@@ -1,3 +1,5 @@
+require_relative '../lib/parchis/lobby_updater'
+
 class TestLobbyUpdater < MiniTest::Test
 
     def setup

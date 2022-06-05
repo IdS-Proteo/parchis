@@ -1,3 +1,6 @@
+require_relative '../lib/parchis/board'
+
+
 class TestBoard < MiniTest::Test
 
     def setup

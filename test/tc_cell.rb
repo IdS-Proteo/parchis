@@ -1,3 +1,5 @@
+require_relative '../lib/parchis/cell'
+
 class TestCell < MiniTest::Test
 
     def setup

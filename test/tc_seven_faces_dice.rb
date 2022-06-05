@@ -1,3 +1,5 @@
+require_relative '../lib/parchis/seven_faces_dice'
+
 class TestSevenFacesDice < MiniTest::Test
 
 def setup
