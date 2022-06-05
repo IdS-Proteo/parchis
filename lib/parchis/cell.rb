@@ -151,4 +151,9 @@ class Cell
   def empty?
     @tokens.empty?
   end
+  
+  # @return [Integer]
+  def get_length_coords
+    COORDS.length - 17
+  end
 end
