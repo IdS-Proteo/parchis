@@ -21,6 +21,6 @@ class VCountdown < VWidget
   def draw
     delta = (Time.now - @countdown_start).floor
     countdown = TURN_TIMEOUT - delta
-    @font.draw_text("#{countdown / 60}:#{"%02d" % (countdown % 60)}", X_POS, Y_POS, Z_POS)
+    @font.draw_text("#{countdown / 60}:#{"%02d" % (countdown % 60)}", X_POS, Y_POS, Z_POS, 1, 1, 0xff_000000)
   end
 end

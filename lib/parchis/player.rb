@@ -7,11 +7,22 @@ class Player
   # @host is a Boolean that tells if this player is the host of the match or not
   # @local is a Boolean that tells if this is you or a player on another client
   attr_accessor :tokens, :color, :host, :local
+  attr_writer :can_roll_dice
 
   # @param name [String]
   def initialize(name:, local: false, host: false)
     @name = name
     @local = local
     @host = host
+  end
+
+  # @return [String]
+  def to_s
+    @name
+  end
+
+  # @return [Boolean]
+  def can_roll_dice?
+    !!@can_roll_dice
   end
 end

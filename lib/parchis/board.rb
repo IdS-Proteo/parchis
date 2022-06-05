@@ -1,3 +1,5 @@
+# TODO: When a player leave, and somehow the server tells you, update this model. Need to erase that player from @players, and possibly touch @player_turn among
+# TODO: possibly other things.
 # Parchis #Board.
 class Board
 
@@ -7,7 +9,7 @@ class Board
   RED_HOUSE_CELLS = 109..112
   GREEN_HOUSE_CELLS = 113..116
 
-  attr_reader :cells
+  attr_reader :cells, :players
 
   # @param players [Array<Player>]
   def initialize(players)
@@ -17,6 +19,30 @@ class Board
     # assign tokens to each player
     @tokens = []
     assign_tokens_to_players()
+    # the player turn points to the index of @players, and it continues clockwise
+=begin
+    @player_turn = rand(1..players.length) - 1
+=end
+    # ATTENTION: Uncomment previous line after debugging, now forcing first player
+    @player_turn = 0
+    # ATTENTION: Uncomment previous line after debugging, now forcing first player
+    # this player can already roll the dice
+    @players[@player_turn].can_roll_dice = true
+  end
+
+  # Switches the turn to the next player.
+  def next_turn
+    if(@players[@player_turn + 1])
+      @player_turn = @player_turn + 1
+    else
+      @player_turn = 0
+    end
+  end
+
+  # @return [Player]
+  # Returns the #Player that owns the current turn.
+  def player_turn
+    @players[@player_turn]
   end
 
   # ATTENTION: Debugging purpose method.

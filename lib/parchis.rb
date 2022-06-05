@@ -21,6 +21,8 @@ require_relative 'parchis/v_countdown'
 require_relative 'parchis/v_stats'
 require_relative 'parchis/v_current_turn'
 require_relative 'parchis/v_tips'
+require_relative 'parchis/game_state_updater'
+require_relative 'parchis/lobby_updater'
 
 # initialize app
 Parchis.new.show()

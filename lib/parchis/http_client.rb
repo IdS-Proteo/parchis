@@ -2,6 +2,8 @@
 # Helper class to talk with the game's server.
 class HTTPClient
 
+  ROOT_URL = ''
+
   # Prevent class instantiation. Singleton pattern.
   def self.new; end
 
@@ -15,10 +17,51 @@ class HTTPClient
 
   # TODO: Implement.
   # @param match_id [String]
-  # @return [Array(Boolean, Object)] such as [false, "Feedback or error message"] if doesn't exist or something went wrong; [true, nil] otherwise
+  # @return [Array(Object, Object)] such as [false, "Feedback or error message"] if doesn't exist or something went wrong; [#Integer, nil] otherwise indicating
+  # the player id assigned which is associated to the index of @players.
   def self.get_match_lobby_existence(match_id:)
     # ATTENTION: Mock values
-    [true, nil]
+    [0, nil]
+  end
+
+  # TODO: Implement. La info a postear tiene que ser la que devuelve get_lobby_state().
+  # @param match_id [String]
+  # @param player [Player]
+  def self.post_joining_to_lobby(match_id:, player:)
+    
+  end
+
+=begin
+  TODO: Implement
+  @param match_id [String]
+  @return [Array<Player>, false] false if something went wrong such as if the lobby doesn't exist anymore. Otherwise, return an #Array of players.
+  The state of a lobby is basically the players on it. Brings a JSON like:
+  {
+    "code": 200,
+    "players": [
+      {
+        "name": "foo",
+        "host": true
+      },
+      {
+        "name": "bar",
+        "host": false
+      }
+    ]
+  }
+=end
+  def self.get_lobby_state(match_id:, player_id:)
+    # ...
+    json = JSON.parse(response)
+    if(json['code'] == 200)
+      players = []
+      json['players'].each_with_index do |player, index|
+        players << Player.new(name: player['name'], local: player_id == index ? true : false, host: player['host'])
+      end
+      players
+    else
+      false
+    end
   end
 
   # TODO: Implement.

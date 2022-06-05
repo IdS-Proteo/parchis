@@ -19,6 +19,15 @@ class Parchis < Gosu::Window
     initialize_view()
     # multi-item array where each subsequent item is a sub-phase of its parent at the left
     @phase = [1]
+    # ATTENTION: Debugging purpose method called
+    @hosting = true
+    @match_id = '123456789'
+    @players = [
+      Player.new(name: 'Self', local: true, host: !!@hosting),
+      Player.new(name: 'Foolano', local: false, host: false)
+    ]
+    initialize_phase_3()
+    # ATTENTION: Debugging purpose method called
   end
 
   # Called around 60 times per second. Update the model according to users interactions.
@@ -32,20 +41,23 @@ class Parchis < Gosu::Window
             possible_match_id = self.text_input.text
             success, object = HTTPClient.get_match_lobby_existence(match_id: possible_match_id)
             # the match lobby could exists or not, be full, or could exist a problem, in which case, report the feedback/error
-            success ? capture_name(match_id: possible_match_id) : enqueue_error(object)
+            success ? capture_name(match_id: possible_match_id, player_id: success) : enqueue_error(object)
           end
         elsif(@phase[1] == :capturing_name)
           if(button_down?(Gosu::KB_ESCAPE))
             reset_to_phase_1()
           elsif((button_down?(Gosu::KB_RETURN) || button_down?(Gosu::KB_ENTER)) && !self.text_input.text.empty?)
-            # this is you (local: true), @players[0] is always you (this client)
-            @players = [Player.new(name: self.text_input.text, local: true, host: !!@hosting)]
+            # this is you (local: true)
+            @players = []
+            @players[@player_id] = Player.new(name: self.text_input.text, local: true, host: !!@hosting)
             # ATTENTION: For the sake of testing:
             @players << Player.new(name: 'Foolano', local: false, host: false)
             # ATTENTION: For the sake of testing ends
             # unnatach text buffer from window
             self.text_input = nil
             # switch to phase 2
+            @lobby_updater = LobbyUpdater.new(players: @players, match_id: @match_id, player_id: @player_id)
+            @lobby_updater.join_lobby()
             @phase = [2]
           end
         else
@@ -71,16 +83,37 @@ class Parchis < Gosu::Window
       when 2
         if(button_down?(Gosu::KB_ESCAPE))
           reset_to_phase_1()
-        elsif(button_down?(Gosu::KB_I) && @players.first.host)
+        elsif(button_down?(Gosu::KB_I) && @players[@player_id].host)
           # try to initialize phase 3
           @players.size >= 2 ? initialize_phase_3() : enqueue_error('Participantes insuficientes.')
         end
+
       when 3
         if(button_down?(Gosu::KB_ESCAPE) && (button_down?(Gosu::KB_LEFT_SHIFT) || button_down?(Gosu::KB_RIGHT_SHIFT)))
           # quit this match
           HTTPClient.post_match_quit()
           reset_to_phase_1()
+        elsif(@board.player_turn.local)
+          # only in this case the player can interact
+          if(button_down?(Gosu::KB_SPACE) && @board.player_turn.can_roll_dice?)
+
+            # WIP: ...
+            @board.player_turn.can_roll_dice = false
+            @rolling_dice_sfx.play()
+            result = @dice.roll() #: Integer
+
+          elsif(button_down?(Gosu::KB_A))
+
+          elsif(button_down?(Gosu::KB_B))
+
+          elsif(button_down?(Gosu::KB_C))
+
+          elsif(button_down?(Gosu::KB_D))
+
+          end
         end
+        # update widgets
+        @v_tips.update()
     end
   end
 
@@ -92,9 +125,11 @@ class Parchis < Gosu::Window
   private
 
   # @param possible_match_id [String]
+  # @param player_id [Integer], 0..3
   # Sets the @match_id and establish the "capture name" subphase.
-  def capture_name(match_id:)
+  def capture_name(match_id:, player_id:)
     @match_id = match_id
+    @player_id = player_id
     # go to capture name sub-phase
     @phase = [1, :capturing_name]
     # enable text buffer
@@ -124,6 +159,9 @@ class Parchis < Gosu::Window
     # common font
     @font_v = Gosu::Font.new(16)
     @font_big_v = Gosu::Font.new(32)
+
+    # samples
+    @rolling_dice_sfx = Gosu::Sample.new("#{ASSETS_PATH}/samples/rolling_dice.ogg")
   end
 
   # @param error_message [String]
@@ -181,7 +219,7 @@ class Parchis < Gosu::Window
     @v_actions = VActions.new(font: @font_v)
     @v_stats = VStats.new(font: @font_v)
     @v_tips = VTips.new(font: @font_v)
-    @v_current_turn = VCurrentTurn.new(font: @font_big_v)
+    @v_current_turn = VCurrentTurn.new(board: @board, font: @font_big_v)
   end
 
   # Phase 3.
@@ -193,6 +231,10 @@ class Parchis < Gosu::Window
     @dices_v[@dice.last_roll].draw(HEIGHT, BORDERS, 1)
     # widgets
     @v_countdown.draw()
+    @v_actions.draw()
+    @v_stats.draw()
+    @v_tips.draw()
+    @v_current_turn.draw()
   end
 
   def draw_cells_content
