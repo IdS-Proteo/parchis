@@ -5,7 +5,7 @@ The game could be in one of three phases:
   1. Start screen
   2. Lobby of a match
   3. Match
-=end 
+=end
 class Parchis < Gosu::Window
   
   WIDTH = 1254
@@ -31,15 +31,18 @@ class Parchis < Gosu::Window
           elsif(button_down?(Gosu::KB_RETURN) || button_down?(Gosu::KB_ENTER))
             possible_match_id = self.text_input.text
             success, object = HTTPClient.get_match_lobby_existence(match_id: possible_match_id)
-            # the match lobby could exists or not or there was some problem, in which case, report the feedback/error
+            # the match lobby could exists or not, be full, or could exist a problem, in which case, report the feedback/error
             success ? capture_name(match_id: possible_match_id) : enqueue_error(object)
           end
         elsif(@phase[1] == :capturing_name)
           if(button_down?(Gosu::KB_ESCAPE))
             reset_to_phase_1()
           elsif((button_down?(Gosu::KB_RETURN) || button_down?(Gosu::KB_ENTER)) && !self.text_input.text.empty?)
-            # this is you (local: true)
+            # this is you (local: true), @players[0] is always you (this client)
             @players = [Player.new(name: self.text_input.text, local: true, host: !!@hosting)]
+            # ATTENTION: For the sake of testing:
+            @players << Player.new(name: 'Foolano', local: false, host: false)
+            # ATTENTION: For the sake of testing ends
             # unnatach text buffer from window
             self.text_input = nil
             # switch to phase 2
@@ -68,9 +71,19 @@ class Parchis < Gosu::Window
       when 2
         if(button_down?(Gosu::KB_ESCAPE))
           reset_to_phase_1()
+        elsif(button_down?(Gosu::KB_I) && @players.first.host)
+          # try to initialize phase 3
+          if(@players.size >= 2)
+            # initialize phase 3
+            @phase = [3]
+            @board = Board.new(@players)
+            @dice = Dice.new()
+          else
+            enqueue_error('Participantes insuficientes.')
+          end
         end
       when 3
-        if(button_down?(Gosu::KB_ESCAPE) && button_down?(Gosu::KB_LEFT_ALT))
+        if(button_down?(Gosu::KB_ESCAPE) && (button_down?(Gosu::KB_LEFT_SHIFT) || button_down?(Gosu::KB_RIGHT_SHIFT)))
           # quit this match
           HTTPClient.post_match_quit()
           reset_to_phase_1()
@@ -151,6 +164,7 @@ class Parchis < Gosu::Window
     @phase = [1]
   end
 
+  # TODO: On this phase, we are already "online", so update lobby every X seconds. This mean update @players.
   # Phase 2.
   def draw_phase_2
     @phases_v[2].draw(0, 0, 0)
@@ -166,10 +180,16 @@ class Parchis < Gosu::Window
   def draw_phase_3
     # draw board
     @phases_v[3].draw(0, 0, 0)
-    # draw cells content
+    draw_cells_content()
+    # dice
+    @dices_v[@dice.last_roll].draw(HEIGHT, BORDERS, 1)
+    #
+  end
+
+  def draw_cells_content
     @board.cells.each_with_index do |cell, index|
       tokens = cell.tokens #: Array<Token>
-      if(Cell::FINISH_CELLS.include?(index))
+      if (Cell::FINISH_CELLS.include?(index))
         case tokens.size
           when 1
             # position 2 is occupied
@@ -190,18 +210,15 @@ class Parchis < Gosu::Window
             draw_token(token: tokens[2], coords: cell.coords_top)
             draw_token(token: tokens.last, coords: cell.coords_aux)
         end
-      elsif(tokens.size == 1)
+      elsif (tokens.size == 1)
         # mid positioning
         draw_token(token: tokens.first, coords: cell.coords_mid)
-      elsif(tokens.size == 2)
+      elsif (tokens.size == 2)
         # top and bottom posittioning
         draw_token(token: tokens.first, coords: cell.coords_top)
         draw_token(token: tokens.last, coords: cell.coords_bottom)
       end
     end
-
-    # dice
-    @dice_v.draw(HEIGHT, BORDERS, 1)
   end
 
   # @param token [Token]

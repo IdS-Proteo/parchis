@@ -6,6 +6,9 @@ require 'json'
 require 'gosu'
 
 # source code
+require_relative 'parchis/seven_faces_dice'
+require_relative 'parchis/six_faces_dice'
+require_relative 'parchis/dice'
 require_relative 'parchis/parchis'
 require_relative 'parchis/cell'
 require_relative 'parchis/board'

@@ -1,7 +1,7 @@
 # An instance of this class is a #Cell from a #Board.
 class Cell
 
-  attr_reader :tokens, :coords_top, :coords_mid, :coords_bottom, :coords_aux
+  attr_reader :tokens, :coords_top, :coords_mid, :coords_bottom, :coords_aux, :id
 
   # mapping of cell ids versus the possible 3 positions (top, mid, bottom) of tokens
   COORDS = [{top: {}, mid: {x: Parchis::HEIGHT / 2, y: Parchis::HEIGHT / 2}, bottom: {}},
@@ -126,6 +126,7 @@ class Cell
 
   # @param id [Integer]
   def initialize(id)
+    @id = id
     # view related attributes. Some cells doesn't have data for top and bottom
     @coords_top = {x: COORDS[id][:top][:x] , y: COORDS[id][:top][:y]} rescue {} #: i.e.: {x: 403, y: 677}
     @coords_mid = {x: COORDS[id][:mid][:x] , y: COORDS[id][:mid][:y]} #: i.e.: {x: 424, y: 677}
