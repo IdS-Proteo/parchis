@@ -1,9 +1,10 @@
+require 'minitest/autorun'
 require_relative '../lib/parchis/parchis'
 
 class TestParchis < MiniTest::Test
 
     def setup
-
+        #@parchis = Parchis.new()
     end
     
     def test_update
@@ -27,10 +28,14 @@ class TestParchis < MiniTest::Test
     end
 
     def test_draw_phase_1
-
+        
     end
 
     def test_reset_to_phase_1
+
+    end
+
+    def test_initialize_phase_2
 
     end
 
