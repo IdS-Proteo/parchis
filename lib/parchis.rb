@@ -1,5 +1,6 @@
 # core libraries
 require 'net/http'
+require 'uri'
 require 'json'
 
 # external libraries

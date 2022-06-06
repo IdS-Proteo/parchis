@@ -29,6 +29,7 @@ class LobbyUpdater
     if((Time.now - @last_update) > UPDATE_INTERVAL)
       # ask the status to the server
       @last_update = Time.now
+      # we don't care if we assign [:game_started, <Player>] to @players as at that point, this instance become useless
       (response = HTTPClient.get_lobby_state(match_id: @match_id, player_id: @player_id)) ? @players = response : false
     else
       @players

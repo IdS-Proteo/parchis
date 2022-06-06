@@ -2,7 +2,7 @@
 class VCountdown < VWidget
 
   # in seconds
-  TURN_TIMEOUT = 120
+  TURN_TIMEOUT = 30
   X_POS = 1166
   Y_POS = 28
   Z_POS = 1
@@ -20,7 +20,7 @@ class VCountdown < VWidget
   # Draw the widget.
   def draw
     delta = (Time.now - @countdown_start).floor
-    countdown = TURN_TIMEOUT - delta
+    countdown = [0, TURN_TIMEOUT - delta].max
     @font.draw_text("#{countdown / 60}:#{"%02d" % (countdown % 60)}", X_POS, Y_POS, Z_POS, 1, 1, 0xff_000000)
   end
 end
