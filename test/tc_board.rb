@@ -5,6 +5,7 @@ require_relative '../lib/parchis/token'
 require_relative '../lib/parchis/parchis'
 require_relative '../lib/parchis/cell'
 
+#this is a test push to trigger jenkins
 
 class TestBoard < MiniTest::Test
 
