@@ -2,7 +2,7 @@
 class VCountdown < VWidget
 
   # in seconds
-  TURN_TIMEOUT = 30
+  TURN_TIMEOUT = 120
   X_POS = 1166
   Y_POS = 28
   Z_POS = 1

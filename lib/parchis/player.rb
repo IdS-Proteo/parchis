@@ -14,6 +14,7 @@ class Player
     @name = name
     @local = local
     @host = host
+    @color = color
   end
 
   # @return [String]

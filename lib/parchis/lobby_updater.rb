@@ -1,7 +1,7 @@
 # An instance of this class keeps the lobby updated.
 class LobbyUpdater
 
-  UPDATE_INTERVAL = 2.5 # seconds
+  UPDATE_INTERVAL = 2.75 # seconds
 
   # @param players [Array<Player>]
   # @param match_id [String]
@@ -15,11 +15,12 @@ class LobbyUpdater
 
   # Joins the lobby with @match_id. Previously to this call, a check is supposed to be made for slot.
   def join_lobby
-    HTTPClient.post_joining_to_lobby(match_id: @match_id, player: @players[@player_id])
+    HTTPClient.post_joining_to_lobby(match_id: @match_id, player: @players[@player_id], player_id: @player_id)
   end
 
+  # Makes the server aware that you (this client) is leaving the lobby.
   def leave_lobby
-    HTTPClient.post_leaving_lobby(match_id: @match_id, player: @players[@player_id])
+    HTTPClient.post_leaving_lobby(match_id: @match_id, player_id: @player_id)
   end
 
   # @return [Array<Player>, Array(:game_started, <Player>), false]

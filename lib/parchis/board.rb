@@ -21,12 +21,7 @@ class Board
     @tokens = []
     assign_tokens_to_players()
     # the player turn points to the index of @players, and it continues clockwise
-=begin
-    @player_turn = player_turn || rand(1..players.length) - 1
-=end
-    # ATTENTION: Uncomment previous line after debugging, now forcing first player
-    @player_turn = 0
-    # ATTENTION: Uncomment previous line after debugging, now forcing first player
+    @player_turn = player_turn || (rand(1..players.length) - 1)
     # this player can already roll the dice
     @players[@player_turn].can_roll_dice = true
   end
@@ -38,12 +33,6 @@ class Board
     else
       @player_turn = 0
     end
-  end
-
-  # @return [Player]
-  # Returns the #Player that owns the current turn.
-  def player_turn
-    @players[@player_turn]
   end
 
   # ATTENTION: Debugging purpose method.

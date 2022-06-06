@@ -26,4 +26,7 @@ require_relative 'parchis/game_state_updater'
 require_relative 'parchis/lobby_updater'
 
 # initialize app
-Parchis.new.show()
+parchis = Parchis.new
+parchis.show()
+# make sure we let the server know we're leaving
+at_exit {if(parchis.phase.first == 2) then parchis.lobby_updater.leave_lobby() end}

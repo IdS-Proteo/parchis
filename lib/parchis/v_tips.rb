@@ -3,15 +3,14 @@ class VTips < VWidget
 
   # TODO: Write tips. These are placeholders.
   TIPS = ['Cuando sea tu turno, arrojás tu dado pulsando [Spacebar].',
-          'Si te sacás un 6, tenés un segundo turno.',
+          'Si rolás un 6, tenés un segundo turno.',
           'Con un 5, podés sacar una ficha a la salida de tu casa.',
           '2 fichas de igual color en un casillero forman una barrera.',
           'La barrera se rompe si el dueño saca un 6 o tiene 2 fichas.',
-          'Llegás a la meta con número exacto o rebotás.',
+          'Llegás a la meta roland un número exacto o rebotás.',
           'Al llegar a la meta, o ganaste o avanzás 10 con otra ficha.',
-          'Podés elegir fichas con las teclas A-B-C-D en tu teclado.',
           'Si te encontrás con una barrera, no podés avanzar.',
-          'Una ficha come a otra de otro color si llega al mismo lugar.'].freeze
+          'En una celda "segura" pueden coexistir dos fichas.'].freeze
 
   X_POS = 716
   Y_POS = 326
