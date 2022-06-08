@@ -151,9 +151,10 @@ class Cell
   def empty?
     @tokens.empty?
   end
-  
-  # @return [Integer]
-  def get_length_coords
-    COORDS.length - 17
+
+  # @return [Boolean]
+  # Don't ask this for a cell that is a finish cell.
+  def barricade?
+    @tokens.size == 2 && (t1c = @token.first.color) && (@token.last.color == t1c)
   end
 end

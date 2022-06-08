@@ -1,7 +1,7 @@
 # A #Player token that live somehow in a #Cell of a #Board. Only 4 of this per player could exist.
 class Token
 
-  attr_reader :color, :position_id, :label
+  attr_reader :color, :label, :cell
 
   # @param color [Symbol]
   # @param cell [Cell] the cell where this token start

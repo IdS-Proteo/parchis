@@ -21,7 +21,6 @@ class TestCell < MiniTest::Test
     end
 
     def test_get_length_coords
-        assert_equal 100, @cell.get_length_coords
+        assert_equal 117, Cell::COORDS.length
     end
-
 end

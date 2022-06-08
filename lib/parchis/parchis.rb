@@ -53,11 +53,6 @@ class Parchis < Gosu::Window
             # this is you (local: true)
             @players = []
             @players[@player_id] = Player.new(name: self.text_input.text, local: true, host: !!@hosting)
-=begin
-            # ATTENTION: For the sake of testing:
-            @players << Player.new(name: 'Foolano', local: false, host: false)
-            # ATTENTION: For the sake of testing ends
-=end
             # switch to phase 2
             initialize_phase_2()
           end
@@ -112,21 +107,24 @@ class Parchis < Gosu::Window
           reset_to_phase_1()
         elsif(@players[@board.player_turn].local?)
           # only in this case the player can interact
-          if(button_down?(Gosu::KB_SPACE) && @players[@board.player_turn].can_roll_dice?)
+          if(@players[@board.player_turn].can_roll_dice?)
+            # if can roll dice, then can't move tokens
+            if(button_down?(Gosu::KB_SPACE))
+              # WIP: ...
+              @players[@board.player_turn].can_roll_dice = false
+              @rolling_dice_sfx.play()
+              @board.dice_rolled(result: @dice.roll())
+            end
+          else
+            if(@players[@board.player_turn].can_move_a? && button_down?(Gosu::KB_A))
 
-            # WIP: ...
-            @players[@board.player_turn].can_roll_dice = false
-            @rolling_dice_sfx.play()
-            result = @dice.roll() #: Integer
+            elsif(@players[@board.player_turn].can_move_b? && button_down?(Gosu::KB_B))
 
-          elsif(button_down?(Gosu::KB_A))
+            elsif(@players[@board.player_turn].can_move_c? && button_down?(Gosu::KB_C))
 
-          elsif(button_down?(Gosu::KB_B))
+            elsif(@players[@board.player_turn].can_move_d? && button_down?(Gosu::KB_D))
 
-          elsif(button_down?(Gosu::KB_C))
-
-          elsif(button_down?(Gosu::KB_D))
-
+            end
           end
         end
         # update widgets
@@ -227,7 +225,6 @@ class Parchis < Gosu::Window
     @phase = [2]
   end
 
-  # TODO: On this phase, we are already "online", so update lobby every X seconds. This mean update @players.
   # Phase 2.
   def draw_phase_2
     @phases_v[2].draw(0, 0, 0)
@@ -239,7 +236,6 @@ class Parchis < Gosu::Window
     @font_v.draw_text("ERROR: #{@errors.join('. ')}", 50, 595, 1, 1, 1, 0xff_ff0000) if !@errors.empty?
   end
 
-  # WIP: ...
   # Initializes phase 3.
   def initialize_phase_3(started_by_other: false)
     @dice = Dice.new()
