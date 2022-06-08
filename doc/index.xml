@@ -1,0 +1,1693 @@
+<documentation>
+    <class name="Board" superclass="Object">
+        <summary>TODO: When a player leave, and somehow the server tells you, update this model.</summary>
+        <description>
+            <![CDATA[
+<p>TODO: When a player leave, and somehow the server tells you, update this model. Need to erase that player from @players, and possibly touch @player_turn among TODO: possibly other things. Parchis #Board.</p>
+]]>
+        </description>
+        <constant name="BLUE_HOUSE_CELLS" value="105..108">
+            <description>
+                <![CDATA[]]>
+            </description>
+        </constant>
+        <constant name="COLORS" value="[:red, :green, :blue, :yellow].freeze">
+            <description>
+                <![CDATA[]]>
+            </description>
+        </constant>
+        <constant name="GREEN_HOUSE_CELLS" value="113..116">
+            <description>
+                <![CDATA[]]>
+            </description>
+        </constant>
+        <constant name="RED_HOUSE_CELLS" value="109..112">
+            <description>
+                <![CDATA[]]>
+            </description>
+        </constant>
+        <constant name="YELLOW_HOUSE_CELLS" value="101..104">
+            <description>
+                <![CDATA[]]>
+            </description>
+        </constant>
+        <method name="assign_color_to_players" scope="instance">
+            <summary>Assign color to each player from @players.</summary>
+            <overloads>
+                <overload>
+                    <signature>board.assign_color_to_players -&gt; Object (private)</signature>
+                    <description>
+&lt;p&gt;This is done randomly.&lt;/p&gt;
+</description>
+                </overload>
+            </overloads>
+        </method>
+        <method name="assign_tokens_to_players" scope="instance">
+            <summary></summary>
+            <overloads>
+                <overload>
+                    <signature>board.assign_tokens_to_players -&gt; Object (private)</signature>
+                    <description></description>
+                </overload>
+            </overloads>
+        </method>
+        <method name="cells" scope="instance" attribute="true" reader="true">
+            <summary>Returns the value of attribute cells.</summary>
+            <overloads>
+                <overload>
+                    <signature>board.cells -&gt; Object (readonly)</signature>
+                    <description></description>
+                </overload>
+            </overloads>
+        </method>
+        <method name="debug_tokens_positioning" scope="instance">
+            <summary>ATTENTION: Debugging purpose method.</summary>
+            <overloads>
+                <overload>
+                    <signature>board.debug_tokens_positioning(tokens_amount:) -&gt; Object </signature>
+                    <description></description>
+                    <params>
+                        <param name="tokens_amount">
+                            <types>
+                                <type>Symbol</type>
+                            </types>
+                            <description>
+                                <![CDATA[
+<p>:max or :min.</p>
+]]>
+                            </description>
+                        </param>
+                    </params>
+                </overload>
+            </overloads>
+        </method>
+        <method name="initialize" scope="instance">
+            <summary></summary>
+            <overloads>
+                <overload>
+                    <signature>board.initialize(players, player_turn: nil) -&gt; Board </signature>
+                    <description></description>
+                    <params>
+                        <param name="players">
+                            <types>
+                                <type>Array&lt;Player&gt;</type>
+                            </types>
+                            <description>
+                                <![CDATA[]]>
+                            </description>
+                        </param>
+                        <param name="player_turn">
+                            <types>
+                                <type>Integer</type>
+                                <type>nil</type>
+                            </types>
+                            <description>
+                                <![CDATA[
+<p>can’t be out of the range of 0..(@players.length - 1)</p>
+]]>
+                            </description>
+                        </param>
+                    </params>
+                    <returns>
+                        <types>
+                            <type>Board</type>
+                        </types>
+                        <description>
+                            <![CDATA[
+<p>a new instance of Board</p>
+]]>
+                        </description>
+                    </returns>
+                </overload>
+            </overloads>
+        </method>
+        <method name="initialize_cells" scope="instance">
+            <summary>Initializes each cell (@cells).</summary>
+            <overloads>
+                <overload>
+                    <signature>board.initialize_cells -&gt; Object (private)</signature>
+                    <description></description>
+                </overload>
+            </overloads>
+        </method>
+        <method name="next_turn" scope="instance">
+            <summary>Switches the turn to the next player.</summary>
+            <overloads>
+                <overload>
+                    <signature>board.next_turn -&gt; Object </signature>
+                    <description></description>
+                </overload>
+            </overloads>
+        </method>
+        <method name="player_turn" scope="instance" attribute="true" reader="true">
+            <summary>Returns the value of attribute player_turn.</summary>
+            <overloads>
+                <overload>
+                    <signature>board.player_turn -&gt; Object (readonly)</signature>
+                    <description></description>
+                </overload>
+            </overloads>
+        </method>
+        <method name="players" scope="instance" attribute="true" reader="true">
+            <summary>Returns the value of attribute players.</summary>
+            <overloads>
+                <overload>
+                    <signature>board.players -&gt; Object (readonly)</signature>
+                    <description></description>
+                </overload>
+            </overloads>
+        </method>
+    </class>
+    <class name="Cell" superclass="Object">
+        <summary>An instance of this class is a #Cell from a #Board.</summary>
+        <description>
+            <![CDATA[
+<p>An instance of this class is a #Cell from a #Board.</p>
+]]>
+        </description>
+        <constant name="COORDS" value="[{top: {}, mid: {x: Parchis::HEIGHT / 2, y: Parchis::HEIGHT / 2}, bottom: {}},&#13;&#10;  {top: {x: 392, y: 667}, mid: {x: 415, y: 667}, bottom: {x: 436, y: 667}},&#13;&#10;  {top: {x: 392, y: 634}, mid: {x: 415, y: 634}, bottom: {x: 436, y: 634}},&#13;&#10;  {top: {x: 392, y: 601}, mid: {x: 415, y: 601}, bottom: {x: 436, y: 601}},&#13;&#10;  {top: {x: 392, y: 568}, mid: {x: 415, y: 568}, bottom: {x: 436, y: 568}},&#13;&#10;  {top: {x: 392, y: 535}, mid: {x: 415, y: 535}, bottom: {x: 436, y: 535}},&#13;&#10;  {top: {x: 392, y: 502}, mid: {x: 415, y: 502}, bottom: {x: 436, y: 502}},&#13;&#10;  {top: {x: 392, y: 469}, mid: {x: 415, y: 469}, bottom: {x: 436, y: 469}},&#13;&#10;  {top: {x: 390, y: 428}, mid: {x: 415, y: 434}, bottom: {x: 415, y: 440}},&#13;&#10;  {top: {x: 428, y: 390}, mid: {x: 434, y: 402}, bottom: {x: 440, y: 415}},&#13;&#10;  {top: {x: 468, y: 394}, mid: {x: 468, y: 415}, bottom: {x: 468, y: 436}},&#13;&#10;  {top: {x: 501, y: 394}, mid: {x: 501, y: 415}, bottom: {x: 501, y: 436}},&#13;&#10;  {top: {x: 535, y: 394}, mid: {x: 535, y: 415}, bottom: {x: 535, y: 436}},&#13;&#10;  {top: {x: 565, y: 394}, mid: {x: 565, y: 415}, bottom: {x: 565, y: 436}},&#13;&#10;  {top: {x: 600, y: 394}, mid: {x: 600, y: 415}, bottom: {x: 600, y: 436}},&#13;&#10;  {top: {x: 633, y: 394}, mid: {x: 633, y: 415}, bottom: {x: 633, y: 436}},&#13;&#10;  {top: {x: 666, y: 394}, mid: {x: 666, y: 415}, bottom: {x: 666, y: 436}},&#13;&#10;  {top: {x: 666, y: 318}, mid: {x: 666, y: 339}, bottom: {x: 666, y: 360}},&#13;&#10;  {top: {x: 666, y: 242}, mid: {x: 666, y: 262}, bottom: {x: 666, y: 284}},&#13;&#10;  {top: {x: 633, y: 242}, mid: {x: 633, y: 262}, bottom: {x: 633, y: 284}},&#13;&#10;  {top: {x: 600, y: 242}, mid: {x: 600, y: 262}, bottom: {x: 600, y: 284}},&#13;&#10;  {top: {x: 568, y: 242}, mid: {x: 568, y: 262}, bottom: {x: 568, y: 284}},&#13;&#10;  {top: {x: 535, y: 242}, mid: {x: 535, y: 262}, bottom: {x: 535, y: 284}},&#13;&#10;  {top: {x: 501, y: 242}, mid: {x: 501, y: 262}, bottom: {x: 501, y: 284}},&#13;&#10;  {top: {x: 468, y: 242}, mid: {x: 468, y: 262}, bottom: {x: 468, y: 284}},&#13;&#10;  {top: {x: 428, y: 290}, mid: {x: 434, y: 278}, bottom: {x:440 , y: 265}},&#13;&#10;  {top: {x: 390, y: 251}, mid: {x: 403, y: 245}, bottom: {x: 415, y: 239}},&#13;&#10;  {top: {x: 392, y: 210}, mid: {x: 415, y: 210}, bottom: {x: 436, y: 210}},&#13;&#10;  {top: {x: 392, y: 177}, mid: {x: 415, y: 177}, bottom: {x: 436, y: 177}},&#13;&#10;  {top: {x: 392, y: 144}, mid: {x: 415, y: 144}, bottom: {x: 436, y: 144}},&#13;&#10;  {top: {x: 392, y: 111}, mid: {x: 415, y: 111}, bottom: {x: 436, y: 111}},&#13;&#10;  {top: {x: 392, y: 78}, mid: {x: 415, y: 78}, bottom: {x: 436, y: 78}},&#13;&#10;  {top: {x: 392, y: 45}, mid: {x: 415, y: 45}, bottom: {x: 436, y: 45}},&#13;&#10;  {top: {x: 392, y: 12}, mid: {x: 415, y: 12}, bottom: {x: 436, y: 12}},&#13;&#10;  {top: {x: 318, y: 12}, mid: {x: 339, y: 12}, bottom: {x: 360, y: 12}},&#13;&#10;  {top: {x: 243, y: 12}, mid: {x: 264, y: 12}, bottom: {x: 285, y: 12}},&#13;&#10;  {top: {x: 243, y: 45}, mid: {x: 264, y: 45}, bottom: {x: 285, y: 45}},&#13;&#10;  {top: {x: 243, y: 78}, mid: {x: 264, y: 78}, bottom: {x: 285, y: 78}},&#13;&#10;  {top: {x: 243, y: 111}, mid: {x: 264, y: 111}, bottom: {x: 285, y: 111}},&#13;&#10;  {top: {x: 243, y: 144}, mid: {x: 264, y: 144}, bottom: {x: 285, y: 144}},&#13;&#10;  {top: {x: 243, y: 177}, mid: {x: 264, y: 177}, bottom: {x: 285, y: 177}},&#13;&#10;  {top: {x: 243, y: 210}, mid: {x: 264, y: 210}, bottom: {x: 285, y: 210}},&#13;&#10;  {top: {x: 264, y: 239}, mid: {x: 277, y: 245}, bottom: {x: 289, y: 251}},&#13;&#10;  {top: {x: 251, y: 290}, mid: {x: 245, y: 278}, bottom: {x: 239, y: 265}},&#13;&#10;  {top: {x: 211, y: 242}, mid: {x: 211, y: 262}, bottom: {x: 212, y: 284}},&#13;&#10;  {top: {x: 178, y: 242}, mid: {x: 178, y: 262}, bottom: {x: 178, y: 284}},&#13;&#10;  {top: {x: 145, y: 242}, mid: {x: 145, y: 262}, bottom: {x: 145, y: 284}},&#13;&#10;  {top: {x: 112, y: 242}, mid: {x: 112, y: 262}, bottom: {x: 112, y: 284}},&#13;&#10;  {top: {x: 79, y: 242}, mid: {x: 79, y: 262}, bottom: {x: 79, y: 284}},&#13;&#10;  {top: {x: 46, y: 242}, mid: {x: 46, y: 262}, bottom: {x: 46, y: 284}},&#13;&#10;  {top: {x: 13, y: 242}, mid: {x: 13, y: 262}, bottom: {x: 13, y: 284}},&#13;&#10;  {top: {x: 13, y: 318}, mid: {x: 13, y: 339}, bottom: {x: 13, y: 360}},&#13;&#10;  {top: {x: 13, y: 394}, mid: {x: 13, y: 415}, bottom: {x: 13, y: 436}},&#13;&#10;  {top: {x: 46, y: 394}, mid: {x: 46, y: 415}, bottom: {x: 46, y: 436}},&#13;&#10;  {top: {x: 79, y: 394}, mid: {x: 79, y: 415}, bottom: {x: 79, y: 436}},&#13;&#10;  {top: {x: 112, y: 394}, mid: {x: 112, y: 415}, bottom: {x: 112, y: 436}},&#13;&#10;  {top: {x: 145, y: 394}, mid: {x: 145, y: 415}, bottom: {x: 145, y: 436}},&#13;&#10;  {top: {x: 178, y: 394}, mid: {x: 178, y: 415}, bottom: {x: 178, y: 436}},&#13;&#10;  {top: {x: 211, y: 394}, mid: {x: 211, y: 415}, bottom: {x: 211, y: 436}},&#13;&#10;  {top: {x: 251, y: 390}, mid: {x: 245, y: 402}, bottom: {x: 239, y: 415}},&#13;&#10;  {top: {x: 264, y: 440}, mid: {x: 277, y: 434}, bottom: {x: 287, y: 428}},&#13;&#10;  {top: {x: 243, y: 469}, mid: {x: 264, y: 469}, bottom: {x: 285, y: 469}},&#13;&#10;  {top: {x: 243, y: 502}, mid: {x: 264, y: 502}, bottom: {x: 285, y: 502}},&#13;&#10;  {top: {x: 243, y: 535}, mid: {x: 264, y: 535}, bottom: {x: 285, y: 535}},&#13;&#10;  {top: {x: 243, y: 568}, mid: {x: 264, y: 568}, bottom: {x: 285, y: 568}},&#13;&#10;  {top: {x: 243, y: 601}, mid: {x: 264, y: 601}, bottom: {x: 285, y: 601}},&#13;&#10;  {top: {x: 243, y: 634}, mid: {x: 264, y: 634}, bottom: {x: 285, y: 634}},&#13;&#10;  {top: {x: 243, y: 667}, mid: {x: 264, y: 667}, bottom: {x: 285, y: 667}},&#13;&#10;  {top: {x: 318, y: 667}, mid: {x: 339, y: 667}, bottom: {x: 360, y: 667}},&#13;&#10;  {top: {x: 318, y: 634}, mid: {x: 339, y: 634}, bottom: {x: 360, y: 634}},&#13;&#10;  {top: {x: 318, y: 601}, mid: {x: 339, y: 601}, bottom: {x: 360, y: 601}},&#13;&#10;  {top: {x: 318, y: 568}, mid: {x: 339, y: 568}, bottom: {x: 360, y: 568}},&#13;&#10;  {top: {x: 318, y: 535}, mid: {x: 339, y: 535}, bottom: {x: 360, y: 535}},&#13;&#10;  {top: {x: 318, y: 502}, mid: {x: 339, y: 502}, bottom: {x: 360, y: 502}},&#13;&#10;  {top: {x: 318, y: 469}, mid: {x: 339, y: 469}, bottom: {x: 360, y: 469}},&#13;&#10;  {top: {x: 318, y: 436}, mid: {x: 339, y: 436}, bottom: {x: 360, y: 436}},&#13;&#10;  {top: {x: 303, y: 402}, mid: {x: 339, y: 402}, bottom: {x: 377, y: 402}, aux: {x: 339, y: 365}},&#13;&#10;  {top: {x: 633, y: 318}, mid: {x: 633, y: 339}, bottom: {x: 633, y: 360}},&#13;&#10;  {top: {x: 600, y: 318}, mid: {x: 600, y: 339}, bottom: {x: 600, y: 360}},&#13;&#10;  {top: {x: 567, y: 318}, mid: {x: 567, y: 339}, bottom: {x: 567, y: 360}},&#13;&#10;  {top: {x: 534, y: 318}, mid: {x: 534, y: 339}, bottom: {x: 534, y: 360}},&#13;&#10;  {top: {x: 501, y: 318}, mid: {x: 501, y: 339}, bottom: {x: 501, y: 360}},&#13;&#10;  {top: {x: 468, y: 318}, mid: {x: 468, y: 339}, bottom: {x: 468, y: 360}},&#13;&#10;  {top: {x: 435, y: 318}, mid: {x: 435, y: 339}, bottom: {x: 435, y: 360}},&#13;&#10;  {top: {x: 402, y: 302}, mid: {x: 402, y: 339}, bottom: {x: 402, y: 376}, aux: {x: 365, y: 339}},&#13;&#10;  {top: {x: 318, y: 45}, mid: {x: 339, y: 45}, bottom: {x: 360, y: 45}},&#13;&#10;  {top: {x: 318, y: 78}, mid: {x: 339, y: 78}, bottom: {x: 360, y: 78}},&#13;&#10;  {top: {x: 318, y: 111}, mid: {x: 339, y: 111}, bottom: {x: 360, y: 111}},&#13;&#10;  {top: {x: 318, y: 144}, mid: {x: 339, y: 144}, bottom: {x: 360, y: 144}},&#13;&#10;  {top: {x: 318, y: 177}, mid: {x: 339, y: 177}, bottom: {x: 360, y: 177}},&#13;&#10;  {top: {x: 318, y: 210}, mid: {x: 339, y: 210}, bottom: {x: 360, y: 210}},&#13;&#10;  {top: {x: 318, y: 243}, mid: {x: 339, y: 243}, bottom: {x: 360, y: 243}},&#13;&#10;  {top: {x: 303, y: 280}, mid: {x: 339, y: 280}, bottom: {x: 377, y: 280}, aux: {x: 339, y: 315}},&#13;&#10;  {top: {x: 46, y: 318}, mid: {x: 46, y: 339}, bottom: {x: 46, y: 360}},&#13;&#10;  {top: {x: 79, y: 318}, mid: {x: 79, y: 339}, bottom: {x: 79, y: 360}},&#13;&#10;  {top: {x: 112, y: 318}, mid: {x: 112, y: 339}, bottom: {x: 112, y: 360}},&#13;&#10;  {top: {x: 145, y: 318}, mid: {x: 145, y: 339}, bottom: {x: 145, y: 360}},&#13;&#10;  {top: {x: 178, y: 318}, mid: {x: 178, y: 339}, bottom: {x: 178, y: 360}},&#13;&#10;  {top: {x: 211, y: 318}, mid: {x: 211, y: 339}, bottom: {x: 211, y: 360}},&#13;&#10;  {top: {x: 244, y: 318}, mid: {x: 244, y: 339}, bottom: {x: 244, y: 360}},&#13;&#10;  {top: {x: 279, y: 302}, mid: {x: 279, y: 339}, bottom: {x: 279, y: 376}, aux: {x: 314, y: 339}},&#13;&#10;  {top: {}, mid: {x: 536, y: 536}, bottom: {}},&#13;&#10;  {top: {}, mid: {x: 598, y: 536}, bottom: {}},&#13;&#10;  {top: {}, mid: {x: 536, y: 598}, bottom: {}},&#13;&#10;  {top: {}, mid: {x: 598, y: 598}, bottom: {}},&#13;&#10;  {top: {}, mid: {x: 536, y: 81}, bottom: {}},&#13;&#10;  {top: {}, mid: {x: 598, y: 81}, bottom: {}},&#13;&#10;  {top: {}, mid: {x: 536, y: 143}, bottom: {}},&#13;&#10;  {top: {}, mid: {x: 598, y: 143}, bottom: {}},&#13;&#10;  {top: {}, mid: {x: 80, y: 81}, bottom: {}},&#13;&#10;  {top: {}, mid: {x: 142, y: 81}, bottom: {}},&#13;&#10;  {top: {}, mid: {x: 80, y: 143}, bottom: {}},&#13;&#10;  {top: {}, mid: {x: 142, y: 143}, bottom: {}},&#13;&#10;  {top: {}, mid: {x: 80, y: 536}, bottom: {}},&#13;&#10;  {top: {}, mid: {x: 142, y: 536}, bottom: {}},&#13;&#10;  {top: {}, mid: {x: 80, y: 598}, bottom: {}},&#13;&#10;  {top: {}, mid: {x: 142, y: 598}, bottom: {}}&#13;&#10;].freeze">
+            <description>
+                <![CDATA[
+<p>mapping of cell ids versus the possible 3 positions (top, mid, bottom) of tokens</p>
+]]>
+            </description>
+        </constant>
+        <constant name="FINISH_CELLS" value="[76, 84, 92, 100].freeze">
+            <description>
+                <![CDATA[]]>
+            </description>
+        </constant>
+        <method name="coords_aux" scope="instance" attribute="true" reader="true">
+            <summary>Returns the value of attribute coords_aux.</summary>
+            <overloads>
+                <overload>
+                    <signature>cell.coords_aux -&gt; Object (readonly)</signature>
+                    <description></description>
+                </overload>
+            </overloads>
+        </method>
+        <method name="coords_bottom" scope="instance" attribute="true" reader="true">
+            <summary>Returns the value of attribute coords_bottom.</summary>
+            <overloads>
+                <overload>
+                    <signature>cell.coords_bottom -&gt; Object (readonly)</signature>
+                    <description></description>
+                </overload>
+            </overloads>
+        </method>
+        <method name="coords_mid" scope="instance" attribute="true" reader="true">
+            <summary>Returns the value of attribute coords_mid.</summary>
+            <overloads>
+                <overload>
+                    <signature>cell.coords_mid -&gt; Object (readonly)</signature>
+                    <description></description>
+                </overload>
+            </overloads>
+        </method>
+        <method name="coords_top" scope="instance" attribute="true" reader="true">
+            <summary>Returns the value of attribute coords_top.</summary>
+            <overloads>
+                <overload>
+                    <signature>cell.coords_top -&gt; Object (readonly)</signature>
+                    <description></description>
+                </overload>
+            </overloads>
+        </method>
+        <method name="empty?" scope="instance">
+            <summary>Returns true if the cells is empty of tokens, false otherwise.</summary>
+            <overloads>
+                <overload>
+                    <signature>cell.empty? -&gt; Boolean </signature>
+                    <description></description>
+                    <returns>
+                        <types>
+                            <type>Boolean</type>
+                        </types>
+                        <description>
+                            <![CDATA[]]>
+                        </description>
+                    </returns>
+                </overload>
+            </overloads>
+        </method>
+        <method name="get_length_coords" scope="instance">
+            <summary></summary>
+            <overloads>
+                <overload>
+                    <signature>cell.get_length_coords -&gt; Integer </signature>
+                    <description></description>
+                    <returns>
+                        <types>
+                            <type>Integer</type>
+                        </types>
+                        <description>
+                            <![CDATA[]]>
+                        </description>
+                    </returns>
+                </overload>
+            </overloads>
+        </method>
+        <method name="id" scope="instance" attribute="true" reader="true">
+            <summary>Returns the value of attribute id.</summary>
+            <overloads>
+                <overload>
+                    <signature>cell.id -&gt; Object (readonly)</signature>
+                    <description></description>
+                </overload>
+            </overloads>
+        </method>
+        <method name="initialize" scope="instance">
+            <summary></summary>
+            <overloads>
+                <overload>
+                    <signature>cell.initialize(id) -&gt; Cell </signature>
+                    <description></description>
+                    <params>
+                        <param name="id">
+                            <types>
+                                <type>Integer</type>
+                            </types>
+                            <description>
+                                <![CDATA[]]>
+                            </description>
+                        </param>
+                    </params>
+                    <returns>
+                        <types>
+                            <type>Cell</type>
+                        </types>
+                        <description>
+                            <![CDATA[
+<p>a new instance of Cell</p>
+]]>
+                        </description>
+                    </returns>
+                </overload>
+            </overloads>
+        </method>
+        <method name="place_token" scope="instance">
+            <summary>TODO: Not finished.</summary>
+            <overloads>
+                <overload>
+                    <signature>cell.place_token(token) -&gt; Boolean </signature>
+                    <description></description>
+                    <params>
+                        <param name="token">
+                            <types>
+                                <type>Token</type>
+                            </types>
+                            <description>
+                                <![CDATA[]]>
+                            </description>
+                        </param>
+                    </params>
+                    <returns>
+                        <types>
+                            <type>Boolean</type>
+                        </types>
+                        <description>
+                            <![CDATA[
+<p>returns false if not possible, true if the operation ran successfully</p>
+]]>
+                        </description>
+                    </returns>
+                </overload>
+            </overloads>
+        </method>
+        <method name="tokens" scope="instance" attribute="true" reader="true">
+            <summary>Returns the value of attribute tokens.</summary>
+            <overloads>
+                <overload>
+                    <signature>cell.tokens -&gt; Object (readonly)</signature>
+                    <description></description>
+                </overload>
+            </overloads>
+        </method>
+    </class>
+    <class name="Dice" superclass="Object">
+        <instance_mixin>SixFacesDice</instance_mixin>
+        <summary></summary>
+        <description>
+            <![CDATA[]]>
+        </description>
+        <method name="initialize" scope="instance">
+            <summary>Constructor.</summary>
+            <overloads>
+                <overload>
+                    <signature>dice.initialize -&gt; Dice </signature>
+                    <description></description>
+                    <returns>
+                        <types>
+                            <type>Dice</type>
+                        </types>
+                        <description>
+                            <![CDATA[
+<p>a new instance of Dice</p>
+]]>
+                        </description>
+                    </returns>
+                </overload>
+            </overloads>
+        </method>
+        <method name="last_roll" scope="instance" attribute="true" reader="true">
+            <summary>Returns the value of attribute last_roll.</summary>
+            <overloads>
+                <overload>
+                    <signature>dice.last_roll -&gt; Object (readonly)</signature>
+                    <description></description>
+                </overload>
+            </overloads>
+        </method>
+        <method name="set_unknown_state" scope="instance">
+            <summary>Sets @last_roll to 0.</summary>
+            <overloads>
+                <overload>
+                    <signature>dice.set_unknown_state -&gt; Object </signature>
+                    <description></description>
+                </overload>
+            </overloads>
+        </method>
+    </class>
+    <class name="GameStateUpdater" superclass="Object">
+        <summary>TODO: "Game started" must pass the match_id so the server kill that lobby from its data set.</summary>
+        <description>
+            <![CDATA[
+<p>TODO: “Game started” must pass the match_id so the server kill that lobby from its data set.</p>
+]]>
+        </description>
+    </class>
+    <class name="HTTPClient" superclass="Object">
+        <summary>TODO: Si el usuario cierra el programa, y está en el lobby, que mande mensaje al server antes.</summary>
+        <description>
+            <![CDATA[
+<p>TODO: Si el usuario cierra el programa, y está en el lobby, que mande mensaje al server antes. Helper class to talk with the game’s server.</p>
+]]>
+        </description>
+        <constant name="ROOT_URL" value="URI('https://warm-lowlands-98832.herokuapp.com').freeze">
+            <description>
+                <![CDATA[]]>
+            </description>
+        </constant>
+        <method name="get_lobby_state" scope="class">
+            <summary>@param match_id [String]   @return [Array&lt;Player&gt;, false] false if something went wrong such as if the lobby doesn't exist anymore.</summary>
+            <overloads>
+                <overload>
+                    <signature>HTTPClient.get_lobby_state(match_id:, player_id:) -&gt; Object </signature>
+                    <description>
+&lt;p&gt;@param match_id [String]&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;@return [Array&amp;lt;Player&amp;gt;, false] false if something went wrong such as if the lobby doesn&amp;#39;t exist anymore. Otherwise, returns an #Array, which could be only
+conformed by #Player objects, or it could have as first object :game_started, indicating that the game has been launched by the host.
+The state of a lobby is basically the players on it. Brings a JSON like:
+{
+  &amp;quot;code&amp;quot;: 200,
+  &amp;quot;players&amp;quot;: [
+    {
+      &amp;quot;name&amp;quot;: &amp;quot;foo&amp;quot;,
+      &amp;quot;host&amp;quot;: true,
+      &amp;quot;color&amp;quot;: null
+    },
+    {
+      &amp;quot;name&amp;quot;: &amp;quot;bar&amp;quot;,
+      &amp;quot;host&amp;quot;: false,
+      &amp;quot;color&amp;quot;: null
+    }
+  ]
+}
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+                </overload>
+            </overloads>
+        </method>
+        <method name="get_match_lobby_existence" scope="class">
+            <summary>the player id assigned which is associated to the index of @players.</summary>
+            <overloads>
+                <overload>
+                    <signature>HTTPClient.get_match_lobby_existence(match_id:) -&gt; (Array(Object, Object)) </signature>
+                    <description>
+&lt;p&gt;Server currently return #String &amp;gt;= ‘0’ for slot reserver in an existent lobby, otherwise returns ‘false’ if the lobby doesn’t exist.&lt;/p&gt;
+</description>
+                    <params>
+                        <param name="match_id">
+                            <types>
+                                <type>String</type>
+                            </types>
+                            <description>
+                                <![CDATA[]]>
+                            </description>
+                        </param>
+                    </params>
+                    <returns>
+                        <types>
+                            <type>Array(Object, Object)</type>
+                        </types>
+                        <description>
+                            <![CDATA[
+<p>such as [false, “Feedback or error message”] if doesn’t exist or something went wrong; [#Integer, nil] otherwise indicating</p>
+]]>
+                        </description>
+                    </returns>
+                </overload>
+            </overloads>
+        </method>
+        <method name="get_new_match_id" scope="class">
+            <summary>Returns a valid match id or an error.</summary>
+            <overloads>
+                <overload>
+                    <signature>HTTPClient.get_new_match_id -&gt; (Array(Boolean, String)) </signature>
+                    <description>
+&lt;p&gt;Doesn’t raise an exception.&lt;/p&gt;
+</description>
+                    <returns>
+                        <types>
+                            <type>Array(Boolean, String)</type>
+                        </types>
+                        <description>
+                            <![CDATA[
+<p>such as [false, “Error message”] or [true, “match_id”]</p>
+]]>
+                        </description>
+                    </returns>
+                </overload>
+            </overloads>
+        </method>
+        <method name="get_player_turn" scope="class">
+            <summary>Return the current player turn (index of @players.compact!) of certain match, false if something went wrong.</summary>
+            <overloads>
+                <overload>
+                    <signature>HTTPClient.get_player_turn(match_id:) -&gt; (Integer, false) </signature>
+                    <description>
+&lt;p&gt;Must be called after a match started, never before.&lt;/p&gt;
+</description>
+                    <params>
+                        <param name="match_id">
+                            <types>
+                                <type>String</type>
+                            </types>
+                            <description>
+                                <![CDATA[]]>
+                            </description>
+                        </param>
+                    </params>
+                    <returns>
+                        <types>
+                            <type>Integer</type>
+                            <type>false</type>
+                        </types>
+                        <description>
+                            <![CDATA[]]>
+                        </description>
+                    </returns>
+                </overload>
+            </overloads>
+        </method>
+        <method name="new" scope="class">
+            <summary>Prevent class instantiation.</summary>
+            <overloads>
+                <overload>
+                    <signature>HTTPClient.new -&gt; Object </signature>
+                    <description>
+&lt;p&gt;Singleton pattern.&lt;/p&gt;
+</description>
+                </overload>
+            </overloads>
+        </method>
+        <method name="post_joining_to_lobby" scope="class">
+            <summary>We are aware that there's no check for errors.</summary>
+            <overloads>
+                <overload>
+                    <signature>HTTPClient.post_joining_to_lobby(match_id:, player:, player_id:) -&gt; Object </signature>
+                    <description>
+&lt;p&gt;Programmed to be implemented in posterior version.&lt;/p&gt;
+</description>
+                    <params>
+                        <param name="match_id">
+                            <types>
+                                <type>String</type>
+                            </types>
+                            <description>
+                                <![CDATA[]]>
+                            </description>
+                        </param>
+                        <param name="player">
+                            <types>
+                                <type>Player</type>
+                            </types>
+                            <description>
+                                <![CDATA[]]>
+                            </description>
+                        </param>
+                        <param name="player_id">
+                            <types>
+                                <type>Integer</type>
+                            </types>
+                            <description>
+                                <![CDATA[]]>
+                            </description>
+                        </param>
+                    </params>
+                </overload>
+            </overloads>
+        </method>
+        <method name="post_leaving_lobby" scope="class">
+            <summary></summary>
+            <overloads>
+                <overload>
+                    <signature>HTTPClient.post_leaving_lobby(match_id:, player_id:) -&gt; Object </signature>
+                    <description></description>
+                    <params>
+                        <param name="match_id">
+                            <types>
+                                <type>String</type>
+                            </types>
+                            <description>
+                                <![CDATA[]]>
+                            </description>
+                        </param>
+                        <param name="player_id">
+                            <types>
+                                <type>Integer</type>
+                            </types>
+                            <description>
+                                <![CDATA[]]>
+                            </description>
+                        </param>
+                    </params>
+                </overload>
+            </overloads>
+        </method>
+        <method name="post_match_quit" scope="class">
+            <summary>TODO: Implement...</summary>
+            <overloads>
+                <overload>
+                    <signature>HTTPClient.post_match_quit(match_id:, player:) -&gt; Object </signature>
+                    <description>
+&lt;p&gt;Makes the server aware that we are quiting the match. Relaxed, doesn’t check if the message got there or not.&lt;/p&gt;
+</description>
+                    <params>
+                        <param name="match_id">
+                            <types>
+                                <type>String</type>
+                            </types>
+                            <description>
+                                <![CDATA[]]>
+                            </description>
+                        </param>
+                        <param name="player">
+                            <types>
+                                <type>Player</type>
+                            </types>
+                            <description>
+                                <![CDATA[]]>
+                            </description>
+                        </param>
+                    </params>
+                </overload>
+            </overloads>
+        </method>
+        <method name="post_match_started" scope="class">
+            <summary>Pass colors of each player in an array, the order matters.</summary>
+            <overloads>
+                <overload>
+                    <signature>HTTPClient.post_match_started(match_id:, colors:, player_turn:) -&gt; Object </signature>
+                    <description>
+&lt;p&gt;Also pass the player id (@players.compact! index) of the current turn.&lt;/p&gt;
+</description>
+                    <params>
+                        <param name="match_id">
+                            <types>
+                                <type>String</type>
+                            </types>
+                            <description>
+                                <![CDATA[]]>
+                            </description>
+                        </param>
+                        <param name="colors">
+                            <types>
+                                <type>Array&lt;Symbol&gt;</type>
+                            </types>
+                            <description>
+                                <![CDATA[
+<p>such as [:green, :blue, :red]</p>
+]]>
+                            </description>
+                        </param>
+                        <param name="player_turn">
+                            <types>
+                                <type>Integer</type>
+                            </types>
+                            <description>
+                                <![CDATA[]]>
+                            </description>
+                        </param>
+                    </params>
+                </overload>
+            </overloads>
+        </method>
+    </class>
+    <class name="LobbyUpdater" superclass="Object">
+        <summary>An instance of this class keeps the lobby updated.</summary>
+        <description>
+            <![CDATA[
+<p>An instance of this class keeps the lobby updated.</p>
+]]>
+        </description>
+        <constant name="UPDATE_INTERVAL" value="2.75">
+            <description>
+                <![CDATA[
+<p>seconds</p>
+]]>
+            </description>
+        </constant>
+        <method name="initialize" scope="instance">
+            <summary></summary>
+            <overloads>
+                <overload>
+                    <signature>lobbyupdater.initialize(players:, match_id:, player_id:) -&gt; LobbyUpdater </signature>
+                    <description></description>
+                    <params>
+                        <param name="players">
+                            <types>
+                                <type>Array&lt;Player&gt;</type>
+                            </types>
+                            <description>
+                                <![CDATA[]]>
+                            </description>
+                        </param>
+                        <param name="match_id">
+                            <types>
+                                <type>String</type>
+                            </types>
+                            <description>
+                                <![CDATA[]]>
+                            </description>
+                        </param>
+                        <param name="player_id">
+                            <types>
+                                <type>Integer</type>
+                            </types>
+                            <description>
+                                <![CDATA[
+<p>, 0..X</p>
+]]>
+                            </description>
+                        </param>
+                    </params>
+                    <returns>
+                        <types>
+                            <type>LobbyUpdater</type>
+                        </types>
+                        <description>
+                            <![CDATA[
+<p>a new instance of LobbyUpdater</p>
+]]>
+                        </description>
+                    </returns>
+                </overload>
+            </overloads>
+        </method>
+        <method name="join_lobby" scope="instance">
+            <summary>Joins the lobby with @match_id.</summary>
+            <overloads>
+                <overload>
+                    <signature>lobbyupdater.join_lobby -&gt; Object </signature>
+                    <description>
+&lt;p&gt;Previously to this call, a check is supposed to be made for slot.&lt;/p&gt;
+</description>
+                </overload>
+            </overloads>
+        </method>
+        <method name="leave_lobby" scope="instance">
+            <summary>Makes the server aware that you (this client) is leaving the lobby.</summary>
+            <overloads>
+                <overload>
+                    <signature>lobbyupdater.leave_lobby -&gt; Object </signature>
+                    <description></description>
+                </overload>
+            </overloads>
+        </method>
+        <method name="update" scope="instance">
+            <summary>Called 60 times per second.</summary>
+            <overloads>
+                <overload>
+                    <signature>lobbyupdater.update -&gt; (Array&lt;Player&gt;, ...) </signature>
+                    <description>
+&lt;p&gt;Returns false if couldn’t be updated, an array with :game_started as the first item and then the players, if the game was started by the host, @player refreshed if the lobby got updated.&lt;/p&gt;
+</description>
+                    <returns>
+                        <types>
+                            <type>Array&lt;Player&gt;</type>
+                            <type>Array(:game_started, &lt;Player&gt;)</type>
+                            <type>false</type>
+                        </types>
+                        <description>
+                            <![CDATA[]]>
+                        </description>
+                    </returns>
+                </overload>
+            </overloads>
+        </method>
+    </class>
+    <class name="Parchis" superclass="Gosu::Window">
+        <summary>The game could be in one of three phases:   1.</summary>
+        <description>
+            <![CDATA[
+<p>The game could be in one of three phases:</p>
+
+<pre><code>1. Start screen
+2. Lobby of a match
+3. Match
+</code></pre>
+]]>
+        </description>
+        <constant name="ASSETS_PATH" value="&quot;#{File.dirname(File.dirname(File.dirname(__FILE__)))}/assets&quot;.freeze">
+            <description>
+                <![CDATA[]]>
+            </description>
+        </constant>
+        <constant name="BORDERS" value="11">
+            <description>
+                <![CDATA[]]>
+            </description>
+        </constant>
+        <constant name="HEIGHT" value="705">
+            <description>
+                <![CDATA[]]>
+            </description>
+        </constant>
+        <constant name="WIDTH" value="1254">
+            <description>
+                <![CDATA[]]>
+            </description>
+        </constant>
+        <method name="capture_name" scope="instance">
+            <summary>Sets the @match_id and establish the "capture name" subphase.</summary>
+            <overloads>
+                <overload>
+                    <signature>parchis.capture_name(match_id:, player_id:) -&gt; Object (private)</signature>
+                    <description></description>
+                    <params>
+                        <param name="possible_match_id">
+                            <types>
+                                <type>String</type>
+                            </types>
+                            <description>
+                                <![CDATA[]]>
+                            </description>
+                        </param>
+                        <param name="player_id">
+                            <types>
+                                <type>Integer</type>
+                            </types>
+                            <description>
+                                <![CDATA[
+<p>, 0..X</p>
+]]>
+                            </description>
+                        </param>
+                    </params>
+                </overload>
+            </overloads>
+        </method>
+        <method name="draw" scope="instance">
+            <summary>Called 60 times per second.</summary>
+            <overloads>
+                <overload>
+                    <signature>parchis.draw -&gt; Object </signature>
+                    <description>
+&lt;p&gt;Draws the graphics.&lt;/p&gt;
+</description>
+                </overload>
+            </overloads>
+        </method>
+        <method name="draw_cells_content" scope="instance">
+            <summary></summary>
+            <overloads>
+                <overload>
+                    <signature>parchis.draw_cells_content -&gt; Object (private)</signature>
+                    <description></description>
+                </overload>
+            </overloads>
+        </method>
+        <method name="draw_phase_1" scope="instance">
+            <summary>Phase 1.</summary>
+            <overloads>
+                <overload>
+                    <signature>parchis.draw_phase_1 -&gt; Object (private)</signature>
+                    <description></description>
+                </overload>
+            </overloads>
+        </method>
+        <method name="draw_phase_2" scope="instance">
+            <summary>TODO: On this phase, we are already "online", so update lobby every X seconds.</summary>
+            <overloads>
+                <overload>
+                    <signature>parchis.draw_phase_2 -&gt; Object (private)</signature>
+                    <description>
+&lt;p&gt;This mean update @players. Phase 2.&lt;/p&gt;
+</description>
+                </overload>
+            </overloads>
+        </method>
+        <method name="draw_phase_3" scope="instance">
+            <summary>Phase 3.</summary>
+            <overloads>
+                <overload>
+                    <signature>parchis.draw_phase_3 -&gt; Object (private)</signature>
+                    <description></description>
+                </overload>
+            </overloads>
+        </method>
+        <method name="draw_token" scope="instance">
+            <summary></summary>
+            <overloads>
+                <overload>
+                    <signature>parchis.draw_token(token:, coords:) -&gt; Object (private)</signature>
+                    <description></description>
+                    <params>
+                        <param name="token">
+                            <types>
+                                <type>Token</type>
+                            </types>
+                            <description>
+                                <![CDATA[]]>
+                            </description>
+                        </param>
+                        <param name="coords">
+                            <types>
+                                <type>Hash&lt;Symbol =&gt; Integer&gt;</type>
+                            </types>
+                            <description>
+                                <![CDATA[]]>
+                            </description>
+                        </param>
+                    </params>
+                </overload>
+            </overloads>
+        </method>
+        <method name="enqueue_error" scope="instance">
+            <summary></summary>
+            <overloads>
+                <overload>
+                    <signature>parchis.enqueue_error(error_message) -&gt; Object (private)</signature>
+                    <description></description>
+                    <params>
+                        <param name="error_message">
+                            <types>
+                                <type>String</type>
+                            </types>
+                            <description>
+                                <![CDATA[]]>
+                            </description>
+                        </param>
+                    </params>
+                </overload>
+            </overloads>
+        </method>
+        <method name="initialize" scope="instance">
+            <summary>Constructor.</summary>
+            <overloads>
+                <overload>
+                    <signature>parchis.initialize -&gt; Parchis </signature>
+                    <description></description>
+                    <returns>
+                        <types>
+                            <type>Parchis</type>
+                        </types>
+                        <description>
+                            <![CDATA[
+<p>a new instance of Parchis</p>
+]]>
+                        </description>
+                    </returns>
+                </overload>
+            </overloads>
+        </method>
+        <method name="initialize_phase_2" scope="instance">
+            <summary>Initializes phase 2.</summary>
+            <overloads>
+                <overload>
+                    <signature>parchis.initialize_phase_2 -&gt; Object (private)</signature>
+                    <description></description>
+                </overload>
+            </overloads>
+        </method>
+        <method name="initialize_phase_3" scope="instance">
+            <summary>WIP: ...</summary>
+            <overloads>
+                <overload>
+                    <signature>parchis.initialize_phase_3(started_by_other: false) -&gt; Object (private)</signature>
+                    <description>
+&lt;p&gt;Initializes phase 3.&lt;/p&gt;
+</description>
+                </overload>
+            </overloads>
+        </method>
+        <method name="initialize_view" scope="instance">
+            <summary>Initializes the view.</summary>
+            <overloads>
+                <overload>
+                    <signature>parchis.initialize_view -&gt; Object (private)</signature>
+                    <description></description>
+                </overload>
+            </overloads>
+        </method>
+        <method name="lobby_updater" scope="instance" attribute="true" reader="true">
+            <summary>Returns the value of attribute lobby_updater.</summary>
+            <overloads>
+                <overload>
+                    <signature>parchis.lobby_updater -&gt; Object (readonly)</signature>
+                    <description></description>
+                </overload>
+            </overloads>
+        </method>
+        <method name="phase" scope="instance" attribute="true" reader="true">
+            <summary>Returns the value of attribute phase.</summary>
+            <overloads>
+                <overload>
+                    <signature>parchis.phase -&gt; Object (readonly)</signature>
+                    <description></description>
+                </overload>
+            </overloads>
+        </method>
+        <method name="reset_to_phase_1" scope="instance">
+            <summary>Resets the Phase 1.</summary>
+            <overloads>
+                <overload>
+                    <signature>parchis.reset_to_phase_1 -&gt; Object (private)</signature>
+                    <description></description>
+                </overload>
+            </overloads>
+        </method>
+        <method name="update" scope="instance">
+            <summary>Called around 60 times per second.</summary>
+            <overloads>
+                <overload>
+                    <signature>parchis.update -&gt; Object </signature>
+                    <description>
+&lt;p&gt;Update the model according to users interactions.&lt;/p&gt;
+</description>
+                </overload>
+            </overloads>
+        </method>
+    </class>
+    <class name="Player" superclass="Object">
+        <summary>Parchis #Player.</summary>
+        <description>
+            <![CDATA[
+<p>Parchis #Player.</p>
+]]>
+        </description>
+        <method name="can_roll_dice" scope="instance" attribute="true" writer="true">
+            <summary>Sets the attribute can_roll_dice.</summary>
+            <overloads>
+                <overload>
+                    <signature>player.can_roll_dice=(value) -&gt; Object </signature>
+                    <description>
+&lt;p&gt;Sets the attribute can_roll_dice&lt;/p&gt;
+</description>
+                    <params>
+                        <param name="value">
+                            <types>
+                                <type>Object</type>
+                            </types>
+                            <description>
+                                <![CDATA[
+<p>the value to set the attribute can_roll_dice to.</p>
+]]>
+                            </description>
+                        </param>
+                    </params>
+                </overload>
+            </overloads>
+        </method>
+        <method name="can_roll_dice?" scope="instance">
+            <summary></summary>
+            <overloads>
+                <overload>
+                    <signature>player.can_roll_dice? -&gt; Boolean </signature>
+                    <description></description>
+                    <returns>
+                        <types>
+                            <type>Boolean</type>
+                        </types>
+                        <description>
+                            <![CDATA[]]>
+                        </description>
+                    </returns>
+                </overload>
+            </overloads>
+        </method>
+        <method name="color" scope="instance" attribute="true" reader="true" writer="true">
+            <summary>Returns the value of attribute color.</summary>
+            <overloads>
+                <overload>
+                    <signature>player.color -&gt; Object </signature>
+                    <description></description>
+                </overload>
+            </overloads>
+        </method>
+        <method name="color" scope="instance" attribute="true" reader="true" writer="true">
+            <summary>Sets the attribute color.</summary>
+            <overloads>
+                <overload>
+                    <signature>player.color=(value) -&gt; Object </signature>
+                    <description>
+&lt;p&gt;Sets the attribute color&lt;/p&gt;
+</description>
+                    <params>
+                        <param name="value">
+                            <types>
+                                <type>Object</type>
+                            </types>
+                            <description>
+                                <![CDATA[
+<p>the value to set the attribute color to.</p>
+]]>
+                            </description>
+                        </param>
+                    </params>
+                </overload>
+            </overloads>
+        </method>
+        <method name="host" scope="instance" attribute="true" reader="true" writer="true">
+            <summary>Returns the value of attribute host.</summary>
+            <overloads>
+                <overload>
+                    <signature>player.host -&gt; Object </signature>
+                    <description></description>
+                </overload>
+            </overloads>
+        </method>
+        <method name="host" scope="instance" attribute="true" reader="true" writer="true">
+            <summary>Sets the attribute host.</summary>
+            <overloads>
+                <overload>
+                    <signature>player.host=(value) -&gt; Object </signature>
+                    <description>
+&lt;p&gt;Sets the attribute host&lt;/p&gt;
+</description>
+                    <params>
+                        <param name="value">
+                            <types>
+                                <type>Object</type>
+                            </types>
+                            <description>
+                                <![CDATA[
+<p>the value to set the attribute host to.</p>
+]]>
+                            </description>
+                        </param>
+                    </params>
+                </overload>
+            </overloads>
+        </method>
+        <method name="initialize" scope="instance">
+            <summary></summary>
+            <overloads>
+                <overload>
+                    <signature>player.initialize(name:, local: false, host: false, color: nil) -&gt; Player </signature>
+                    <description></description>
+                    <params>
+                        <param name="name">
+                            <types>
+                                <type>String</type>
+                            </types>
+                            <description>
+                                <![CDATA[]]>
+                            </description>
+                        </param>
+                    </params>
+                    <returns>
+                        <types>
+                            <type>Player</type>
+                        </types>
+                        <description>
+                            <![CDATA[
+<p>a new instance of Player</p>
+]]>
+                        </description>
+                    </returns>
+                </overload>
+            </overloads>
+        </method>
+        <method name="local?" scope="instance">
+            <summary></summary>
+            <overloads>
+                <overload>
+                    <signature>player.local? -&gt; Boolean </signature>
+                    <description></description>
+                    <returns>
+                        <types>
+                            <type>Boolean</type>
+                        </types>
+                        <description>
+                            <![CDATA[]]>
+                        </description>
+                    </returns>
+                </overload>
+            </overloads>
+        </method>
+        <method name="name" scope="instance" attribute="true" reader="true">
+            <summary>Returns the value of attribute name.</summary>
+            <overloads>
+                <overload>
+                    <signature>player.name -&gt; Object (readonly)</signature>
+                    <description></description>
+                </overload>
+            </overloads>
+        </method>
+        <method name="to_s" scope="instance">
+            <summary></summary>
+            <overloads>
+                <overload>
+                    <signature>player.to_s -&gt; String </signature>
+                    <description></description>
+                    <returns>
+                        <types>
+                            <type>String</type>
+                        </types>
+                        <description>
+                            <![CDATA[]]>
+                        </description>
+                    </returns>
+                </overload>
+            </overloads>
+        </method>
+        <method name="tokens" scope="instance" attribute="true" reader="true" writer="true">
+            <summary>Returns the value of attribute tokens.</summary>
+            <overloads>
+                <overload>
+                    <signature>player.tokens -&gt; Object </signature>
+                    <description></description>
+                </overload>
+            </overloads>
+        </method>
+        <method name="tokens" scope="instance" attribute="true" reader="true" writer="true">
+            <summary>Sets the attribute tokens.</summary>
+            <overloads>
+                <overload>
+                    <signature>player.tokens=(value) -&gt; Object </signature>
+                    <description>
+&lt;p&gt;Sets the attribute tokens&lt;/p&gt;
+</description>
+                    <params>
+                        <param name="value">
+                            <types>
+                                <type>Object</type>
+                            </types>
+                            <description>
+                                <![CDATA[
+<p>the value to set the attribute tokens to.</p>
+]]>
+                            </description>
+                        </param>
+                    </params>
+                </overload>
+            </overloads>
+        </method>
+    </class>
+    <class name="Token" superclass="Object">
+        <summary>A #Player token that live somehow in a #Cell of a #Board.</summary>
+        <description>
+            <![CDATA[
+<p>A #Player token that live somehow in a #Cell of a #Board. Only 4 of this per player could exist.</p>
+]]>
+        </description>
+        <method name="color" scope="instance" attribute="true" reader="true">
+            <summary>Returns the value of attribute color.</summary>
+            <overloads>
+                <overload>
+                    <signature>token.color -&gt; Object (readonly)</signature>
+                    <description></description>
+                </overload>
+            </overloads>
+        </method>
+        <method name="initialize" scope="instance">
+            <summary></summary>
+            <overloads>
+                <overload>
+                    <signature>token.initialize(color, cell, label) -&gt; Token </signature>
+                    <description></description>
+                    <params>
+                        <param name="color">
+                            <types>
+                                <type>Symbol</type>
+                            </types>
+                            <description>
+                                <![CDATA[]]>
+                            </description>
+                        </param>
+                        <param name="cell">
+                            <types>
+                                <type>Cell</type>
+                            </types>
+                            <description>
+                                <![CDATA[
+<p>the cell where this token start</p>
+]]>
+                            </description>
+                        </param>
+                        <param name="label">
+                            <types>
+                                <type>String</type>
+                            </types>
+                            <description>
+                                <![CDATA[
+<p>how externally will be represented. We expect a letter here, such as “A”, “B”, “C”, “D”.</p>
+]]>
+                            </description>
+                        </param>
+                    </params>
+                    <returns>
+                        <types>
+                            <type>Token</type>
+                        </types>
+                        <description>
+                            <![CDATA[
+<p>a new instance of Token</p>
+]]>
+                        </description>
+                    </returns>
+                </overload>
+            </overloads>
+        </method>
+        <method name="label" scope="instance" attribute="true" reader="true">
+            <summary>Returns the value of attribute label.</summary>
+            <overloads>
+                <overload>
+                    <signature>token.label -&gt; Object (readonly)</signature>
+                    <description></description>
+                </overload>
+            </overloads>
+        </method>
+        <method name="position_id" scope="instance" attribute="true" reader="true">
+            <summary>Returns the value of attribute position_id.</summary>
+            <overloads>
+                <overload>
+                    <signature>token.position_id -&gt; Object (readonly)</signature>
+                    <description></description>
+                </overload>
+            </overloads>
+        </method>
+    </class>
+    <class name="VActions" superclass="VWidget">
+        <summary>Visual widget for phase #3, regarding actions that you can execute.</summary>
+        <description>
+            <![CDATA[
+<p>Visual widget for phase #3, regarding actions that you can execute.</p>
+]]>
+        </description>
+        <constant name="MAX_CHARS_PER_STRING" value="66">
+            <description>
+                <![CDATA[]]>
+            </description>
+        </constant>
+        <constant name="X_POS" value="716">
+            <description>
+                <![CDATA[]]>
+            </description>
+        </constant>
+        <constant name="Y_POS" value="134">
+            <description>
+                <![CDATA[]]>
+            </description>
+        </constant>
+        <constant name="Z_POS" value="1">
+            <description>
+                <![CDATA[]]>
+            </description>
+        </constant>
+        <method name="draw" scope="instance">
+            <summary></summary>
+            <overloads>
+                <overload>
+                    <signature>vactions.draw -&gt; Object </signature>
+                    <description></description>
+                </overload>
+            </overloads>
+        </method>
+        <method name="string" scope="instance" attribute="true" reader="true" writer="true">
+            <summary>Returns the value of attribute string.</summary>
+            <overloads>
+                <overload>
+                    <signature>vactions.string -&gt; Object </signature>
+                    <description></description>
+                </overload>
+            </overloads>
+        </method>
+        <method name="string" scope="instance" attribute="true" reader="true" writer="true">
+            <summary>Sets the attribute string.</summary>
+            <overloads>
+                <overload>
+                    <signature>vactions.string=(value) -&gt; Object </signature>
+                    <description>
+&lt;p&gt;Sets the attribute string&lt;/p&gt;
+</description>
+                    <params>
+                        <param name="value">
+                            <types>
+                                <type>Object</type>
+                            </types>
+                            <description>
+                                <![CDATA[
+<p>the value to set the attribute string to.</p>
+]]>
+                            </description>
+                        </param>
+                    </params>
+                </overload>
+            </overloads>
+        </method>
+    </class>
+    <class name="VCountdown" superclass="VWidget">
+        <summary>Visual widget for phase #3.</summary>
+        <description>
+            <![CDATA[
+<p>Visual widget for phase #3. Is the countdown for current turn.</p>
+]]>
+        </description>
+        <constant name="TURN_TIMEOUT" value="120">
+            <description>
+                <![CDATA[
+<p>in seconds</p>
+]]>
+            </description>
+        </constant>
+        <constant name="X_POS" value="1166">
+            <description>
+                <![CDATA[]]>
+            </description>
+        </constant>
+        <constant name="Y_POS" value="28">
+            <description>
+                <![CDATA[]]>
+            </description>
+        </constant>
+        <constant name="Z_POS" value="1">
+            <description>
+                <![CDATA[]]>
+            </description>
+        </constant>
+        <method name="draw" scope="instance">
+            <summary>Draw the widget.</summary>
+            <overloads>
+                <overload>
+                    <signature>vcountdown.draw -&gt; Object </signature>
+                    <description></description>
+                </overload>
+            </overloads>
+        </method>
+        <method name="initialize" scope="instance">
+            <summary></summary>
+            <overloads>
+                <overload>
+                    <signature>vcountdown.initialize(font: nil) -&gt; VCountdown </signature>
+                    <description></description>
+                    <params>
+                        <param name="font">
+                            <types>
+                                <type>Gosu::Font</type>
+                            </types>
+                            <description>
+                                <![CDATA[]]>
+                            </description>
+                        </param>
+                    </params>
+                    <returns>
+                        <types>
+                            <type>VCountdown</type>
+                        </types>
+                        <description>
+                            <![CDATA[
+<p>a new instance of VCountdown</p>
+]]>
+                        </description>
+                    </returns>
+                </overload>
+            </overloads>
+        </method>
+        <method name="reset_countdown" scope="instance">
+            <summary></summary>
+            <overloads>
+                <overload>
+                    <signature>vcountdown.reset_countdown -&gt; Object </signature>
+                    <description></description>
+                </overload>
+            </overloads>
+        </method>
+    </class>
+    <class name="VCurrentTurn" superclass="VWidget">
+        <summary>Visual widget for phase #3, that shows which player has the current turn.</summary>
+        <description>
+            <![CDATA[
+<p>Visual widget for phase #3, that shows which player has the current turn.</p>
+]]>
+        </description>
+        <constant name="COLOR_SYM_TO_HEX_MAP" value="{&#13;&#10;  red: 'FF0000',&#13;&#10;  green: '00FF00',&#13;&#10;  blue: '0000FF',&#13;&#10;  yellow: 'FCED21'&#13;&#10;}.freeze">
+            <description>
+                <![CDATA[]]>
+            </description>
+        </constant>
+        <constant name="X_POS" value="716">
+            <description>
+                <![CDATA[]]>
+            </description>
+        </constant>
+        <constant name="Y_POS" value="646">
+            <description>
+                <![CDATA[]]>
+            </description>
+        </constant>
+        <constant name="Z_POS" value="1">
+            <description>
+                <![CDATA[]]>
+            </description>
+        </constant>
+        <method name="draw" scope="instance">
+            <summary></summary>
+            <overloads>
+                <overload>
+                    <signature>vcurrentturn.draw -&gt; Object </signature>
+                    <description></description>
+                </overload>
+            </overloads>
+        </method>
+        <method name="initialize" scope="instance">
+            <summary></summary>
+            <overloads>
+                <overload>
+                    <signature>vcurrentturn.initialize(board:, font: nil) -&gt; VCurrentTurn </signature>
+                    <description></description>
+                    <params>
+                        <param name="board">
+                            <types>
+                                <type>Board</type>
+                            </types>
+                            <description>
+                                <![CDATA[]]>
+                            </description>
+                        </param>
+                    </params>
+                    <returns>
+                        <types>
+                            <type>VCurrentTurn</type>
+                        </types>
+                        <description>
+                            <![CDATA[
+<p>a new instance of VCurrentTurn</p>
+]]>
+                        </description>
+                    </returns>
+                </overload>
+            </overloads>
+        </method>
+    </class>
+    <class name="VStats" superclass="VWidget">
+        <summary>Visual widget for phase #3.</summary>
+        <description>
+            <![CDATA[
+<p>Visual widget for phase #3. Show the players statistics.</p>
+]]>
+        </description>
+        <method name="draw" scope="instance">
+            <summary></summary>
+            <overloads>
+                <overload>
+                    <signature>vstats.draw -&gt; Object </signature>
+                    <description></description>
+                </overload>
+            </overloads>
+        </method>
+    </class>
+    <class name="VTips" superclass="VWidget">
+        <summary>Visual widget for phase #3.</summary>
+        <description>
+            <![CDATA[
+<p>Visual widget for phase #3. It shows different tips, feedback and else.</p>
+]]>
+        </description>
+        <constant name="HOLD_TIP" value="25">
+            <description>
+                <![CDATA[
+<p>in seconds</p>
+]]>
+            </description>
+        </constant>
+        <constant name="MAX_CHARS_PER_TIP" value="61">
+            <description>
+                <![CDATA[
+<p>: 66 total, so 61 + “TIP: ”</p>
+]]>
+            </description>
+        </constant>
+        <constant name="TIPS" value="['Cuando sea tu turno, arrojás tu dado pulsando [Spacebar].',&#13;&#10;'Si rolás un 6, tenés un segundo turno.',&#13;&#10;'Con un 5, podés sacar una ficha a la salida de tu casa.',&#13;&#10;'2 fichas de igual color en un casillero forman una barrera.',&#13;&#10;'La barrera se rompe si el dueño saca un 6 o tiene 2 fichas.',&#13;&#10;'Llegás a la meta roland un número exacto o rebotás.',&#13;&#10;'Al llegar a la meta, o ganaste o avanzás 10 con otra ficha.',&#13;&#10;'Si te encontrás con una barrera, no podés avanzar.',&#13;&#10;'En una celda &quot;segura&quot; pueden coexistir dos fichas.'].freeze">
+            <description>
+                <![CDATA[
+<p>TODO: Write tips. These are placeholders.</p>
+]]>
+            </description>
+        </constant>
+        <constant name="X_POS" value="716">
+            <description>
+                <![CDATA[]]>
+            </description>
+        </constant>
+        <constant name="Y_POS" value="326">
+            <description>
+                <![CDATA[]]>
+            </description>
+        </constant>
+        <constant name="Z_POS" value="1">
+            <description>
+                <![CDATA[]]>
+            </description>
+        </constant>
+        <method name="draw" scope="instance">
+            <summary></summary>
+            <overloads>
+                <overload>
+                    <signature>vtips.draw -&gt; Object </signature>
+                    <description></description>
+                </overload>
+            </overloads>
+        </method>
+        <method name="initialize" scope="instance">
+            <summary></summary>
+            <overloads>
+                <overload>
+                    <signature>vtips.initialize(font: nil) -&gt; VTips </signature>
+                    <description></description>
+                    <params>
+                        <param name="font">
+                            <types>
+                                <type>Gosu::Font</type>
+                            </types>
+                            <description>
+                                <![CDATA[]]>
+                            </description>
+                        </param>
+                    </params>
+                    <returns>
+                        <types>
+                            <type>VTips</type>
+                        </types>
+                        <description>
+                            <![CDATA[
+<p>a new instance of VTips</p>
+]]>
+                        </description>
+                    </returns>
+                </overload>
+            </overloads>
+        </method>
+        <method name="update" scope="instance">
+            <summary>Called 60 times per second.</summary>
+            <overloads>
+                <overload>
+                    <signature>vtips.update -&gt; Object </signature>
+                    <description></description>
+                </overload>
+            </overloads>
+        </method>
+    </class>
+    <class name="VWidget" superclass="Object">
+        <summary>An instance of this class represent a GUI widget.</summary>
+        <description>
+            <![CDATA[
+<p>An instance of this class represent a GUI widget.</p>
+]]>
+        </description>
+        <method name="initialize" scope="instance">
+            <summary></summary>
+            <overloads>
+                <overload>
+                    <signature>vwidget.initialize(font: nil) -&gt; VWidget </signature>
+                    <description></description>
+                    <params>
+                        <param name="font">
+                            <types>
+                                <type>Gosu::Font</type>
+                            </types>
+                            <description>
+                                <![CDATA[]]>
+                            </description>
+                        </param>
+                    </params>
+                    <returns>
+                        <types>
+                            <type>VWidget</type>
+                        </types>
+                        <description>
+                            <![CDATA[
+<p>a new instance of VWidget</p>
+]]>
+                        </description>
+                    </returns>
+                </overload>
+            </overloads>
+        </method>
+    </class>
+    <module name="SevenFacesDice">
+        <method name="roll" scope="instance">
+            <summary></summary>
+            <overloads>
+                <overload>
+                    <signature>sevenfacesdice.roll -&gt; Integer </signature>
+                    <description></description>
+                    <returns>
+                        <types>
+                            <type>Integer</type>
+                        </types>
+                        <description>
+                            <![CDATA[
+<p>number rolled.</p>
+]]>
+                        </description>
+                    </returns>
+                </overload>
+            </overloads>
+        </method>
+    </module>
+    <module name="SixFacesDice">
+        <method name="roll" scope="instance">
+            <summary>If you roll 6 two times in a row, the dice transforms into a seven faces one.</summary>
+            <overloads>
+                <overload>
+                    <signature>sixfacesdice.roll -&gt; Integer </signature>
+                    <description></description>
+                    <returns>
+                        <types>
+                            <type>Integer</type>
+                        </types>
+                        <description>
+                            <![CDATA[
+<p>number rolled</p>
+]]>
+                        </description>
+                    </returns>
+                </overload>
+            </overloads>
+        </method>
+    </module>
+</documentation>
