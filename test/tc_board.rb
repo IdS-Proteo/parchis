@@ -1,11 +1,10 @@
 require 'minitest/autorun'
+require 'minitest/junit'
 require_relative '../lib/parchis/board'
 require_relative '../lib/parchis/player'
 require_relative '../lib/parchis/token'
 require_relative '../lib/parchis/parchis'
 require_relative '../lib/parchis/cell'
-
-#this is a test push to trigger jenkins
 
 class TestBoard < MiniTest::Test
 

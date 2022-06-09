@@ -6,6 +6,7 @@ GEM
     webrick (1.7.0)
     yard (0.9.27)
       webrick (~> 1.7.0)
+    minitest-junit (1.1.0)
 
 PLATFORMS
   x64-mingw-ucrt
@@ -15,6 +16,7 @@ DEPENDENCIES
   gosu (~> 1.4, >= 1.4.3)
   rake
   yard
+  minitest-junit
 
 RUBY VERSION
    ruby 3.1.0p0

@@ -1,4 +1,5 @@
 require 'minitest/autorun'
+require 'minitest/junit'
 require_relative '../lib/parchis/http_client'
 
 class TestHTTPClient < MiniTest::Test

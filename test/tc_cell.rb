@@ -1,5 +1,5 @@
 require 'minitest/autorun'
-
+require 'minitest/junit'
 require_relative '../lib/parchis/parchis'
 require_relative '../lib/parchis/cell'
 require_relative '../lib/parchis/token'

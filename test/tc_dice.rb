@@ -1,4 +1,5 @@
 require 'minitest/autorun'
+require 'minitest/junit'
 require_relative '../lib/parchis/six_faces_dice'
 require_relative '../lib/parchis/dice'
 
