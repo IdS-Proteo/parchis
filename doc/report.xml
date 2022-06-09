@@ -37,7 +37,6 @@
             </testcase>
         <testcase name="317" time="20" classname="VWidget">
             </testcase>
-        <testcase name="318" time="20" classname="VCardboard">
-            </testcase>
+
     </testsuite>
 </testsuites>
