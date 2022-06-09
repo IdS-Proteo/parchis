@@ -4,38 +4,40 @@
     <testsuite name="ts_general.rb">
         <testcase name="301" time="20" classname="Board">
             </testcase>
-        <testcase name="302" time="40" classname="Cell">
+        <testcase name="302" time="20" classname="Cell">
             </testcase>
-        <testcase name="303" time="60" classname="HTTPClient">
+        <testcase name="303" time="20" classname="HTTPClient">
             <skipped message="not implemented yet"/>
            </testcase>
-        <testcase name="304" time="80" classname="Parchis">
+        <testcase name="304" time="20" classname="Parchis">
             </testcase>
-        <testcase name="305" time="100" classname="Player">
+        <testcase name="305" time="20" classname="Player">
             </testcase>
-        <testcase name="306" time="120" classname="Token">
+        <testcase name="306" time="20" classname="Token">
             </testcase>
-        <testcase name="307" time="140" classname="Dice">
+        <testcase name="307" time="20" classname="Dice">
             </testcase>
-        <testcase name="308" time="160" classname="GameStateUpdater">
+        <testcase name="308" time="20" classname="GameStateUpdater">
             </testcase>
-        <testcase name="309" time="180" classname="LobbyUpdater">                    
+        <testcase name="309" time="20" classname="LobbyUpdater">                    
             </testcase>
-        <testcase name="310" time="200" classname="SevenFacesDice">
+        <testcase name="310" time="20" classname="SevenFacesDice">
             </testcase>
-        <testcase name="311" time="220" classname="SixFacesDice">
+        <testcase name="311" time="20" classname="SixFacesDice">
             </testcase>
-        <testcase name="312" time="240" classname="VActions">
+        <testcase name="312" time="20" classname="VActions">
             </testcase>
-        <testcase name="313" time="260" classname="VCountdown">
+        <testcase name="313" time="20" classname="VCountdown">
             </testcase>
-        <testcase name="314" time="280" classname="VCurrentTurn">
+        <testcase name="314" time="20" classname="VCurrentTurn">
             </testcase>
-        <testcase name="315" time="300" classname="VStats">
+        <testcase name="315" time="20" classname="VStats">
             </testcase>
-        <testcase name="316" time="320" classname="VTips">
+        <testcase name="316" time="20" classname="VTips">
             </testcase>
-        <testcase name="317" time="340" classname="VWidget">
+        <testcase name="317" time="20" classname="VWidget">
+            </testcase>
+        <testcase name="318" time="20" classname="VCardboard">
             </testcase>
     </testsuite>
 </testsuites>
