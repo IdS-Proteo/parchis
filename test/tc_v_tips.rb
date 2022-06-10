@@ -18,16 +18,16 @@ class TestVTips < MiniTest::Test
     HOLD_TIP = 5
 
     def setup
-        @current_tip=0
-        @last_change= Time.now
+        @current_tip = 0
+        @last_change = Time.now
     end
 
     def test_update
         if((Time.now - @last_change)> HOLD_TIP)
-            assert_equal TIPS[0],TIPS[@current_tip]
+            assert_equal(TIPS[0],TIPS[@current_tip])
         else 
             @current_tip+=1
-            assert_equal TIPS[1],TIPS[@current_tip]
+            assert_equal(TIPS[1],TIPS[@current_tip])
         end
     end
 

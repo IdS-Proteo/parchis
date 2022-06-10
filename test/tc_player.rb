@@ -9,11 +9,11 @@ class TestPlayer < MiniTest::Test
     end
 
     def test_to_s
-        assert_equal 'self',@player.to_s
+        assert_equal('self',@player.to_s)
     end
 
     def test_can_roll_dice?
-        refute @player.can_roll_dice?
+        refute(@player.can_roll_dice?)
     end
 
 end
