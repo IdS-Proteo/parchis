@@ -6,12 +6,12 @@ require_relative '../lib/parchis/v_stats'
 #also nothing in class yet but it works
 class TestVStats < MiniTest::Test
 
-    def setup
+  def setup
 
-    end
+  end
 
-    def test_draw
+  def test_draw
 
-    end
+  end
 
 end

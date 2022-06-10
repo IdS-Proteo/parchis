@@ -4,44 +4,44 @@ require_relative '../lib/parchis/http_client'
 
 class TestHTTPClient < MiniTest::Test
 
-   def setup
-      @http_client=HTTPClient.new()
-   end
+  def setup
+    @http_client = HTTPClient.new()
+  end
    
-   def test_get_new_match_id
-      #assert_equal [true,"1234567890"],@http_client.get_new_match_id
-   end
+  def test_get_new_match_id
+    #assert_equal [true,"1234567890"],@http_client.get_new_match_id
+  end
 
-   def test_get_match_lobby_existence
-      #assert_equal [0,nil],@http_client.get_match_lobby_existence('1234567890')
-   end
+  def test_get_match_lobby_existence
+    #assert_equal [0,nil],@http_client.get_match_lobby_existence('1234567890')
+  end
 
-   def test_post_joining_to_lobby
+  def test_post_joining_to_lobby
       
-   end
+  end
 
-   def test_post_leaving_lobby
+  def test_post_leaving_lobby
 
-   end
+  end
 
-   def test_get_lobby_state
+  def test_get_lobby_state
 
-   end
+  end
 
-   def test_post_match
+  def test_post_match
 
-   end
+  end
 
-   def test_post_match_started
+  def test_post_match_started
 
-   end
+  end
 
-   def test_get_player_turn
+  def test_get_player_turn
 
-   end
+  end
 
-   def test_post_match_quit
+  def test_post_match_quit
 
-   end
+  end
     
 end

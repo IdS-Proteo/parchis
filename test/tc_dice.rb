@@ -5,12 +5,12 @@ require_relative '../lib/parchis/dice'
 
 class TestDice < MiniTest::Test
 
-    def setup
-        @dice = Dice.new()
-    end
+  def setup
+    @dice = Dice.new()
+  end
 
-    def test_set_unknown_state
-        assert_equal(0,@dice.set_unknown_state)
-    end
+  def test_set_unknown_state
+    assert_equal(0,@dice.set_unknown_state)
+  end
 
 end

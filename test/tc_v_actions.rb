@@ -5,13 +5,13 @@ require_relative '../lib/parchis/v_actions'
 
 class TestVActions < MiniTest::Test
 
-    #nothing to test for now, it just writes text in a position
-    def setup
+  #nothing to test for now, it just writes text in a position
+  def setup
 
-    end
+  end
 
-    def test_draw
+  def test_draw
 
-    end
+  end
 
 end

@@ -6,12 +6,12 @@ require_relative '../lib/parchis/seven_faces_dice'
 
 class TestSevenFacesDice < MiniTest::Test
 
-def setup
+  def setup
     @seven_faces_dice = Dice.new()
-end
+  end
 
-def test_roll
-    assert_includes([1,2,3,4,5,6,7],@seven_faces_dice.roll())
-end
+  def test_roll
+    assert_includes([1,2,3,4,5,6,7], @seven_faces_dice.roll())
+  end
 
 end

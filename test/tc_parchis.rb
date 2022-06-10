@@ -4,62 +4,60 @@ require_relative '../lib/parchis/parchis'
 
 class TestParchis < MiniTest::Test
 
-    def setup
-        #@parchis = Parchis.new()
-    end
+  def setup
+    #@parchis = Parchis.new()
+  end
     
-    def test_update
+  def test_update
 
-    end
+  end
 
-    def test_draw
+  def test_draw
 
-    end
+  end
 
-    def test_capture_name
+  def test_capture_name
 
-    end
+  end
 
-    def test_initialize_view
+  def test_initialize_view
 
-    end
+  end
 
-    def test_enqueue_error
+  def test_enqueue_error
 
-    end
+  end
 
-    def test_draw_phase_1
+  def test_draw_phase_1
         
-    end
+  end
 
-    def test_reset_to_phase_1
+  def test_reset_to_phase_1
 
-    end
+  end
 
-    def test_initialize_phase_2
+  def test_initialize_phase_2
 
-    end
+  end
 
-    def test_draw_phase_2
+  def test_draw_phase_2
 
-    end
+  end
 
-    def initialize_phase_3
+  def initialize_phase_3
 
-    end
+  end
 
-    def test_draw_phase_3
+  def test_draw_phase_3
 
-    end
+  end
 
-    def test_draw_cells_contents
+  def test_draw_cells_contents
 
-    end
+  end
 
-    def test_draw_token
+  def test_draw_token
 
-    end
-
-    
+  end
 
 end
