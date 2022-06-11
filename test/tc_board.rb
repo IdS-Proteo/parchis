@@ -8,6 +8,8 @@ require_relative '../lib/parchis/cell'
 
 class TestBoard < MiniTest::Test
 
+  attr_accessor :player_turn
+
   def setup
     @player1 = Player.new(name: 'Self', local: true, host: !!@hosting)
     @player2 = Player.new(name: 'Foolano1', local: false, host: false)
@@ -18,14 +20,18 @@ class TestBoard < MiniTest::Test
   end
 
   def test_next_turn
-    assert_equal(1, @board.next_turn)
-    assert_equal(2, @board.next_turn)
-    assert_equal(3, @board.next_turn)
-    assert_equal(0, @board.next_turn)
+    #uT 113
+    @turn = @board.player_turn
+    @board.next_turn
+    if((@turn + 1) == 4)
+      assert_equal(0, @board.player_turn)
+    elsif
+      assert_equal(@turn + 1, @board.player_turn)
+    end
   end
 
-  def test_player_turn
-    assert_equal('Self', @board.player_turn.to_s)
+  def test_dice_rolled
+
   end
 
   #def test_debug_tokens_positioning
