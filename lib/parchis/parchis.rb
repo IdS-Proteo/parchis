@@ -291,7 +291,7 @@ class Parchis < Gosu::Window
   def draw_cells_content
     @board.cells.each_with_index do |cell, index|
       tokens = cell.tokens #: Array<Token>
-      if (Cell::FINISH_CELLS.include?(index))
+      if (Board::FINISH_CELLS.include?(index))
         case tokens.size
           when 1
             # position 2 is occupied

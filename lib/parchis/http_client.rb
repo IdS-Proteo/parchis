@@ -1,4 +1,3 @@
-# TODO: Si el usuario cierra el programa, y está en el lobby, que mande mensaje al server antes.
 # Helper class to talk with the game's server.
 class HTTPClient
 
@@ -29,14 +28,13 @@ class HTTPClient
     uri.query = URI.encode_www_form(params)
     response = Net::HTTP.get_response(uri, {'Accept' => 'text/plain'})
     # parse response
-    if(response.code == '200')
-      if(response.body == 'false')
-        [false, 'Esa partida-lobby no existe']
-      else
+    case response.code
+      when '200'
         [response.body.to_i, nil]
-      end
-    else
-      [false, 'Problema en el server']
+      when '403'
+        [false, 'Esa partida-lobby está FULL (4 jugadores).']
+      when '404'
+        [false, 'Esa partida-lobby no existe.']
     end
   end
 
