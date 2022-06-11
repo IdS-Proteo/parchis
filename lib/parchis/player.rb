@@ -6,9 +6,9 @@ class Player
   # @color get his value on game started. It's one of :green, :yellow, :red, :blue
   # @host is a Boolean that tells if this player is the host of the match or not
   # @local is a Boolean that tells if this is you or a player on another client
-  attr_accessor :tokens, :color, :host
-  # @activity could be one of :taking_token_out_of_its_house, :moving_tokens_in_play
-  attr_writer :can_roll_dice, :can_move_a, :can_move_b, :can_move_c, :can_move_d, :activity
+  attr_accessor :tokens, :color, :host, :activity
+  # @activity could be one of :taking_token_out_of_its_house, :moving_tokens_in_play, :moving_token_out_of_barrier, :cant_do_anything
+  attr_writer :can_roll_dice, :can_move_a, :can_move_b, :can_move_c, :can_move_d
 
   # @param name [String]
   def initialize(name:, local: false, host: false, color: nil)
@@ -67,5 +67,15 @@ class Player
   # @param tokens [Array<Token>]
   def enable_to_move(tokens)
     tokens.each {|t| instance_variable_set("@can_move_#{t.label.downcase}".to_sym, true)}
+  end
+
+  # @param label [String]
+  # @return [Token, nil]
+  # Retrieves the token with certain *label* or nil if doesn't find it.
+  def [](label)
+    @tokens.each do |token|
+      return token if token.label == label
+    end
+    nil
   end
 end

@@ -4,22 +4,25 @@
 class Board
 
   COLORS = [:red, :green, :blue, :yellow].freeze
+  FINISH_CELLS = [76, 84, 92, 100].freeze
+  SAFE_CELLS = [5, 12, 17, 22, 29, 34, 39, 46, 51, 56, 63, 68].freeze
   YELLOW_HOUSE_CELLS = 101..104
   YELLOW_HOUSE_EXIT_CELL = 5
   YELLOW_FINISH_CELL = 76
-  YELLOW_FIRST_PRE_FINISH_CELLS = [68, 69]
+  YELLOW_FIRST_PRE_FINISH_CELLS = [68, 69].freeze
   BLUE_HOUSE_CELLS = 105..108
   BLUE_HOUSE_EXIT_CELL = 22
   BLUE_FINISH_CELL = 84
-  BLUE_FIRST_PRE_FINISH_CELLS = [17, 77]
+  BLUE_FIRST_PRE_FINISH_CELLS = [17, 77].freeze
   RED_HOUSE_CELLS = 109..112
   RED_HOUSE_EXIT_CELL = 39
   RED_FINISH_CELL = 92
-  RED_FIRST_PRE_FINISH_CELLS = [34, 85]
+  RED_FIRST_PRE_FINISH_CELLS = [34, 85].freeze
   GREEN_HOUSE_CELLS = 113..116
   GREEN_HOUSE_EXIT_CELL = 56
   GREEN_FINISH_CELL = 100
-  GREEN_FIRST_PRE_FINISH_CELLS = [51, 93]
+  GREEN_FIRST_PRE_FINISH_CELLS = [51, 93].freeze
+
 
   attr_reader :cells, :players, :player_turn
 
@@ -64,21 +67,43 @@ class Board
           player.enable_to_move(tokens_to_draw)
           player.activity = :taking_token_out_of_its_house
         else
-          # can't draw a token from house but could move another token in play
-          if(!(tokens_in_play_that_can_be_moved = tokens_in_play_that_can_be_moved(player: player, cells_to_travel: result)).empty?)
-            player.enable_to_move(tokens_in_play_that_can_be_moved)
-            player.activity = :moving_tokens_in_play
-          else
-            # can't move any single token
-            # WIP: ...
-
-          end
+          check_possible_regular_moves(player, result)
         end
       when 6
-
+        if(!(tokens_in_barriers = tokens_in_barriers_that_can_be_moved(player: player, cells_to_travel: result)).empty?)
+          # this player has at least 1 barrier
+          player.enable_to_move(tokens_in_barriers)
+          player.activity = :moving_token_out_of_barrier
+        else
+          check_possible_regular_moves(player, result)
+        end
       else
-        nil
+        check_possible_regular_moves(player, result)
     end
+  end
+
+=begin
+  @param token_label [String]
+  @param cells_to_move [Integer]
+  @param player [Player]
+  It is supposed, that previously, it was checked that this move is possible, so this method doesn't perform extra checks.
+  Possible use cases:
+    * use case 1: this token achieved the goal
+    * use case 2: the cell is empty, no need to check anything else
+    * use case 3: arriving to a safe cell
+      * use case 3.1: 2 existent tokens living here, and they aren't a barrier (hence, 2 different color tokens), last token there gets "eaten"
+      * use case 3.2: lone token here, just check if it's of the player's color, in which case, a barrier gets created
+    * use case 4: arriving to a non safe cell
+      * use case 4.1: non-empty cell; same color token; a barrier will get formed
+      * use case 4.2: non-empty cell; different color token; existent token is going to be "eaten"
+=end
+  def perform_move(token_label:, cells_to_move:, player:)
+    # inquire what is the target cell id
+    cell_id = (token = player[token_label]).cell.id #: Integer
+    cells_to_move.times {cell_id, going_backwards = get_next_player_cell_id(player: player, cell_id: cell_id, going_backwards: (going_backwards || false))}
+    # perform the actual move
+    eaten_token = @cells[cell_id].place_token(token) #: nil or Token
+    send_token_to_its_house(eaten_token) if eaten_token
   end
 
   private
@@ -87,7 +112,9 @@ class Board
     @players.each do |player|
       label = '@'
       Board.const_get("#{player.color.to_s.upcase}_HOUSE_CELLS".to_sym).each do |i|
-        @tokens << Token.new(player.color, @cells[i], label.next!.dup)
+        @tokens << (token = Token.new(player.color, label.next!.dup))
+        # register this token on the right cell
+        @cells[i].place_token(token)
       end
       player.tokens = @tokens[-4..-1]
     end
@@ -107,7 +134,7 @@ class Board
 
   # @param player [Player]
   # @return [nil, Array<Token>]
-  # Return nil if can't draw a token (either because the player doesn't have tokens in his house or if there's a barricade in the house's exit); or an array of
+  # Return nil if can't draw a token (either because the player doesn't have tokens in his house or if there's a barrier in the house's exit); or an array of
   # tokens the player can draw.
   def tokens_to_draw_from_house(player:)
     # first check if there's at least one token in the player's house
@@ -118,7 +145,7 @@ class Board
         tokens_to_draw << token
       end
     end
-    if(!tokens_to_draw.empty? && !@cells[Board.const_get("#{player.color.to_s.upcase}_HOUSE_EXIT_CELL".to_sym)].barricade?)
+    if(!tokens_to_draw.empty? && !@cells[Board.const_get("#{player.color.to_s.upcase}_HOUSE_EXIT_CELL".to_sym)].barrier?)
       tokens_to_draw
     else
       nil
@@ -127,20 +154,21 @@ class Board
 
   # @param player [Player]
   # @param cells_to_travel [Integer] what the dice rolled this turn
+  # @param tokens [nil, Array<Token>] you could pass the exact tokens to check. nil would check all of them
   # @return [Array<Token>] could return an empty array
-  def tokens_in_play_that_can_be_moved(player:, cells_to_travel:)
+  def tokens_in_play_that_can_be_moved(player:, cells_to_travel:, tokens: nil)
     upcased_player_color = player.color.to_s.upcase
     house_slots = Board.const_get("#{upcased_player_color}_HOUSE_CELLS".to_sym) #: Range<Integer>
     finish_slot = Board.const_get("#{upcased_player_color}_FINISH_CELL".to_sym) #: Integer
     tokens_in_play_that_can_be_moved = []
-    player.tokens.each do |token|
+    (tokens || player.tokens).each do |token|
       # see if this token is in play
       if((cell_id = token.cell.id) != finish_slot && !house_slots.include?(cell_id))
-        # is in play, but can be moved? If in the middle there's a barricade, can't move
+        # is in play, but can be moved? If in the middle there's a barrier, can't move
         can_do_it = true
         cells_to_travel.times do |step|
           future_cell_id, going_backwards = get_next_player_cell_id(player: player, cell_id: future_cell_id || cell_id, going_backwards: going_backwards || false)
-          if(cell_id != future_cell_id && future_cell_id != finish_slot && @cells[future_cell_id].barricade?)
+          if(cell_id != future_cell_id && future_cell_id != finish_slot && @cells[future_cell_id].barrier?)
             can_do_it = false
             break
           end
@@ -165,6 +193,42 @@ class Board
       [cell_id - 1, true]
     else
       [cell_id + 1, false]
+    end
+  end
+
+  # @param player [Player]
+  # @param cells_to_travel [Integer] what the dice rolled this turn
+  # @return [Array<Token>] could return an empty array
+  def tokens_in_barriers_that_can_be_moved(player:, cells_to_travel:)
+    potential_tokens_in_barriers_that_could_be_moved = []
+    # collect tokens in barriers
+    player.tokens.each {|token| potential_tokens_in_barriers_that_could_be_moved << token if token.cell.barrier?}
+    # see if they can actually be moved
+    if(!potential_tokens_in_barriers_that_could_be_moved.empty?)
+      tokens_in_play_that_can_be_moved(player: player, cells_to_travel: cells_to_travel, tokens: potential_tokens_in_barriers_that_could_be_moved)
+    else
+      []
+    end
+  end
+
+  def check_possible_regular_moves(player, result)
+    if (!(tokens_in_play_that_can_be_moved = tokens_in_play_that_can_be_moved(player: player, cells_to_travel: result)).empty?)
+      # can't draw a token from house but could move another token in play
+      player.enable_to_move(tokens_in_play_that_can_be_moved)
+      player.activity = :moving_tokens_in_play
+    else
+      # can't move any single token
+      player.activity = :cant_do_anything
+    end
+  end
+
+  # @param token [Token]
+  def send_token_to_its_house(token:)
+    Board.const_get("#{token.color.to_s.upcase}_HOUSE_CELLS".to_sym).each do |house_cell_id|
+      if(@cells[house_cell_id].empty?)
+        @cells[house_cell_id].place_token(token)
+        return
+      end
     end
   end
 end

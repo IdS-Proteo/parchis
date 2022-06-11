@@ -122,7 +122,6 @@ class Cell
     {top: {}, mid: {x: 80, y: 598}, bottom: {}},
     {top: {}, mid: {x: 142, y: 598}, bottom: {}}
   ].freeze
-  FINISH_CELLS = [76, 84, 92, 100].freeze
 
   # @param id [Integer]
   def initialize(id)
@@ -132,18 +131,57 @@ class Cell
     @coords_mid = {x: COORDS[id][:mid][:x] , y: COORDS[id][:mid][:y]} #: i.e.: {x: 424, y: 677}
     @coords_bottom = {x: COORDS[id][:bottom][:x] , y: COORDS[id][:bottom][:y]} rescue {} #: i.e.: {x: 445, y: 677}
     # auxiliary fourth place for finish cells
-    @coords_aux = {x: COORDS[id][:aux][:x] , y: COORDS[id][:aux][:y] } if(FINISH_CELLS.include?(id))
+    @coords_aux = {x: COORDS[id][:aux][:x] , y: COORDS[id][:aux][:y] } if(Board::FINISH_CELLS.include?(id))
     # model related attributes
     @tokens = []
   end
 
-  # TODO: Not finished.
+  # TODO: Hacer el registro "back and fort" de agregado y remoción, o sea, ver también el registro en el #Token
+  # WIP: ...
   # @param token [Token]
-  # @return [Boolean] returns false if not possible, true if the operation ran successfully
+  # @return [nil, Token] the token eaten if there was one
+  # Place certain *token* in this cell. This move should be legeal, this method doesn't do any check of that kind.
   def place_token(token)
-    # ATTENTION: Mockering.
-    @tokens << token
-    true
+    eaten_token = nil
+    if(Board::FINISH_CELLS.include?(@id))
+      # self is a finish cell
+      @tokens << token
+    elsif(Board::SAFE_CELLS.include?(@id))
+      # self is a safe cell
+      if(@tokens.size <= 1)
+        # simple insertion
+        @tokens << token
+      else
+        # last token has to get "eaten"
+        eaten_token = remove_token()
+        @tokens << token
+      end
+    else
+      # self is a non safe cell
+      if(@tokens.empty? || (@tokens.first.color == token.color))
+        # simple insertion (a barrier could get formed)
+        @tokens << token
+      else
+        # existent token (last token) gets "eaten"
+        eaten_token = remove_token()
+        @tokens << token
+      end
+    end
+    # make the token know that it belongs to this cell now
+    token.cell = self
+    @last_token = token
+    eaten_token
+  end
+
+  # @param token [nil, Token] if nil, then the @last_token gets removed and returned
+  # @return [Token] deleted token
+  # Removes certain *token* from this cell.
+  def remove_token(token: nil)
+    removed_token = @tokens.delete(token || @last_token)
+    # make the token know that it doesn't belong to any cell now
+    removed_token.cell = nil
+    @last_token = @tokens.first
+    removed_token
   end
 
   # @return [Boolean]
@@ -154,7 +192,7 @@ class Cell
 
   # @return [Boolean]
   # Don't ask this for a cell that is a finish cell.
-  def barricade?
+  def barrier?
     @tokens.size == 2 && (t1c = @token.first.color) && (@token.last.color == t1c)
   end
 end

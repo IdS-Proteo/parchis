@@ -1,12 +1,16 @@
 GEM
   remote: https://rubygems.org/
   specs:
+    builder (3.2.4)
     gosu (1.4.3)
+    minitest (5.15.0)
+    minitest-junit (1.1.0)
+      builder (~> 3.2)
+      minitest (~> 5.11)
     rake (13.0.6)
     webrick (1.7.0)
     yard (0.9.27)
       webrick (~> 1.7.0)
-    minitest-junit (1.1.0)
 
 PLATFORMS
   x64-mingw-ucrt
@@ -14,9 +18,9 @@ PLATFORMS
 DEPENDENCIES
   bundler
   gosu (~> 1.4, >= 1.4.3)
+  minitest-junit
   rake
   yard
-  minitest-junit
 
 RUBY VERSION
    ruby 3.1.0p0

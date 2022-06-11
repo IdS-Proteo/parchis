@@ -105,25 +105,28 @@ class Parchis < Gosu::Window
           # quit this match
           HTTPClient.post_match_quit(match_id: @match_id, player: @players[@player_id])
           reset_to_phase_1()
-        elsif(@players[@board.player_turn].local?)
+        elsif((player_in_turn = @players[@board.player_turn]).local?)
           # only in this case the player can interact
-          if(@players[@board.player_turn].can_roll_dice?)
-            # if can roll dice, then can't move tokens
+          if(player_in_turn.can_roll_dice?)
+            # if can roll dice, then can't move tokens (yet)
             if(button_down?(Gosu::KB_SPACE))
-              # WIP: ...
-              @players[@board.player_turn].can_roll_dice = false
+              player_in_turn.can_roll_dice = false
               @rolling_dice_sfx.play()
               @board.dice_rolled(result: @dice.roll())
             end
-          else
-            if(@players[@board.player_turn].can_move_a? && button_down?(Gosu::KB_A))
-
-            elsif(@players[@board.player_turn].can_move_b? && button_down?(Gosu::KB_B))
-
-            elsif(@players[@board.player_turn].can_move_c? && button_down?(Gosu::KB_C))
-
-            elsif(@players[@board.player_turn].can_move_d? && button_down?(Gosu::KB_D))
-
+          elsif(player_in_turn.activity != :cant_do_anything)
+            if(player_in_turn.can_move_a? && button_down?(Gosu::KB_A))
+              @board.perform_move(token_label: 'A', cells_to_move: @dice.last_roll, player: player_in_turn)
+              @board.next_turn if !judge_second_dice_cast(player_in_turn)
+            elsif(player_in_turn.can_move_b? && button_down?(Gosu::KB_B))
+              @board.perform_move(token_label: 'B', cells_to_move: @dice.last_roll, player: player_in_turn)
+              @board.next_turn if !judge_second_dice_cast(player_in_turn)
+            elsif(player_in_turn.can_move_c? && button_down?(Gosu::KB_C))
+              @board.perform_move(token_label: 'C', cells_to_move: @dice.last_roll, player: player_in_turn)
+              @board.next_turn if !judge_second_dice_cast(player_in_turn)
+            elsif(player_in_turn.can_move_d? && button_down?(Gosu::KB_D))
+              @board.perform_move(token_label: 'D', cells_to_move: @dice.last_roll, player: player_in_turn)
+              @board.next_turn if !judge_second_dice_cast(player_in_turn)
             end
           end
         end
@@ -184,6 +187,17 @@ class Parchis < Gosu::Window
   # @param error_message [String]
   def enqueue_error(error_message)
     @errors << error_message if !@errors.include?(error_message)
+  end
+
+  # @param player_in_turn [Player]
+  # @return [Boolean] true if can do a second cast, false if this should be the turn's end
+  def judge_second_dice_cast(player_in_turn)
+    if(!@dice.cant_roll_anymore_for_current_player)
+      player_in_turn.clear_rights
+      player_in_turn.can_roll_dice = true
+    else
+      false
+    end
   end
 
   # Phase 1.
