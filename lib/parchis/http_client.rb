@@ -6,6 +6,10 @@ class HTTPClient
   # Prevent class instantiation. Singleton pattern.
   def self.new; end
 
+=begin
+  LOBBY RELATED METHODS
+=end
+
   # @return [Array(Boolean, String)] such as [false, "Error message"] or [true, "match_id"]
   # Returns a valid match id or an error. Doesn't raise an exception.
   def self.get_new_match_id
@@ -31,10 +35,12 @@ class HTTPClient
     case response.code
       when '200'
         [response.body.to_i, nil]
-      when '403'
+      when '460'
         [false, 'Esa partida-lobby está FULL (4 jugadores).']
       when '404'
         [false, 'Esa partida-lobby no existe.']
+      when '461'
+        [false, 'Este juego ya comenzó.']
     end
   end
 
@@ -133,11 +139,32 @@ class HTTPClient
     end
   end
 
-  # TODO: Implement...
-  # @param match_id [String]
-  # @param player [Player]
-  # Makes the server aware that we are quiting the match. Relaxed, doesn't check if the message got there or not.
-  def self.post_match_quit(match_id:, player:)
+=begin
+  GAME RELATED METHODS
+=end
 
+  # @param match_id [String]
+  # @param result [Integer] of the roll
+  def self.post_dice_rolled(match_id:, result:)
+    body = {'match_id' => match_id, 'dr' => result}.to_json
+    Net::HTTP.post(URI("#{ROOT_URL}/dice_rolled"), body, {'Content-Type' => 'application/json'})
+  end
+
+  # @param match_id [String]
+  # @param token_color [Symbol]
+  # @param token_label [String]
+  # @param cells_to_move [Integer]
+  # This could also post the end of the turn.
+  def self.post_token_moved(match_id:, token_color:, token_label:, cells_to_move:)
+    body = {'match_id' => match_id, 'tm' => "#{token_color.to_s.[](0)}#{token_label}#{cells_to_move}"}.to_json
+    Net::HTTP.post(URI("#{ROOT_URL}/token_moved"), body, {'Content-Type' => 'application/json'})
+  end
+
+  # @param match_id [String]
+  # @param player_id [Integer]
+  # Makes the server aware that we are quiting the match. Relaxed, doesn't check if the message got there or not.
+  def self.post_match_quit(match_id:, player_id:)
+    body = {'match_id' => match_id, 'player_id' => player_id}.to_json
+    Net::HTTP.post(URI("#{ROOT_URL}/match_quit"), body, {'Content-Type' => 'application/json'})
   end
 end

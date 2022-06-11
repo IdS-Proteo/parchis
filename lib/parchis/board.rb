@@ -1,5 +1,4 @@
-# TODO: When a player leave, and somehow the server tells you, update this model. Need to erase that player from @players, and possibly touch @player_turn among
-# TODO: possibly other things.
+# TODO: When a player leave, and somehow the server tells you, update this model. Need to erase that player from @players, and possibly touch @player_turn among possibly other things.
 # Parchis #Board.
 class Board
 

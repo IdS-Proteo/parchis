@@ -136,8 +136,6 @@ class Cell
     @tokens = []
   end
 
-  # TODO: Hacer el registro "back and fort" de agregado y remoción, o sea, ver también el registro en el #Token
-  # WIP: ...
   # @param token [Token]
   # @return [nil, Token] the token eaten if there was one
   # Place certain *token* in this cell. This move should be legeal, this method doesn't do any check of that kind.
