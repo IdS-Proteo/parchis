@@ -22,6 +22,8 @@ class TestVTips < MiniTest::Test
   end
 
   def test_update
+    #UT016
+    #UT017
     if((Time.now - @last_change)> HOLD_TIP)
       assert_equal(TIPS[0],TIPS[@current_tip])
     else
@@ -29,9 +31,5 @@ class TestVTips < MiniTest::Test
       assert_equal(TIPS[1],TIPS[@current_tip])
     end
   end
-
-  #def test_draw
-
-  #end
 
 end
