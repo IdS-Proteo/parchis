@@ -1,126 +1,117 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="Minitest::Result" tests="57" time="0.0708808" failures="0" errors="2" skipped="0" assertions="28" timestamp="2022-06-12T19:23:24-03:00">
-  <testcase name="test_draw" time="1.0300002031726763e-05" assertions="0">
+<testsuite name="Minitest::Result" tests="57" time="0.0297163" failures="0" errors="0" skipped="0" assertions="30" timestamp="2022-06-12T19:42:20-03:00">
+  <testcase name="test_update" time="9.999999747378752e-06" assertions="0">
   </testcase>
-  <testcase name="test_update" time="3.2500000088475645e-05" assertions="1">
+  <testcase name="test_leave_game" time="3.2999996619764715e-06" assertions="0">
   </testcase>
-  <testcase name="test_draw" time="5.40000110049732e-06" assertions="0">
+  <testcase name="test_event_processed" time="3.3000032999552786e-06" assertions="0">
   </testcase>
-  <testcase name="test_can_move_d?" time="2.7800000680144876e-05" assertions="1">
+  <testcase name="test_update" time="3.1600000511389226e-05" assertions="1">
   </testcase>
-  <testcase name="test_clear_rights" time="4.900000931229442e-06" assertions="0">
+  <testcase name="test_draw" time="6.000002031214535e-06" assertions="0">
+  </testcase>
+  <testcase name="test_clear_rights" time="1.6100002540042624e-05" assertions="0">
+  </testcase>
+  <testcase name="test_can_move_c?" time="1.3199998647905886e-05" assertions="1">
+  </testcase>
+  <testcase name="test_can_move_a?" time="9.400002454640344e-06" assertions="1">
+  </testcase>
+  <testcase name="test_to_s" time="1.7099999240599573e-05" assertions="1">
+  </testcase>
+  <testcase name="test_brackets" time="5.600002623395994e-06" assertions="0">
+  </testcase>
+  <testcase name="test_can_move_d?" time="8.400002116104588e-06" assertions="1">
   </testcase>
   <testcase name="test_local?" time="7.299997378140688e-06" assertions="1">
   </testcase>
-  <testcase name="test_can_move_c?" time="5.900001269765198e-06" assertions="1">
+  <testcase name="test_can_roll_dice?" time="5.799996870337054e-06" assertions="1">
   </testcase>
-  <testcase name="test_enable_to_move" time="3.5000011848751456e-06" assertions="0">
+  <testcase name="test_enable_to_move" time="4.1000021155923605e-06" assertions="0">
   </testcase>
-  <testcase name="test_can_move_b?" time="5.699999746866524e-06" assertions="1">
+  <testcase name="test_can_move_b?" time="5.49999822396785e-06" assertions="1">
   </testcase>
-  <testcase name="test_brackets" time="3.6999990697950125e-06" assertions="0">
+  <testcase name="test_draw" time="8.39999847812578e-06" assertions="0">
   </testcase>
-  <testcase name="test_can_move_a?" time="6.199999916134402e-06" assertions="1">
+  <testcase name="test_roll" time="2.5600002118153498e-05" assertions="4">
   </testcase>
-  <testcase name="test_can_roll_dice?" time="5.500001861946657e-06" assertions="1">
+  <testcase name="test_send_token_to_its_house" time="0.00038100000165286474" assertions="0">
   </testcase>
-  <testcase name="test_to_s" time="7.499998901039362e-06" assertions="1">
+  <testcase name="test_check_possible_regular_moves" time="0.007977100001880899" assertions="0">
   </testcase>
-  <testcase name="test_draw" time="5.49999822396785e-06" assertions="0">
+  <testcase name="test_tokens_in_barriers_that_can_be_moved" time="0.00047429999904125" assertions="0">
   </testcase>
-  <testcase name="test_update" time="1.309999788645655e-05" assertions="0">
+  <testcase name="test_player_quitted" time="0.00020699999731732532" assertions="0">
   </testcase>
-  <testcase name="test_join_lobby" time="5.000001692678779e-06" assertions="0">
+  <testcase name="test_assign_tokens_to_players" time="0.00042519999988144264" assertions="4">
   </testcase>
-  <testcase name="test_leave_lobby" time="4.5000015234109014e-06" assertions="0">
+  <testcase name="test_next_turn" time="0.00022199999875738285" assertions="1">
   </testcase>
-  <testcase name="test_reset_countdown" time="3.65999985660892e-05" assertions="0">
+  <testcase name="test_assign_color_to_players" time="0.008524500000930857" assertions="5">
   </testcase>
-  <testcase name="test_draw" time="3.070000093430281e-05" assertions="1">
+  <testcase name="test_get_next_player_cell_ident" time="0.0002629999980854336" assertions="0">
   </testcase>
-  <testcase name="test_draw" time="1.0700001439545304e-05" assertions="0">
+  <testcase name="test_tokens_in_play_that_can_be_moved_to_" time="0.00048710000191931613" assertions="0">
   </testcase>
-  <testcase name="test_next_turn" time="0.0006773999994038604" assertions="1">
+  <testcase name="test_initialize_cells" time="0.0005254999996395782" assertions="1">
   </testcase>
-  <testcase name="test_check_possible_regular_moves" time="0.003766199999517994" assertions="0">
+  <testcase name="test_perform_move" time="0.00020790000053239055" assertions="0">
   </testcase>
-  <testcase name="test_get_next_player_cell_ident" time="0.0024752999997872394" assertions="0">
+  <testcase name="test_tokens_to_draw_from_house" time="0.00026729999808594584" assertions="0">
   </testcase>
-  <testcase name="test_send_token_to_its_house" time="0.00024420000045211054" assertions="0">
+  <testcase name="test_dice_rolled" time="0.00029150000045774505" assertions="2">
   </testcase>
-  <testcase name="test_assign_tokens_to_players" time="0.0004924999993818346" assertions="4">
+  <testcase name="test_set_unknown_state" time="1.7000002117129043e-05" assertions="1">
   </testcase>
-  <testcase name="test_tokens_to_draw_from_house" time="0.0006380000013450626" assertions="0">
-    <error type="ArgumentError" message="ArgumentError: missing keyword: :player...">
-ArgumentError: missing keyword: :player
-    C:/Users/julib/Documents/GitHub/parchis/lib/parchis/board.rb:189:in `tokens_to_draw_from_house'
-    C:/Users/julib/Documents/GitHub/parchis/test/tc_board.rb:65:in `test_tokens_to_draw_from_house' (ArgumentError)
-C:/Users/julib/Documents/GitHub/parchis/lib/parchis/board.rb:189    </error>
+  <testcase name="test_force_last_roll" time="3.899996954714879e-06" assertions="0">
   </testcase>
-  <testcase name="test_perform_move" time="0.00028360000214888714" assertions="0">
+  <testcase name="test_draw" time="5.699999746866524e-06" assertions="0">
   </testcase>
-  <testcase name="test_dice_rolled" time="0.0006480999982159119" assertions="0">
-    <error type="TypeError" message="TypeError: no implicit conversion from nil to integer...">
-TypeError: no implicit conversion from nil to integer
-    C:/Users/julib/Documents/GitHub/parchis/test/tc_board.rb:40:in `test_dice_rolled' (TypeError)
-C:/Users/julib/Documents/GitHub/parchis/test/tc_board.rb:40    </error>
+  <testcase name="test_leave_lobby" time="1.4999997802078724e-05" assertions="0">
   </testcase>
-  <testcase name="test_initialize_cells" time="0.000301499996567145" assertions="1">
+  <testcase name="test_join_lobby" time="5.300000339047983e-06" assertions="0">
   </testcase>
-  <testcase name="test_tokens_in_barriers_that_can_be_moved" time="0.00022009999884176068" assertions="0">
+  <testcase name="test_update" time="4.699999408330768e-06" assertions="0">
   </testcase>
-  <testcase name="test_player_quitted" time="0.002347500001633307" assertions="0">
+  <testcase name="test_roll" time="1.4599998394260183e-05" assertions="2">
   </testcase>
-  <testcase name="test_tokens_in_play_that_can_be_moved_to_" time="0.0006036999984644353" assertions="0">
+  <testcase name="test_remove_token" time="9.899998985929415e-06" assertions="0">
   </testcase>
-  <testcase name="test_assign_color_to_players" time="0.0029857000008632895" assertions="5">
+  <testcase name="test_place_token" time="4.799996531801298e-06" assertions="0">
   </testcase>
-  <testcase name="test_roll" time="3.980000110459514e-05" assertions="2">
+  <testcase name="test_barrier?" time="3.9000005926936865e-06" assertions="0">
   </testcase>
-  <testcase name="test_leave_game" time="1.590000101714395e-05" assertions="0">
+  <testcase name="test_empty?" time="6.000002031214535e-06" assertions="1">
   </testcase>
-  <testcase name="test_event_processed" time="5.100002454128116e-06" assertions="0">
+  <testcase name="test_draw" time="4.699999408330768e-06" assertions="0">
   </testcase>
-  <testcase name="test_update" time="4.900000931229442e-06" assertions="0">
+  <testcase name="test_capture_name" time="4.899997293250635e-06" assertions="0">
   </testcase>
-  <testcase name="test_force_last_roll" time="1.7899998056236655e-05" assertions="0">
+  <testcase name="test_reset_to_phase_1" time="2.2999993234407157e-06" assertions="0">
   </testcase>
-  <testcase name="test_set_unknown_state" time="1.6199999663513154e-05" assertions="1">
+  <testcase name="test_draw_cells_content" time="2.2999993234407157e-06" assertions="0">
   </testcase>
-  <testcase name="test_roll" time="3.510000169626437e-05" assertions="4">
+  <testcase name="test_initialize_phase_2" time="2.5000008463393897e-06" assertions="0">
   </testcase>
-  <testcase name="test_empty?" time="2.7099998987978324e-05" assertions="1">
+  <testcase name="test_draw_phase_1" time="2.4000000848900527e-06" assertions="0">
   </testcase>
-  <testcase name="test_place_token" time="9.900002623908222e-06" assertions="0">
+  <testcase name="test_draw" time="2.1000014385208488e-06" assertions="0">
   </testcase>
-  <testcase name="test_barrier?" time="7.99999907030724e-06" assertions="0">
+  <testcase name="test_draw_phase_3" time="2.0999978005420417e-06" assertions="0">
   </testcase>
-  <testcase name="test_remove_token" time="6.599999323952943e-06" assertions="0">
+  <testcase name="test_draw_token" time="2.2999993234407157e-06" assertions="0">
   </testcase>
-  <testcase name="test_draw_phase_3" time="1.0700001439545304e-05" assertions="0">
+  <testcase name="test_update" time="2.4000000848900527e-06" assertions="0">
   </testcase>
-  <testcase name="test_update" time="4.300000000512227e-06" assertions="0">
+  <testcase name="test_enqueue_error" time="2.4000000848900527e-06" assertions="0">
   </testcase>
-  <testcase name="test_initialize_view" time="4.400000761961564e-06" assertions="0">
+  <testcase name="test_draw_phase_2" time="2.2000021999701858e-06" assertions="0">
   </testcase>
-  <testcase name="test_draw_token" time="4.800000169780105e-06" assertions="0">
+  <testcase name="test_judge_second_dice_casting" time="2.4000000848900527e-06" assertions="0">
   </testcase>
-  <testcase name="test_enqueue_error" time="4.300000000512227e-06" assertions="0">
+  <testcase name="test_initialize_view" time="2.2999993234407157e-06" assertions="0">
   </testcase>
-  <testcase name="test_judge_second_dice_casting" time="2.9999973776284605e-06" assertions="0">
+  <testcase name="test_reset_countdown" time="3.0499999411404133e-05" assertions="0">
   </testcase>
-  <testcase name="test_draw_phase_1" time="3.9000005926936865e-06" assertions="0">
-  </testcase>
-  <testcase name="test_draw_phase_2" time="3.2999996619764715e-06" assertions="0">
-  </testcase>
-  <testcase name="test_initialize_phase_2" time="3.2999996619764715e-06" assertions="0">
-  </testcase>
-  <testcase name="test_reset_to_phase_1" time="4.1000021155923605e-06" assertions="0">
-  </testcase>
-  <testcase name="test_draw" time="4.2000028770416975e-06" assertions="0">
-  </testcase>
-  <testcase name="test_capture_name" time="3.1999989005271345e-06" assertions="0">
-  </testcase>
-  <testcase name="test_draw_cells_content" time="3.9000005926936865e-06" assertions="0">
+  <testcase name="test_draw" time="1.5300000086426735e-05" assertions="1">
   </testcase>
 </testsuite>
