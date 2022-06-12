@@ -1,6 +1,5 @@
 gem "minitest"
 require 'minitest/autorun'
-#require 'minitest/junit'
 require 'minitest'
 
 require_relative 'tc_board'

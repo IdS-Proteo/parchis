@@ -1,5 +1,4 @@
 require 'minitest/autorun'
-#require 'minitest/junit'
 require_relative '../lib/parchis/lobby_updater'
 
 class TestLobbyUpdater < MiniTest::Test

@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="Minitest::Result" tests="33" time="0.0206718" failures="0" errors="0" skipped="0" assertions="21" timestamp="2022-06-12T18:25:47-03:00">
+  <testcase name="test_draw" time="1.2500000593718141e-05" assertions="0">
+  </testcase>
+  <testcase name="test_draw" time="9.60000033956021e-06" assertions="0">
+  </testcase>
+  <testcase name="test_initialize_cells" time="0.00021399999968707561" assertions="1">
+  </testcase>
+  <testcase name="test_dice_rolled" time="0.00012969999806955457" assertions="0">
+  </testcase>
+  <testcase name="test_assign_color_to_players" time="0.0002502999996067956" assertions="4">
+  </testcase>
+  <testcase name="test_next_turn" time="0.00014390000069397502" assertions="1">
+  </testcase>
+  <testcase name="test_assign_tokens_to_players" time="0.00804229999994277" assertions="4">
+  </testcase>
+  <testcase name="test_set_unknown_state" time="4.099999932805076e-05" assertions="1">
+  </testcase>
+  <testcase name="test_can_roll_dice?" time="2.719999974942766e-05" assertions="1">
+  </testcase>
+  <testcase name="test_to_s" time="4.520000220509246e-05" assertions="1">
+  </testcase>
+  <testcase name="test_roll" time="4.769999941345304e-05" assertions="2">
+  </testcase>
+  <testcase name="test_draw_phase_3" time="5.4799998906673864e-05" assertions="0">
+  </testcase>
+  <testcase name="test_draw_phase_1" time="2.0700001186924055e-05" assertions="0">
+  </testcase>
+  <testcase name="test_update" time="1.849999898695387e-05" assertions="0">
+  </testcase>
+  <testcase name="test_initialize_phase_2" time="4.19999923906289e-06" assertions="0">
+  </testcase>
+  <testcase name="test_draw_phase_2" time="1.0200001270277426e-05" assertions="0">
+  </testcase>
+  <testcase name="test_draw_token" time="8.300001354655251e-06" assertions="0">
+  </testcase>
+  <testcase name="test_enqueue_error" time="3.7999998312443495e-06" assertions="0">
+  </testcase>
+  <testcase name="test_draw" time="3.4000004234258085e-06" assertions="0">
+  </testcase>
+  <testcase name="test_initialize_view" time="3.2999996619764715e-06" assertions="0">
+  </testcase>
+  <testcase name="test_capture_name" time="3.4000004234258085e-06" assertions="0">
+  </testcase>
+  <testcase name="test_reset_to_phase_1" time="3.2999996619764715e-06" assertions="0">
+  </testcase>
+  <testcase name="test_draw_cells_contents" time="3.4000004234258085e-06" assertions="0">
+  </testcase>
+  <testcase name="test_update" time="3.3399999665562063e-05" assertions="0">
+  </testcase>
+  <testcase name="test_join_lobby" time="1.3900000340072438e-05" assertions="0">
+  </testcase>
+  <testcase name="test_leave_lobby" time="1.0300002031726763e-05" assertions="0">
+  </testcase>
+  <testcase name="test_draw" time="6.900001608300954e-06" assertions="0">
+  </testcase>
+  <testcase name="test_roll" time="2.1600000764010474e-05" assertions="2">
+  </testcase>
+  <testcase name="test_place_token" time="1.590000101714395e-05" assertions="0">
+  </testcase>
+  <testcase name="test_get_length_coords" time="1.979999797185883e-05" assertions="1">
+  </testcase>
+  <testcase name="test_empty?" time="8.999999408842996e-06" assertions="1">
+  </testcase>
+  <testcase name="test_draw" time="6.420000136131421e-05" assertions="1">
+  </testcase>
+  <testcase name="test_update" time="2.2500000341096893e-05" assertions="1">
+  </testcase>
+</testsuite>

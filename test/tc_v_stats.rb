@@ -1,5 +1,4 @@
 require 'minitest/autorun'
-#require 'minitest/junit'
 require_relative '../lib/parchis/v_widget'
 require_relative '../lib/parchis/v_stats'
 

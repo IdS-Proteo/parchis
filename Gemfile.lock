@@ -4,7 +4,7 @@ GEM
     builder (3.2.4)
     gosu (1.4.3)
     minitest (5.15.0)
-    
+    ci-reporter (2.0.0)
     rake (13.0.6)
     webrick (1.7.0)
     yard (0.9.27)
@@ -16,7 +16,7 @@ PLATFORMS
 DEPENDENCIES
   bundler
   gosu (~> 1.4, >= 1.4.3)
-  minitest-junit
+  ci-reporter
   rake
   yard
 

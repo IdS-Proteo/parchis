@@ -11,8 +11,6 @@ require 'minitest'
 Rake::TestTask.new do |t|
   # search recursively under the folder test for files called ts*. There's only one, the general test suite.
   t.pattern = 'test/**/ts*.rb'
-  #generate xml file for jenkins NOT WORKING ATM BUT THIS IS WHAT SHOULD WORK
-  #t.options = '--junit --junit-filename=test/junit.xml --junit-jenkins'
 end
 
 task :default => :test
