@@ -12,9 +12,14 @@ class Dice
     set_unknown_state()
   end
 
-  # Sets @last_roll to 0.
+  # Sets @last_roll to 0 & @cant_roll_anymore_for_current_player to false.
   def set_unknown_state
     @last_roll = 0
     @cant_roll_anymore_for_current_player = false
+  end
+
+  # @param value [Integer]
+  def force_last_roll(value:)
+    @last_roll = value
   end
 end

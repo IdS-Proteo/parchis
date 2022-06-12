@@ -1,4 +1,5 @@
 # TODO: When a player leave, and somehow the server tells you, update this model. Need to erase that player from @players, and possibly touch @player_turn among possibly other things.
+# TODO: Players must be sort per color clockwise
 # Parchis #Board.
 class Board
 
@@ -40,18 +41,49 @@ class Board
     @players[@player_turn].can_roll_dice = true
   end
 
+  # @return [Boolean] true if all went good, false otherwise. False means that you've been left alone in the match.
   # Switches the turn to the next player.
   def next_turn
     # clean rights of current player
     @players[@player_turn].clear_rights()
-    # switch turn
-    if(@players[@player_turn + 1])
-      @player_turn = @player_turn + 1
+    # seek next player that should receive turn
+    if(@player_turn == (@players.length - 1))
+      # last player in the array, seek a new one from the beginning
+      0.upto(@players.length - 1) do |index|
+        if(@players[index])
+          if(@player_turn != index)
+            @player_turn = index
+          else
+            # you are the only player in the match
+            return false
+          end
+        end
+      end
     else
-      @player_turn = 0
+      index_forward_found = false
+      (@player_turn + 1).upto(@players.length - 1) do |index|
+        if(@players[index])
+          @player_turn = index
+          index_forward_found = true
+          break
+        end
+      end
+      if(!index_forward_found)
+        0.upto(@players.length - 1) do |index|
+          if(@players[index])
+            if(@player_turn != index)
+              @player_turn = index
+            else
+              # you are the only player in the match
+              return false
+            end
+          end
+        end
+      end
     end
     # make the new player able to cast the dice
     @players[@player_turn].can_roll_dice = true
+    true
   end
 
   # @param result [Integer]
@@ -103,6 +135,16 @@ class Board
     # perform the actual move
     eaten_token = @cells[cell_id].place_token(token) #: nil or Token
     send_token_to_its_house(eaten_token) if eaten_token
+  end
+
+  # @param player_id [Integer]
+  # Removes all his tokens from the board, among other things.
+  def player_quitted(player_id:)
+    player = @players[player_id]
+    player.tokens.each do |token|
+      token.cell.remove_token(token)
+    end
+    @players[player_id] = nil
   end
 
   private
