@@ -53,6 +53,7 @@ class Board
         if(@players[index])
           if(@player_turn != index)
             @player_turn = index
+            break
           else
             # you are the only player in the match
             return false
@@ -87,6 +88,7 @@ class Board
   end
 
   # @param result [Integer]
+  # @return [Symbol] player activity due to this dice cast.
   # Dice rolled by current player in turn.
   def dice_rolled(result:)
     player = @players[@player_turn] #: Player
@@ -111,6 +113,7 @@ class Board
       else
         check_possible_regular_moves(player, result)
     end
+    player.activity
   end
 
 =begin
@@ -129,12 +132,18 @@ class Board
       * use case 4.2: non-empty cell; different color token; existent token is going to be "eaten"
 =end
   def perform_move(token_label:, cells_to_move:, player:)
-    # inquire what is the target cell id
-    cell_id = (token = player[token_label]).cell.id #: Integer
-    cells_to_move.times {cell_id, going_backwards = get_next_player_cell_id(player: player, cell_id: cell_id, going_backwards: (going_backwards || false))}
-    # perform the actual move
-    eaten_token = @cells[cell_id].place_token(token) #: nil or Token
-    send_token_to_its_house(eaten_token) if eaten_token
+    # check if this is the special move of getting out a token from its house
+    if(player.activity == :taking_token_out_of_its_house)
+      # put this *token* in its house exit
+      @cells[Board.const_get("#{player.color.to_s.upcase}_HOUSE_EXIT_CELL".to_sym)].place_token(player[token_label])
+    else
+      # inquire what is the target cell id
+      cell_id = (token = player[token_label]).cell.id #: Integer
+      cells_to_move.times {cell_id, going_backwards = get_next_player_cell_id(player: player, cell_id: cell_id, going_backwards: (going_backwards || false))}
+      # perform the actual move
+      eaten_token = @cells[cell_id].place_token(token) #: nil or Token
+      send_token_to_its_house(eaten_token) if eaten_token
+    end
   end
 
   # @param player_id [Integer]
@@ -226,7 +235,8 @@ class Board
   # @return [Array(Integer, Boolean)] first item is next cell id, second item is if the token is going backwards
   # Don't call this for cells inside a house nor for cells in some finish cell. This is only for cells into play.
   def get_next_player_cell_id(player:, cell_id:, going_backwards: false)
-    pre_finish_cells = Board.const_get("#{player.color.to_s.upcase}_FIRST_PRE_FINISH_CELLS".to_sym) #: Array(Integer, Integer)
+    upcased_player_color = player.color.to_s.upcase
+    pre_finish_cells = Board.const_get("#{upcased_player_color}_FIRST_PRE_FINISH_CELLS".to_sym) #: Array(Integer, Integer)
     finish_slot = Board.const_get("#{upcased_player_color}_FINISH_CELL".to_sym) #: Integer
     if(cell_id == pre_finish_cells.first)
       [pre_finish_cells.last, false]
@@ -252,6 +262,9 @@ class Board
     end
   end
 
+  # @param player [Player]
+  # @param result [Integer]
+  # @return [Symbol] the current player activity according to dice cast
   def check_possible_regular_moves(player, result)
     if (!(tokens_in_play_that_can_be_moved = tokens_in_play_that_can_be_moved(player: player, cells_to_travel: result)).empty?)
       # can't draw a token from house but could move another token in play

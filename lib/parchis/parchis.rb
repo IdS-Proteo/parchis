@@ -116,26 +116,54 @@ class Parchis < Gosu::Window
               player_in_turn.can_roll_dice = false
               @rolling_dice_sfx.play()
               # as priority, send to the server the roll
-              @game_state_updater.event_processed(event_id: HTTPClient.post_dice_rolled(result: @dice.roll()))
-              @board.dice_rolled(result: @dice.last_roll())
+              @game_state_updater.event_processed(event_id: HTTPClient.post_dice_rolled(match_id: @match_id, result: @dice.roll()))
+              if(@board.dice_rolled(result: @dice.last_roll()) == :cant_do_anything && !judge_second_dice_cast(player_in_turn))
+                # end of turn, the player can't do anything
+                @game_state_updater.event_processed(event_id: HTTPClient.post_token_moved(match_id: @match_id, token_color: player_in_turn.color, token_label: 'Z', cells_to_move: 0, end_of_turn: true))
+                @board.next_turn
+                # delay the dice change of state to "?"
+                t = Thread.new {sleep(GameStateUpdater::UPDATE_INTERVAL); @dice.set_unknown_state()}
+                t.join
+                return
+              end
             end
           elsif(player_in_turn.activity != :cant_do_anything)
             if(player_in_turn.can_move_a? && button_down?(Gosu::KB_A))
-              @game_state_updater.event_processed(event_id: HTTPClient.post_token_moved(match_id: @match_id, token_color: player_in_turn.color, token_label: 'A', cells_to_move: @dice.last_roll, end_of_turn: !judge_second_dice_cast(player_in_turn)))
+              player_in_turn.clear_rights(reset_activity: false)
+              end_of_turn = !judge_second_dice_cast(player_in_turn)
+              @game_state_updater.event_processed(event_id: HTTPClient.post_token_moved(match_id: @match_id, token_color: player_in_turn.color, token_label: 'A', cells_to_move: @dice.last_roll, end_of_turn: end_of_turn))
               @board.perform_move(token_label: 'A', cells_to_move: @dice.last_roll, player: player_in_turn)
-              @board.next_turn if !judge_second_dice_cast(player_in_turn)
+              if(end_of_turn)
+                @board.next_turn
+                @dice.set_unknown_state
+              end
             elsif(player_in_turn.can_move_b? && button_down?(Gosu::KB_B))
-              @game_state_updater.event_processed(event_id: HTTPClient.post_token_moved(match_id: @match_id, token_color: player_in_turn.color, token_label: 'A', cells_to_move: @dice.last_roll, end_of_turn: !judge_second_dice_cast(player_in_turn)))
+              player_in_turn.clear_rights(reset_activity: false)
+              end_of_turn = !judge_second_dice_cast(player_in_turn)
+              @game_state_updater.event_processed(event_id: HTTPClient.post_token_moved(match_id: @match_id, token_color: player_in_turn.color, token_label: 'A', cells_to_move: @dice.last_roll, end_of_turn: end_of_turn))
               @board.perform_move(token_label: 'B', cells_to_move: @dice.last_roll, player: player_in_turn)
-              @board.next_turn if !judge_second_dice_cast(player_in_turn)
+              if(end_of_turn)
+                @board.next_turn
+                @dice.set_unknown_state
+              end
             elsif(player_in_turn.can_move_c? && button_down?(Gosu::KB_C))
-              @game_state_updater.event_processed(event_id: HTTPClient.post_token_moved(match_id: @match_id, token_color: player_in_turn.color, token_label: 'A', cells_to_move: @dice.last_roll, end_of_turn: !judge_second_dice_cast(player_in_turn)))
+              player_in_turn.clear_rights(reset_activity: false)
+              end_of_turn = !judge_second_dice_cast(player_in_turn)
+              @game_state_updater.event_processed(event_id: HTTPClient.post_token_moved(match_id: @match_id, token_color: player_in_turn.color, token_label: 'A', cells_to_move: @dice.last_roll, end_of_turn: end_of_turn))
               @board.perform_move(token_label: 'C', cells_to_move: @dice.last_roll, player: player_in_turn)
-              @board.next_turn if !judge_second_dice_cast(player_in_turn)
+              if(end_of_turn)
+                @board.next_turn
+                @dice.set_unknown_state
+              end
             elsif(player_in_turn.can_move_d? && button_down?(Gosu::KB_D))
-              @game_state_updater.event_processed(event_id: HTTPClient.post_token_moved(match_id: @match_id, token_color: player_in_turn.color, token_label: 'A', cells_to_move: @dice.last_roll, end_of_turn: !judge_second_dice_cast(player_in_turn)))
+              player_in_turn.clear_rights(reset_activity: false)
+              end_of_turn = !judge_second_dice_cast(player_in_turn)
+              @game_state_updater.event_processed(event_id: HTTPClient.post_token_moved(match_id: @match_id, token_color: player_in_turn.color, token_label: 'A', cells_to_move: @dice.last_roll, end_of_turn: end_of_turn))
               @board.perform_move(token_label: 'D', cells_to_move: @dice.last_roll, player: player_in_turn)
-              @board.next_turn if !judge_second_dice_cast(player_in_turn)
+              if(end_of_turn)
+                @board.next_turn
+                @dice.set_unknown_state
+              end
             end
           end
         end
@@ -207,7 +235,6 @@ class Parchis < Gosu::Window
       player_in_turn.clear_rights
       player_in_turn.can_roll_dice = true
     else
-      @dice.set_unknown_state
       false
     end
   end
@@ -278,7 +305,7 @@ class Parchis < Gosu::Window
       HTTPClient.post_match_started(match_id: @match_id, colors: @players.map {|player| player.color}, player_turn: @board.player_turn)
     end
     # initialize game updater
-    @game_state_updater = GameStateUpdater.new(match_id: @match_id, player_id: @player_id, board: @board, dice: @dice, players: @players)
+    @game_state_updater = GameStateUpdater.new(match_id: @match_id, player_id: @player_id, board: @board, dice: @dice, players: @players, rolling_dice_sfx: @rolling_dice_sfx)
     # widgets
     @v_countdown = VCountdown.new(font: @font_big_v)
     @v_actions = VActions.new(font: @font_v)
@@ -347,5 +374,8 @@ class Parchis < Gosu::Window
     @tokens_v[token.color].draw(coords[:x], coords[:y], 1)
     # draw its label, i.e.: "A", "B", ...
     @font_v.draw_text(token.label, coords[:x] + 7, coords[:y] + 5, 2, 1, 1, 0xff_000000)
+  rescue
+    p token
+    p coords
   end
 end

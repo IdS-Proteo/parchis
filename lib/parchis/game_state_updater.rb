@@ -8,14 +8,16 @@ class GameStateUpdater
   # @param board [Board]
   # @param dice [Dice]
   # @param players [Array<Player>]
+  # @param rolling_dice_sfx [Gosu::Sample]
   # Constructor.
-  def initialize(match_id:, player_id:, board:, dice:, players:)
+  def initialize(match_id:, player_id:, board:, dice:, players:, rolling_dice_sfx:)
     @events_processed = {}
     @match_id = match_id
     @last_update = Time.now
     @board = board
     @dice = dice
     @players = players
+    @rolling_dice_sfx = rolling_dice_sfx
   end
 
   # @param event_id [Integer]
@@ -37,7 +39,7 @@ class GameStateUpdater
       if(last_events = HTTPClient.get_game_last_events(match_id: @match_id))
         last_events.each do |event|
           # each event looks like {'ev' => 'dr4', 'id' => 51}
-          if(!@event_processed.has_key?(event['id']))
+          if(!@events_processed.has_key?(event['id']))
             # process this event now
             code = event['ev'] #: String
             case code[0..1]
@@ -48,16 +50,23 @@ class GameStateUpdater
                 @dice.force_last_roll(value: roll_value)
                 @board.dice_rolled(result: roll_value)
               when 'tm'
-                # token moved event
-                player = nil
-                @players.each do |_player|
-                  next if !_player
-                  if(_player.color.to_s.[](1) == code[2])
-                    player = _player
-                    break
+                # token moved event, but it could be just an end of turn event
+                if((cells_to_move = code[4].to_i) != 0)
+                  player = nil
+                  @players.each do |_player|
+                    next if !_player
+                    if(_player.color.to_s.[](0) == code[2])
+                      player = _player
+                      break
+                    end
                   end
+                  @board.perform_move(token_label: code[3], cells_to_move: cells_to_move, player: player)
                 end
-                @board.perform_move(token_label: code[3], cells_to_move: code[4].to_i, player: player)
+                # if it's the end of the turn, make it happen
+                if(code[-1] == 't')
+                  @board.next_turn()
+                  @dice.set_unknown_state()
+                end
               when 'pq'
                 # player quitted event
                 @board.player_quitted(code[-1].to_i)
@@ -67,9 +76,10 @@ class GameStateUpdater
           end
         end
       else
-        false
+        return false
       end
     end
+    true
   rescue => e
     warn("Error: #{e.class}.")
     warn("Message: #{e.message}.")

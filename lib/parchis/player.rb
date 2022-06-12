@@ -55,13 +55,13 @@ class Player
   end
 
   # This player has no rights.
-  def clear_rights
+  def clear_rights(reset_activity: true)
     @can_roll_dice = false
     @can_move_a = false
     @can_move_b = false
     @can_move_c = false
     @can_move_d = false
-    @activity = nil
+    @activity = nil if reset_activity
   end
 
   # @param tokens [Array<Token>]
