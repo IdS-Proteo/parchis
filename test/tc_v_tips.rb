@@ -32,4 +32,8 @@ class TestVTips < MiniTest::Test
     end
   end
 
+  def test_draw
+    #to be implemented
+  end
+
 end

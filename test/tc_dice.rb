@@ -12,4 +12,8 @@ class TestDice < MiniTest::Test
     refute @dice.set_unknown_state
   end
 
+  def test_force_last_roll
+    #to be implemented
+  end
+
 end

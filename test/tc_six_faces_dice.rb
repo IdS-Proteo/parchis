@@ -14,7 +14,7 @@ class TestSixFacesDice < MiniTest::Test
 
     if(@last_roll == 6)
     if ((@last_roll = rand(1..6)) == 6)
-      #esto tiene que haber una mejor manera pero no sé cuál
+      #this is to be implemented better (placeholder)
       assert(self.class.include(SevenFacesDice))
     end
       @last_roll

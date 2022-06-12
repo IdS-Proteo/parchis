@@ -14,8 +14,16 @@ class TestCell < MiniTest::Test
     #assert @cell.place_token(@token)
   end
 
+  def test_remove_token
+    #to be implemented
+  end
+
   def test_empty?
     assert @cell.empty?
+  end
+
+  def test_barrier?
+    #to be implemented
   end
 
 end

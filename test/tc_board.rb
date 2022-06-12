@@ -42,6 +42,14 @@ class TestBoard < MiniTest::Test
 
   end
 
+  def test_perform_move
+    #to be implemented
+  end
+
+  def test_player_quitted
+    #to be implemented
+  end
+
   def test_assign_tokens_to_players
     #UT009
     #UT107
@@ -76,6 +84,26 @@ class TestBoard < MiniTest::Test
     refute_equal(@player1.color, @player5.color)
   end
 
+  def test_tokens_in_play_that_can_be_moved_to_
+    #to be implemented
+  end
+
+  def test_get_next_player_cell_ident
+    #to be implemented
+  end
+
+  def test_tokens_in_barriers_that_can_be_moved
+    #to be implemented
+  end
+
+  def test_check_possible_regular_moves
+    #to be implemented
+  end
+
+  def test_send_token_to_its_house
+    #to be implemented
+  end
+  
 end
 
 
