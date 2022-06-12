@@ -6,7 +6,7 @@ group :development do
   gem 'rake'
   gem 'bundler'
   gem 'yard'
-  gem 'minitest-junit'
+  #gem 'minitest-junit'
 end
 
 group :production do

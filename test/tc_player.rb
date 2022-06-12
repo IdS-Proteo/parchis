@@ -1,5 +1,5 @@
 require 'minitest/autorun'
-require 'minitest/junit'
+#require 'minitest/junit'
 require_relative '../lib/parchis/player'
 
 class TestPlayer < MiniTest::Test

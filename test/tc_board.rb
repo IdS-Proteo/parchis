@@ -1,5 +1,5 @@
 require 'minitest/autorun'
-require 'minitest/junit'
+#require 'minitest/junit'
 require_relative '../lib/parchis/board'
 require_relative '../lib/parchis/player'
 require_relative '../lib/parchis/token'
@@ -25,7 +25,7 @@ class TestBoard < MiniTest::Test
     @board.next_turn
     if((@turn + 1) == 4)
       assert_equal(0, @board.player_turn)
-    elsif
+    else
       assert_equal(@turn + 1, @board.player_turn)
     end
   end

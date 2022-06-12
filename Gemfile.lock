@@ -4,9 +4,7 @@ GEM
     builder (3.2.4)
     gosu (1.4.3)
     minitest (5.15.0)
-    minitest-junit (1.1.0)
-      builder (~> 3.2)
-      minitest (~> 5.11)
+    
     rake (13.0.6)
     webrick (1.7.0)
     yard (0.9.27)

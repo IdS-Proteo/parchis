@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="Minitest::Result" tests="33" time="0.0080757" failures="1" errors="3" skipped="0" assertions="19" timestamp="2022-06-12T18:04:23-03:00">
+  <testcase name="test_to_s" time="2.4599998141638935e-05" assertions="1">
+  </testcase>
+  <testcase name="test_can_roll_dice?" time="1.049999991664663e-05" assertions="1">
+  </testcase>
+  <testcase name="test_draw" time="3.5799999750452116e-05" assertions="1">
+  </testcase>
+  <testcase name="test_initialize_phase_2" time="5.699999746866524e-06" assertions="0">
+  </testcase>
+  <testcase name="test_update" time="2.4000000848900527e-06" assertions="0">
+  </testcase>
+  <testcase name="test_draw_token" time="2.2999993234407157e-06" assertions="0">
+  </testcase>
+  <testcase name="test_draw_cells_contents" time="1.9999970390927047e-06" assertions="0">
+  </testcase>
+  <testcase name="test_draw_phase_3" time="2.0999978005420417e-06" assertions="0">
+  </testcase>
+  <testcase name="test_reset_to_phase_1" time="2.1999985619913787e-06" assertions="0">
+  </testcase>
+  <testcase name="test_initialize_view" time="2.1000014385208488e-06" assertions="0">
+  </testcase>
+  <testcase name="test_draw" time="2.1999985619913787e-06" assertions="0">
+  </testcase>
+  <testcase name="test_enqueue_error" time="1.9999970390927047e-06" assertions="0">
+  </testcase>
+  <testcase name="test_capture_name" time="2.4000000848900527e-06" assertions="0">
+  </testcase>
+  <testcase name="test_draw_phase_1" time="2.0000006770715117e-06" assertions="0">
+  </testcase>
+  <testcase name="test_draw_phase_2" time="2.0000006770715117e-06" assertions="0">
+  </testcase>
+  <testcase name="test_draw" time="5.100002454128116e-06" assertions="0">
+  </testcase>
+  <testcase name="test_draw" time="4.6000022848602384e-06" assertions="0">
+  </testcase>
+  <testcase name="test_roll" time="2.049999966402538e-05" assertions="2">
+  </testcase>
+  <testcase name="test_roll" time="1.3299999409355223e-05" assertions="2">
+  </testcase>
+  <testcase name="test_place_token" time="8.069999967119657e-05" assertions="0">
+    <error type="ArgumentError" message="ArgumentError: wrong number of arguments (given 3, expected 2)...">
+ArgumentError: wrong number of arguments (given 3, expected 2)
+    C:/Users/julib/Documents/GitHub/parchis/lib/parchis/token.rb:10:in `initialize'
+    C:/Users/julib/Documents/GitHub/parchis/test/tc_cell.rb:11:in `new'
+    C:/Users/julib/Documents/GitHub/parchis/test/tc_cell.rb:11:in `setup' (ArgumentError)
+C:/Users/julib/Documents/GitHub/parchis/lib/parchis/token.rb:10    </error>
+  </testcase>
+  <testcase name="test_get_length_coords" time="4.0899998566601425e-05" assertions="0">
+    <error type="ArgumentError" message="ArgumentError: wrong number of arguments (given 3, expected 2)...">
+ArgumentError: wrong number of arguments (given 3, expected 2)
+    C:/Users/julib/Documents/GitHub/parchis/lib/parchis/token.rb:10:in `initialize'
+    C:/Users/julib/Documents/GitHub/parchis/test/tc_cell.rb:11:in `new'
+    C:/Users/julib/Documents/GitHub/parchis/test/tc_cell.rb:11:in `setup' (ArgumentError)
+C:/Users/julib/Documents/GitHub/parchis/lib/parchis/token.rb:10    </error>
+  </testcase>
+  <testcase name="test_empty?" time="4.059999992023222e-05" assertions="0">
+    <error type="ArgumentError" message="ArgumentError: wrong number of arguments (given 3, expected 2)...">
+ArgumentError: wrong number of arguments (given 3, expected 2)
+    C:/Users/julib/Documents/GitHub/parchis/lib/parchis/token.rb:10:in `initialize'
+    C:/Users/julib/Documents/GitHub/parchis/test/tc_cell.rb:11:in `new'
+    C:/Users/julib/Documents/GitHub/parchis/test/tc_cell.rb:11:in `setup' (ArgumentError)
+C:/Users/julib/Documents/GitHub/parchis/lib/parchis/token.rb:10    </error>
+  </testcase>
+  <testcase name="test_draw" time="4.900000931229442e-06" assertions="0">
+  </testcase>
+  <testcase name="test_next_turn" time="0.0001534000002720859" assertions="1">
+  </testcase>
+  <testcase name="test_dice_rolled" time="0.00017440000010537915" assertions="0">
+  </testcase>
+  <testcase name="test_assign_color_to_players" time="0.00012910000077681616" assertions="4">
+  </testcase>
+  <testcase name="test_initialize_cells" time="0.000972999998339219" assertions="1">
+  </testcase>
+  <testcase name="test_assign_tokens_to_players" time="0.0001367999975627754" assertions="4">
+  </testcase>
+  <testcase name="test_leave_lobby" time="1.3900000340072438e-05" assertions="0">
+  </testcase>
+  <testcase name="test_join_lobby" time="5.599998985417187e-06" assertions="0">
+  </testcase>
+  <testcase name="test_update" time="4.599998646881431e-06" assertions="0">
+  </testcase>
+  <testcase name="test_update" time="1.930000144056976e-05" assertions="1">
+  </testcase>
+  <testcase name="test_set_unknown_state" time="5.199999941396527e-05" assertions="1">
+    <failure type="Minitest::Assertion" message="Expected: 0...">
+Expected: 0
+  Actual: false (Minitest::Assertion)
+C:/Users/julib/Documents/GitHub/parchis/test/tc_dice.rb:13    </failure>
+  </testcase>
+</testsuite>
