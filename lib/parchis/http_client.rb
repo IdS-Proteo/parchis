@@ -144,20 +144,37 @@ class HTTPClient
 =end
 
   # @param match_id [String]
+  # @return [Array<Hash<String, Object>>, nil] nil if something went wrong such as match non existent.
+  def self.get_game_last_events(match_id:)
+    # prepare and send call
+    params = {"match_id" => match_id}
+    uri = URI("#{ROOT_URL}/game_last_events")
+    uri.query = URI.encode_www_form(params)
+    response = Net::HTTP.get_response(uri, {'Accept' => 'application/json'})
+    # parse response
+    if(response.code == '200')
+      JSON.parse(response.body).[]('levs') #: Array<Hash<String, Object>> such as [{'ev' => 'dr4', 'id' => 51}, ...]
+    else
+      nil
+    end
+  end
+
+  # @param match_id [String]
   # @param result [Integer] of the roll
   def self.post_dice_rolled(match_id:, result:)
     body = {'match_id' => match_id, 'dr' => result}.to_json
-    Net::HTTP.post(URI("#{ROOT_URL}/dice_rolled"), body, {'Content-Type' => 'application/json'})
+    Net::HTTP.post(URI("#{ROOT_URL}/dice_rolled"), body, {'Content-Type' => 'application/json', 'Accept' => 'text/plain'}).body.to_i
   end
 
   # @param match_id [String]
   # @param token_color [Symbol]
   # @param token_label [String]
   # @param cells_to_move [Integer]
+  # @param end_of_turn [Boolean]
   # This could also post the end of the turn.
-  def self.post_token_moved(match_id:, token_color:, token_label:, cells_to_move:)
-    body = {'match_id' => match_id, 'tm' => "#{token_color.to_s.[](0)}#{token_label}#{cells_to_move}"}.to_json
-    Net::HTTP.post(URI("#{ROOT_URL}/token_moved"), body, {'Content-Type' => 'application/json'})
+  def self.post_token_moved(match_id:, token_color:, token_label:, cells_to_move:, end_of_turn:)
+    body = {'match_id' => match_id, 'tm' => "#{token_color.to_s.[](0)}#{token_label}#{cells_to_move}#{end_of_turn ? 't' : 'f'}"}.to_json
+    Net::HTTP.post(URI("#{ROOT_URL}/token_moved"), body, {'Content-Type' => 'application/json', 'Accept' => 'text/plain'}).body.to_i
   end
 
   # @param match_id [String]
