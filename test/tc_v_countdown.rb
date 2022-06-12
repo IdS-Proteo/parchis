@@ -1,5 +1,5 @@
 require 'minitest/autorun'
-#require 'minitest/junit'
+require 'minitest/junit'
 require_relative '../lib/parchis/v_widget'
 require_relative '../lib/parchis/v_countdown'
 
@@ -14,6 +14,7 @@ class TestVCountdown < MiniTest::Test
   end
 
   def test_draw
+    #UT118
     assert_in_delta(60, @countdown, 60)
   end
 
