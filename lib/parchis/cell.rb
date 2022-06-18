@@ -165,6 +165,8 @@ class Cell
         @tokens << token
       end
     end
+    # remove this token from previous cell
+    token.cell.remove_token(token: token) if token.cell
     # make the token know that it belongs to this cell now
     token.cell = self
     @last_token = token
@@ -191,6 +193,6 @@ class Cell
   # @return [Boolean]
   # Don't ask this for a cell that is a finish cell.
   def barrier?
-    @tokens.size == 2 && (t1c = @token.first.color) && (@token.last.color == t1c)
+    @tokens.size == 2 && (t1c = @tokens.first.color) && (@tokens.last.color == t1c)
   end
 end

@@ -24,6 +24,7 @@ require_relative 'parchis/v_current_turn'
 require_relative 'parchis/v_tips'
 require_relative 'parchis/game_state_updater'
 require_relative 'parchis/lobby_updater'
+require_relative 'parchis/delayer'
 
 # initialize app
 parchis = Parchis.new
@@ -34,6 +35,6 @@ at_exit do
     when 2
       parchis.lobby_updater.leave_lobby()
     when 3
-
+      parchis.game_state_updater.leave_game()
   end
 end

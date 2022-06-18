@@ -1,9 +1,7 @@
-# TODO: When a player leave, and somehow the server tells you, update this model. Need to erase that player from @players, and possibly touch @player_turn among possibly other things.
-# TODO: Players must be sort per color clockwise
 # Parchis #Board.
 class Board
 
-  COLORS = [:red, :green, :blue, :yellow].freeze
+  COLORS = [:red, :blue, :yellow, :green].freeze
   FINISH_CELLS = [76, 84, 92, 100].freeze
   SAFE_CELLS = [5, 12, 17, 22, 29, 34, 39, 46, 51, 56, 63, 68].freeze
   YELLOW_HOUSE_CELLS = 101..104
@@ -44,8 +42,8 @@ class Board
   # @return [Boolean] true if all went good, false otherwise. False means that you've been left alone in the match.
   # Switches the turn to the next player.
   def next_turn
-    # clean rights of current player
-    @players[@player_turn].clear_rights()
+    # clean rights of current player (if exist)
+    @players[@player_turn].clear_rights() if @players[@player_turn]
     # seek next player that should receive turn
     if(@player_turn == (@players.length - 1))
       # last player in the array, seek a new one from the beginning
@@ -147,13 +145,18 @@ class Board
   end
 
   # @param player_id [Integer]
+  # @return [Boolean] false if you're the only player left
   # Removes all his tokens from the board, among other things.
   def player_quitted(player_id:)
     player = @players[player_id]
     player.tokens.each do |token|
-      token.cell.remove_token(token)
+      token.cell.remove_token(token: token)
     end
     @players[player_id] = nil
+    if(@player_turn == player_id)
+      return next_turn()
+    end
+    true
   end
 
   private
@@ -176,10 +179,18 @@ class Board
     Cell::COORDS.size.times {|i| @cells << Cell.new(i)}
   end
 
-  # Assign color to each player from @players. This is done randomly.
+  # Assign color to each player from @players. This is done randomly but clockwise.
   def assign_color_to_players
-    colors_not_picked = COLORS.dup
-    @players.each {|player| player.color = colors_not_picked.delete(colors_not_picked.sample)}
+    color_id = rand(0..(COLORS.size - 1))
+    player_id_with_first_color = rand(0..(@players.size - 1))
+    @players[player_id_with_first_color].color = COLORS[color_id]
+    next_player_id = @players[player_id_with_first_color + 1] ? player_id_with_first_color + 1 : 0
+    while(!@players[next_player_id].color)
+      color_id = COLORS[color_id + 1] ? color_id + 1 : 0
+      @players[next_player_id].color = COLORS[color_id]
+      # next player
+      next_player_id = @players[next_player_id + 1] ? next_player_id + 1 : 0
+    end
   end
 
   # @param player [Player]

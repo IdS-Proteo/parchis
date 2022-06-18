@@ -33,6 +33,9 @@ class GameStateUpdater
   # @return [Boolean] false if couldn't update, true otherwise.
   # Called 60 times per second.
   def update
+    # update the delayed events
+    Delayer.update()
+    # next code gets executed only once in a while
     if((Time.now - @last_update) > UPDATE_INTERVAL)
       @last_update = Time.now
       # retrieve last game events
@@ -64,12 +67,12 @@ class GameStateUpdater
                 end
                 # if it's the end of the turn, make it happen
                 if(code[-1] == 't')
-                  @board.next_turn()
-                  @dice.set_unknown_state()
+                  # delay the dice change of state to "?" and next turn
+                  Delayer.new(GameStateUpdater::UPDATE_INTERVAL) {@board.next_turn; @dice.set_unknown_state()}
                 end
               when 'pq'
                 # player quitted event
-                @board.player_quitted(code[-1].to_i)
+                @board.player_quitted(player_id: code[-1].to_i)
             end
             # register that this event was processed
             event_processed(event_id: event['id'], event: code)
@@ -80,9 +83,11 @@ class GameStateUpdater
       end
     end
     true
+=begin
   rescue => e
     warn("Error: #{e.class}.")
     warn("Message: #{e.message}.")
     false
+=end
   end
 end

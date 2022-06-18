@@ -16,7 +16,7 @@ class Parchis < Gosu::Window
   BORDERS = 11
   ASSETS_PATH = "#{File.dirname(File.dirname(File.dirname(__FILE__)))}/assets".freeze
 
-  attr_reader :lobby_updater, :phase
+  attr_reader :lobby_updater, :phase, :game_state_updater
 
   # Constructor.
   def initialize
@@ -120,12 +120,10 @@ class Parchis < Gosu::Window
               if(@board.dice_rolled(result: @dice.last_roll()) == :cant_do_anything && !judge_second_dice_cast(player_in_turn))
                 # end of turn, the player can't do anything
                 @game_state_updater.event_processed(event_id: HTTPClient.post_token_moved(match_id: @match_id, token_color: player_in_turn.color, token_label: 'Z', cells_to_move: 0, end_of_turn: true))
-                @board.next_turn
-                # delay the dice change of state to "?"
-                # TODO: Fix later... this is not working
-                t = Thread.new {sleep(GameStateUpdater::UPDATE_INTERVAL); @dice.set_unknown_state()}
-                t.join
-                return
+                # don't allow this player to interact anymore on this turn
+                player_in_turn.clear_rights()
+                # delay the dice change of state to "?" and next turn
+                Delayer.new(GameStateUpdater::UPDATE_INTERVAL) {@board.next_turn; @dice.set_unknown_state()}
               end
             end
           elsif(player_in_turn.activity != :cant_do_anything)
@@ -135,34 +133,34 @@ class Parchis < Gosu::Window
               @game_state_updater.event_processed(event_id: HTTPClient.post_token_moved(match_id: @match_id, token_color: player_in_turn.color, token_label: 'A', cells_to_move: @dice.last_roll, end_of_turn: end_of_turn))
               @board.perform_move(token_label: 'A', cells_to_move: @dice.last_roll, player: player_in_turn)
               if(end_of_turn)
-                @board.next_turn
+                enqueue_error("Eres el único jugador que queda en la partida.") if !@board.next_turn
                 @dice.set_unknown_state
               end
             elsif(player_in_turn.can_move_b? && button_down?(Gosu::KB_B))
               player_in_turn.clear_rights(reset_activity: false)
               end_of_turn = !judge_second_dice_cast(player_in_turn)
-              @game_state_updater.event_processed(event_id: HTTPClient.post_token_moved(match_id: @match_id, token_color: player_in_turn.color, token_label: 'A', cells_to_move: @dice.last_roll, end_of_turn: end_of_turn))
+              @game_state_updater.event_processed(event_id: HTTPClient.post_token_moved(match_id: @match_id, token_color: player_in_turn.color, token_label: 'B', cells_to_move: @dice.last_roll, end_of_turn: end_of_turn))
               @board.perform_move(token_label: 'B', cells_to_move: @dice.last_roll, player: player_in_turn)
               if(end_of_turn)
-                @board.next_turn
+                enqueue_error("Eres el único jugador que queda en la partida.") if !@board.next_turn
                 @dice.set_unknown_state
               end
             elsif(player_in_turn.can_move_c? && button_down?(Gosu::KB_C))
               player_in_turn.clear_rights(reset_activity: false)
               end_of_turn = !judge_second_dice_cast(player_in_turn)
-              @game_state_updater.event_processed(event_id: HTTPClient.post_token_moved(match_id: @match_id, token_color: player_in_turn.color, token_label: 'A', cells_to_move: @dice.last_roll, end_of_turn: end_of_turn))
+              @game_state_updater.event_processed(event_id: HTTPClient.post_token_moved(match_id: @match_id, token_color: player_in_turn.color, token_label: 'C', cells_to_move: @dice.last_roll, end_of_turn: end_of_turn))
               @board.perform_move(token_label: 'C', cells_to_move: @dice.last_roll, player: player_in_turn)
               if(end_of_turn)
-                @board.next_turn
+                enqueue_error("Eres el único jugador que queda en la partida.") if !@board.next_turn
                 @dice.set_unknown_state
               end
             elsif(player_in_turn.can_move_d? && button_down?(Gosu::KB_D))
               player_in_turn.clear_rights(reset_activity: false)
               end_of_turn = !judge_second_dice_cast(player_in_turn)
-              @game_state_updater.event_processed(event_id: HTTPClient.post_token_moved(match_id: @match_id, token_color: player_in_turn.color, token_label: 'A', cells_to_move: @dice.last_roll, end_of_turn: end_of_turn))
+              @game_state_updater.event_processed(event_id: HTTPClient.post_token_moved(match_id: @match_id, token_color: player_in_turn.color, token_label: 'D', cells_to_move: @dice.last_roll, end_of_turn: end_of_turn))
               @board.perform_move(token_label: 'D', cells_to_move: @dice.last_roll, player: player_in_turn)
               if(end_of_turn)
-                @board.next_turn
+                enqueue_error("Eres el único jugador que queda en la partida.") if !@board.next_turn
                 @dice.set_unknown_state
               end
             end
@@ -173,8 +171,10 @@ class Parchis < Gosu::Window
         # update widgets
         @v_tips.update()
     end
+=begin
   rescue StandardError, SystemExit
     if(@phase.first == 2) then @lobby_updater.leave_lobby() end
+=end
   end
 
   # Called 60 times per second. Draws the graphics.
