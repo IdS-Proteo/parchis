@@ -1,5 +1,4 @@
 # TODO: Code end of turn due to timeout of the turn.
-# TODO: Add delay (3 seconds is ok) between turn end and the next one.
 
 require 'gosu'
 
@@ -104,6 +103,13 @@ class Parchis < Gosu::Window
           @players = response
         end
       when 3
+        # reset to phase 1 if you're the only player playing
+        if(@players.compact.size <= 1)
+          reset_to_phase_1()
+          enqueue_error("Te hemos desconectado de la partida porque has quedado solo.")
+          return
+        end
+        # input check
         if(button_down?(Gosu::KB_ESCAPE) && (button_down?(Gosu::KB_LEFT_SHIFT) || button_down?(Gosu::KB_RIGHT_SHIFT)))
           # quit this match
           @game_state_updater.leave_game()
@@ -133,7 +139,7 @@ class Parchis < Gosu::Window
               @game_state_updater.event_processed(event_id: HTTPClient.post_token_moved(match_id: @match_id, token_color: player_in_turn.color, token_label: 'A', cells_to_move: @dice.last_roll, end_of_turn: end_of_turn))
               @board.perform_move(token_label: 'A', cells_to_move: @dice.last_roll, player: player_in_turn)
               if(end_of_turn)
-                enqueue_error("Eres el único jugador que queda en la partida.") if !@board.next_turn
+                @board.next_turn
                 @dice.set_unknown_state
               end
             elsif(player_in_turn.can_move_b? && button_down?(Gosu::KB_B))
@@ -142,7 +148,7 @@ class Parchis < Gosu::Window
               @game_state_updater.event_processed(event_id: HTTPClient.post_token_moved(match_id: @match_id, token_color: player_in_turn.color, token_label: 'B', cells_to_move: @dice.last_roll, end_of_turn: end_of_turn))
               @board.perform_move(token_label: 'B', cells_to_move: @dice.last_roll, player: player_in_turn)
               if(end_of_turn)
-                enqueue_error("Eres el único jugador que queda en la partida.") if !@board.next_turn
+                @board.next_turn
                 @dice.set_unknown_state
               end
             elsif(player_in_turn.can_move_c? && button_down?(Gosu::KB_C))
@@ -151,7 +157,7 @@ class Parchis < Gosu::Window
               @game_state_updater.event_processed(event_id: HTTPClient.post_token_moved(match_id: @match_id, token_color: player_in_turn.color, token_label: 'C', cells_to_move: @dice.last_roll, end_of_turn: end_of_turn))
               @board.perform_move(token_label: 'C', cells_to_move: @dice.last_roll, player: player_in_turn)
               if(end_of_turn)
-                enqueue_error("Eres el único jugador que queda en la partida.") if !@board.next_turn
+                @board.next_turn
                 @dice.set_unknown_state
               end
             elsif(player_in_turn.can_move_d? && button_down?(Gosu::KB_D))
@@ -160,7 +166,7 @@ class Parchis < Gosu::Window
               @game_state_updater.event_processed(event_id: HTTPClient.post_token_moved(match_id: @match_id, token_color: player_in_turn.color, token_label: 'D', cells_to_move: @dice.last_roll, end_of_turn: end_of_turn))
               @board.perform_move(token_label: 'D', cells_to_move: @dice.last_roll, player: player_in_turn)
               if(end_of_turn)
-                enqueue_error("Eres el único jugador que queda en la partida.") if !@board.next_turn
+                @board.next_turn
                 @dice.set_unknown_state
               end
             end
@@ -309,10 +315,14 @@ class Parchis < Gosu::Window
     @game_state_updater = GameStateUpdater.new(match_id: @match_id, player_id: @player_id, board: @board, dice: @dice, players: @players, rolling_dice_sfx: @rolling_dice_sfx)
     # widgets
     @v_countdown = VCountdown.new(font: @font_big_v)
-    @v_actions = VActions.new(font: @font_v)
+    @v_actions = VActions.new(board: @board, dice: @dice, font: @font_v)
     @v_stats = VStats.new(font: @font_v)
     @v_tips = VTips.new(font: @font_v)
     @v_current_turn = VCurrentTurn.new(board: @board, font: @font_big_v)
+    # subscribe some widgets to the Board#next_turn() event
+    @board.add_subscribers_to_next_turn(@v_countdown, @v_current_turn, @v_stats, @v_actions)
+    @board.add_subscribers_to_dice_rolled(@v_stats, @v_actions)
+    @board.add_subscribers_to_perform_move(@v_stats, @v_actions)
     # switch to phase 3
     @phase = [3]
   end

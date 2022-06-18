@@ -7,14 +7,12 @@ class VCountdown < VWidget
   Y_POS = 28
   Z_POS = 1
 
-  # @param font [Gosu::Font]
-  def initialize(font: nil)
-    super
-    reset_countdown()
-  end
-
   def reset_countdown
     @countdown_start = Time.now
+  end
+
+  def update
+    reset_countdown()
   end
 
   # Draw the widget.

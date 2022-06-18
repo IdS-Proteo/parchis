@@ -1,16 +1,19 @@
 # Visual widget for phase #3. It shows different tips, feedback and else.
 class VTips < VWidget
 
-  # TODO: Write tips. These are placeholders.
-  TIPS = ['Cuando sea tu turno, arrojás tu dado pulsando [Spacebar].',
-          'Si rolás un 6, tenés un segundo turno.',
-          'Con un 5, podés sacar una ficha a la salida de tu casa.',
+  # TODO: Agregar mantener presionado
+  TIPS = ['Para ejecutar acción, presiona un momento la debida tecla.',
+          'Cuando sea tu turno, arrojas el dado manteniendo [Spacebar].',
+          'Si arrojas un 6, tienes un segundo turno.',
+          'Solo con un 5, puedes (debes) sacar una ficha de tu casa.',
           '2 fichas de igual color en un casillero forman una barrera.',
-          'La barrera se rompe si el dueño saca un 6 o tiene 2 fichas.',
-          'Llegás a la meta roland un número exacto o rebotás.',
-          'Al llegar a la meta, o ganaste o avanzás 10 con otra ficha.',
-          'Si te encontrás con una barrera, no podés avanzar.',
-          'En una celda "segura" pueden coexistir dos fichas.'].freeze
+          'Tu barrera debe romperse si sacas un 6.',
+          'Tu barrera debe romperse si solo puedes mover sus fichas.',
+          'Debes sacar el número exacto para llegar a la meta o rebotas.',
+          'Si te encuentras con una barrera, no puedes avanzar.',
+          'En una celda "segura" pueden coexistir dos fichas cualquiera.',
+          'Las celdas seguras son aquellas que tienen un círculo.',
+          'El 3° en arribar a celda segura llena, "come" el último.'].freeze
 
   X_POS = 716
   Y_POS = 326
@@ -20,9 +23,9 @@ class VTips < VWidget
 
   # @param font [Gosu::Font]
   def initialize(font: nil)
-    super
     @last_change = Time.now
     @current_tip = 0
+    super
   end
 
   # Called 60 times per second.

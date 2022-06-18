@@ -13,12 +13,16 @@ class VCurrentTurn < VWidget
 
   # @param board [Board]
   def initialize(board:, font: nil)
-    super(font: font)
     @board = board
+    super(font: font)
+  end
+
+  def update
+    player_turn = @board.players[@board.player_turn]
+    @string = "<c=000000>Turno actual:</c> <c=#{COLOR_SYM_TO_HEX_MAP[player_turn.color]}>#{player_turn}</c>"
   end
 
   def draw
-    player_turn = @board.players[@board.player_turn]
-    @font.draw_markup("<c=000000>Turno actual:</c> <c=#{COLOR_SYM_TO_HEX_MAP[player_turn.color]}>#{player_turn}</c>", X_POS, Y_POS, Z_POS, 1, 1)
+    @font.draw_markup(@string, X_POS, Y_POS, Z_POS, 1, 1)
   end
 end

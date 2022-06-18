@@ -37,6 +37,10 @@ class Board
     @player_turn = player_turn || (rand(1..players.length) - 1)
     # this player can already roll the dice
     @players[@player_turn].can_roll_dice = true
+    # subscribers (strategy pattern)
+    @next_turn_subscribers = []
+    @dice_rolled_subscribers = []
+    @perform_move_subscribers = []
   end
 
   # @return [Boolean] true if all went good, false otherwise. False means that you've been left alone in the match.
@@ -82,6 +86,8 @@ class Board
     end
     # make the new player able to cast the dice
     @players[@player_turn].can_roll_dice = true
+    # alert subscribers
+    @next_turn_subscribers.each {|s| s.update()}
     true
   end
 
@@ -111,6 +117,8 @@ class Board
       else
         check_possible_regular_moves(player, result)
     end
+    # alert subscribers
+    @dice_rolled_subscribers.each {|s| s.update()}
     player.activity
   end
 
@@ -142,6 +150,10 @@ class Board
       eaten_token = @cells[cell_id].place_token(token) #: nil or Token
       send_token_to_its_house(eaten_token) if eaten_token
     end
+    # activity completed
+    player.activity = nil
+    # alert subscribers
+    @perform_move_subscribers.each {|s| s.update()}
   end
 
   # @param player_id [Integer]
@@ -157,6 +169,21 @@ class Board
       return next_turn()
     end
     true
+  end
+
+  # @param subscriber [Object] object passed must have update() implemented
+  def add_subscribers_to_next_turn(*subscriber)
+    @next_turn_subscribers.concat(subscriber)
+  end
+
+  # @param subscriber [Object] object passed must have update() implemented
+  def add_subscribers_to_dice_rolled(*subscriber)
+    @dice_rolled_subscribers.concat(subscriber)
+  end
+
+  # @param subscriber [Object] object passed must have update() implemented
+  def add_subscribers_to_perform_move(*subscriber)
+    @perform_move_subscribers.concat(subscriber)
   end
 
   private
