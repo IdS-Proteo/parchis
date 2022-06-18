@@ -6,7 +6,7 @@ group :development do
   gem 'rake'
   gem 'bundler'
   gem 'yard'
-  gem 'ci-reporter'
+  gem 'ci_reporter', '~> 2.0'
 end
 
 group :production do

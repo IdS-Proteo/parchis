@@ -2,9 +2,9 @@ GEM
   remote: https://rubygems.org/
   specs:
     builder (3.2.4)
+    ci_reporter (2.0.0)
+      builder (>= 2.1.2)
     gosu (1.4.3)
-    minitest (5.15.0)
-    ci-reporter (2.0.0)
     rake (13.0.6)
     webrick (1.7.0)
     yard (0.9.27)
@@ -15,8 +15,8 @@ PLATFORMS
 
 DEPENDENCIES
   bundler
+  ci_reporter (~> 2.0)
   gosu (~> 1.4, >= 1.4.3)
-  ci-reporter
   rake
   yard
 
