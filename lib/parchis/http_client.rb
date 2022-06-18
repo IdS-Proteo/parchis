@@ -1,8 +1,6 @@
 # Helper class to talk with the game's server.
 class HTTPClient
 
-  ROOT_URL = URI('https://warm-lowlands-98832.herokuapp.com').freeze
-
   # Prevent class instantiation. Singleton pattern.
   def self.new; end
 

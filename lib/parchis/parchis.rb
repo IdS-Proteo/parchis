@@ -122,6 +122,7 @@ class Parchis < Gosu::Window
                 @game_state_updater.event_processed(event_id: HTTPClient.post_token_moved(match_id: @match_id, token_color: player_in_turn.color, token_label: 'Z', cells_to_move: 0, end_of_turn: true))
                 @board.next_turn
                 # delay the dice change of state to "?"
+                # TODO: Fix later... this is not working
                 t = Thread.new {sleep(GameStateUpdater::UPDATE_INTERVAL); @dice.set_unknown_state()}
                 t.join
                 return
