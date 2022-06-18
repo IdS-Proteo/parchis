@@ -1,5 +1,4 @@
 require 'minitest/autorun'
-require 'minitest/junit'
 require_relative '../lib/parchis/v_widget'
 require_relative '../lib/parchis/v_countdown'
 
@@ -14,7 +13,13 @@ class TestVCountdown < MiniTest::Test
   end
 
   def test_draw
+    #UT118
+    #this section only tests that the time shown is between 0 and 2 mins
     assert_in_delta(60, @countdown, 60)
+  end
+
+  def test_reset_countdown
+    #to be implemented
   end
 
 end

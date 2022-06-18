@@ -1,5 +1,4 @@
 require 'minitest/autorun'
-require 'minitest/junit'
 require_relative '../lib/parchis/http_client'
 
 class TestHTTPClient < MiniTest::Test
@@ -9,39 +8,51 @@ class TestHTTPClient < MiniTest::Test
   end
    
   def test_get_new_match_id
-    #assert_equal [true,"1234567890"],@http_client.get_new_match_id
+    #to be implemented
   end
 
   def test_get_match_lobby_existence
-    #assert_equal [0,nil],@http_client.get_match_lobby_existence('1234567890')
+    #to be implemented
   end
 
   def test_post_joining_to_lobby
-      
+    #to be implemented
   end
 
   def test_post_leaving_lobby
-
+    #to be implemented
   end
 
   def test_get_lobby_state
-
+    #to be implemented
   end
 
   def test_post_match
-
+    #to be implemented
   end
 
   def test_post_match_started
-
+    #to be implemented
   end
 
   def test_get_player_turn
+    #to be implemented
+  end
 
+  def test_get_game_last_events
+    #to be implemented
+  end
+
+  def test_post_dice_rolled
+    #to be implemented
+  end
+
+  def test_post_token_moved
+    #to be implemented
   end
 
   def test_post_match_quit
-
+    #to be implemented
   end
     
 end

@@ -1,5 +1,4 @@
 require 'minitest/autorun'
-require 'minitest/junit'
 require_relative '../lib/parchis/v_widget'
 require_relative '../lib/parchis/v_tips'
 
@@ -15,7 +14,7 @@ class TestVTips < MiniTest::Test
     'Podés elegir fichas con las teclas A-B-C-D en tu teclado.',
     'Si te encontrás con una barrera, no podés avanzar.',
     'Una ficha come a otra de otro color si llega al mismo lugar.'].freeze
-  HOLD_TIP = 5
+  HOLD_TIP = 25
 
   def setup
     @current_tip = 0
@@ -23,6 +22,8 @@ class TestVTips < MiniTest::Test
   end
 
   def test_update
+    #UT016
+    #UT017
     if((Time.now - @last_change)> HOLD_TIP)
       assert_equal(TIPS[0],TIPS[@current_tip])
     else
@@ -31,8 +32,8 @@ class TestVTips < MiniTest::Test
     end
   end
 
-  #def test_draw
-
-  #end
+  def test_draw
+    #to be implemented
+  end
 
 end
