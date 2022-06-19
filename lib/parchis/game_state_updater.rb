@@ -68,7 +68,7 @@ class GameStateUpdater
                 # if it's the end of the turn, make it happen
                 if(code[-1] == 't')
                   # delay the dice change of state to "?" and next turn
-                  Delayer.new(GameStateUpdater::UPDATE_INTERVAL) {@board.next_turn; @dice.set_unknown_state()}
+                  Delayer.new(GameStateUpdater::UPDATE_INTERVAL) {@board.next_turn(); @dice.set_unknown_state()}
                 end
               when 'pq'
                 # player quitted event

@@ -15,6 +15,11 @@ class VCountdown < VWidget
     reset_countdown()
   end
 
+  # @return [Boolean]
+  def out?
+    (Time.now - @countdown_start) >= TURN_TIMEOUT
+  end
+
   # Draw the widget.
   def draw
     delta = (Time.now - @countdown_start).floor

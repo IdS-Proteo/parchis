@@ -115,6 +115,16 @@ class Parchis < Gosu::Window
           @game_state_updater.leave_game()
           reset_to_phase_1()
         elsif((player_in_turn = @players[@board.player_turn]).local?)
+          # check if your turn's time ran out
+          if(@v_countdown.out?)
+            # end of turn, the player can't do anything
+            @game_state_updater.event_processed(event_id: HTTPClient.post_token_moved(match_id: @match_id, token_color: player_in_turn.color, token_label: 'Z', cells_to_move: 0, end_of_turn: true))
+            # don't allow this player to interact anymore on this turn
+            player_in_turn.clear_rights()
+            # delay the dice change of state to "?" and next turn
+            @board.next_turn()
+            @dice.set_unknown_state()
+          end
           # only in this case the player can interact
           if(player_in_turn.can_roll_dice?)
             # if can roll dice, then can't move tokens (yet)
@@ -129,7 +139,7 @@ class Parchis < Gosu::Window
                 # don't allow this player to interact anymore on this turn
                 player_in_turn.clear_rights()
                 # delay the dice change of state to "?" and next turn
-                Delayer.new(GameStateUpdater::UPDATE_INTERVAL) {@board.next_turn; @dice.set_unknown_state()}
+                Delayer.new(GameStateUpdater::UPDATE_INTERVAL) {@board.next_turn(); @dice.set_unknown_state()}
               end
             end
           elsif(player_in_turn.activity != :cant_do_anything)

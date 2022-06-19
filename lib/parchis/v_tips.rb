@@ -13,7 +13,8 @@ class VTips < VWidget
           'Si te encuentras con una barrera, no puedes avanzar.',
           'En una celda "segura" pueden coexistir dos fichas cualquiera.',
           'Las celdas seguras son aquellas que tienen un círculo.',
-          'El 3° en arribar a celda segura llena, "come" el último.'].freeze
+          'El 3° en arribar a celda segura llena, "come" el último.',
+          'Tienes 2 minutos para actuar, luego de eso, tu turno termina.'].freeze
 
   X_POS = 716
   Y_POS = 326
