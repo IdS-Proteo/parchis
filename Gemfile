@@ -7,6 +7,7 @@ group :development do
   gem 'bundler'
   gem 'yard'
   gem 'ci_reporter', '~> 2.0'
+  gem 'ocra', '~> 1.3', '>= 1.3.11'
 end
 
 group :production do

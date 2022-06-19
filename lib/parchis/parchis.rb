@@ -10,6 +10,7 @@ class Parchis < Gosu::Window
   HEIGHT = 705
   BORDERS = 11
   ASSETS_PATH = "#{File.dirname(File.dirname(File.dirname(__FILE__)))}/assets".freeze
+  VERSION = '1.0.0-beta.3'
 
   attr_reader :lobby_updater, :phase, :game_state_updater
 
@@ -221,7 +222,7 @@ class Parchis < Gosu::Window
   # Initializes the view.
   def initialize_view
     # set window title
-    self.caption = "Parchís"
+    self.caption = "Parchís v#{VERSION}"
 
     # errors holder. Depending on the phase, these are shown in different places
     @errors = []

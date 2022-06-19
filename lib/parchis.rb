@@ -26,15 +26,21 @@ require_relative 'parchis/game_state_updater'
 require_relative 'parchis/lobby_updater'
 require_relative 'parchis/delayer'
 
-# initialize app
-parchis = Parchis.new
-parchis.show()
-# make sure we let the server know we're leaving
-at_exit do
-  case parchis.phase.first
-    when 2
-      parchis.lobby_updater.leave_lobby()
-    when 3
-      parchis.game_state_updater.leave_game()
+
+# ocra exe preventer
+if(defined?(Ocra))
+  exit()
+else
+  # initialize app
+  parchis = Parchis.new
+  parchis.show()
+  # make sure we let the server know we're leaving
+  at_exit do
+    case parchis.phase.first
+      when 2
+        parchis.lobby_updater.leave_lobby()
+      when 3
+        parchis.game_state_updater.leave_game()
+    end
   end
 end
