@@ -49,6 +49,18 @@ class TestBoard < MiniTest::Test
     #to be implemented
   end
 
+  def test_add_subscribers_to_next_turn
+    #to be implemented
+  end 
+
+  def test_add_subscribers_to_dice_rolled
+    #to be implemented
+  end
+
+  def test_add_subscribers_to_perform_move
+    #to be implemented
+  end
+
   def test_assign_tokens_to_players
     #UT009
     #UT107
@@ -57,14 +69,6 @@ class TestBoard < MiniTest::Test
     assert_equal(4, @player3.tokens.length)
     assert_equal(4, @player4.tokens.length)
 
-  end
-
-  def test_tokens_to_draw_from_house
-    #UT107
-    #ERROR: missing :player, line 65/189 in og
-    #@board.send(:tokens_to_draw_from_house)
-    #@t_house = @board.tokens_to_draw_from_house(player: @player1)
-    #assert_equal(@player1.tokens.length, @t_house.length)
   end
 
   def test_initialize_cells
@@ -83,11 +87,19 @@ class TestBoard < MiniTest::Test
     refute_equal(@player1.color, @player5.color)
   end
 
-  def test_tokens_in_play_that_can_be_moved_to_
+  def test_tokens_to_draw_from_house
+    #UT107
+    #ERROR: missing :player, line 65/189 in og
+    #@board.send(:tokens_to_draw_from_house)
+    #@t_house = @board.tokens_to_draw_from_house(player: @player1)
+    #assert_equal(@player1.tokens.length, @t_house.length)
+  end
+
+  def test_tokens_in_play_that_can_be_moved
     #to be implemented
   end
 
-  def test_get_next_player_cell_ident
+  def test_get_next_player_cell_id
     #to be implemented
   end
 

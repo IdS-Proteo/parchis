@@ -7,6 +7,10 @@ class TestPlayer < MiniTest::Test
     @player = Player.new(name: 'self', local: false, host:false)
   end
 
+  def test_add_roll
+    #to be implemented
+  end
+
   def test_to_s
     assert_equal('self', @player.to_s)
   end

@@ -4,13 +4,20 @@ require_relative '../lib/parchis/v_actions'
 
 class TestVActions < MiniTest::Test
 
-  #nothing to test for now, it just writes text in a position
   def setup
+    #to be implemented
+  end
 
+  def test_update
+    #to be implemented
   end
 
   def test_draw
+    #to be implemented
+  end
 
+  def test_get_string_of_token_options
+    #to be implemented
   end
 
 end

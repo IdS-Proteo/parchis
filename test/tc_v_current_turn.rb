@@ -8,6 +8,10 @@ class TestVCurrentTurn < MiniTest::Test
     #to be implemented
   end
 
+  def test_update
+    #to be implemented
+  end
+
   def test_draw
     #to be implemented
   end

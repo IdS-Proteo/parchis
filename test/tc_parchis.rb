@@ -27,7 +27,7 @@ class TestParchis < MiniTest::Test
     #to be implemented
   end
 
-  def test_judge_second_dice_casting
+  def test_judge_second_dice_cast
     #to be implemented
   end
 
