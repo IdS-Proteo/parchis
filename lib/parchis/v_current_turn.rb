@@ -1,12 +1,6 @@
 # Visual widget for phase #3, that shows which player has the current turn.
 class VCurrentTurn < VWidget
 
-  COLOR_SYM_TO_HEX_MAP = {
-    red: 'FF0000',
-    green: '00FF00',
-    blue: '0000FF',
-    yellow: 'FCED21'
-  }.freeze
   X_POS = 716
   Y_POS = 646
   Z_POS = 1

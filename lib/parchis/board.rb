@@ -100,7 +100,7 @@ class Board
     case result
       when 5
         # try to get a token out of the house
-        if(tokens_to_draw = tokens_to_draw_from_house(player: player)) #: Array<Token> or false
+        if(tokens_to_draw = tokens_to_draw_from_house(player: player)) #: Array<Token> or nil
           # player must draw a token from its house
           player.enable_to_move(tokens_to_draw)
           player.activity = :taking_token_out_of_its_house
@@ -175,7 +175,7 @@ class Board
   # Removes all his tokens from the board, among other things.
   def player_quitted(player_id:)
     player = @players[player_id]
-    return if !player
+    return(false) if !player
     player.tokens.each do |token|
       token.cell.remove_token(token: token)
     end
@@ -260,7 +260,7 @@ class Board
   # @param tokens [nil, Array<Token>] you could pass the exact tokens to check. nil would check all of them
   # @return [Array<Token>] could return an empty array
   def tokens_in_play_that_can_be_moved(player:, cells_to_travel:, tokens: nil)
-    upcased_player_color = player.color.to_s.upcase
+    upcased_player_color = player.color.to_s.upcase #: String
     house_slots = Board.const_get("#{upcased_player_color}_HOUSE_CELLS".to_sym) #: Range<Integer>
     finish_slot = Board.const_get("#{upcased_player_color}_FINISH_CELL".to_sym) #: Integer
     tokens_in_play_that_can_be_moved = []
@@ -269,9 +269,11 @@ class Board
       if((cell_id = token.cell.id) != finish_slot && !house_slots.include?(cell_id))
         # is in play, but can be moved? If in the middle there's a barrier, can't move
         can_do_it = true
-        cells_to_travel.times do |step|
+        future_cell_id = nil
+        going_backwards = nil
+        cells_to_travel.times do
           future_cell_id, going_backwards = get_next_player_cell_id(player: player, cell_id: future_cell_id || cell_id, going_backwards: going_backwards || false)
-          if(cell_id != future_cell_id && future_cell_id != finish_slot && @cells[future_cell_id].barrier?)
+          if((cell_id != future_cell_id) && (future_cell_id != finish_slot) && (@cells[future_cell_id].barrier?))
             can_do_it = false
             break
           end
@@ -293,7 +295,7 @@ class Board
     finish_slot = Board.const_get("#{upcased_player_color}_FINISH_CELL".to_sym) #: Integer
     if(cell_id == pre_finish_cells.first)
       [pre_finish_cells.last, false]
-    elsif(cell_id == finish_slot || going_backwards)
+    elsif((cell_id == finish_slot) || going_backwards)
       [cell_id - 1, true]
     else
       [cell_id + 1, false]
@@ -319,7 +321,7 @@ class Board
   # @param result [Integer]
   # @return [Symbol] the current player activity according to dice cast
   def check_possible_regular_moves(player, result)
-    if (!(tokens_in_play_that_can_be_moved = tokens_in_play_that_can_be_moved(player: player, cells_to_travel: result)).empty?)
+    if(!(tokens_in_play_that_can_be_moved = tokens_in_play_that_can_be_moved(player: player, cells_to_travel: result)).empty?)
       # can't draw a token from house but could move another token in play
       player.enable_to_move(tokens_in_play_that_can_be_moved)
       player.activity = :moving_tokens_in_play

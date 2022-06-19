@@ -111,6 +111,11 @@ class Parchis < Gosu::Window
           @game_state_updater.leave_game()
           reset_to_phase_1()
         elsif((player_in_turn = @players[@board.player_turn]).local?)
+          # play the "your turn" sample only once
+          if(!@your_turn_played)
+            @your_turn_sfx.play()
+            @your_turn_played = true
+          end
           # check if your turn's time ran out
           if(@v_countdown.out?)
             # end of turn, the player can't do anything
@@ -118,6 +123,7 @@ class Parchis < Gosu::Window
             # don't allow this player to interact anymore on this turn
             player_in_turn.clear_rights()
             # delay the dice change of state to "?" and next turn
+            @your_turn_played = false
             @board.next_turn()
             @dice.set_unknown_state()
           end
@@ -135,7 +141,7 @@ class Parchis < Gosu::Window
                 # don't allow this player to interact anymore on this turn
                 player_in_turn.clear_rights()
                 # delay the dice change of state to "?" and next turn
-                Delayer.new(GameStateUpdater::UPDATE_INTERVAL) {@board.next_turn(); @dice.set_unknown_state()}
+                Delayer.new(GameStateUpdater::UPDATE_INTERVAL) {@your_turn_played = false; @board.next_turn(); @dice.set_unknown_state()}
               end
             end
           elsif(player_in_turn.activity != :cant_do_anything)
@@ -145,6 +151,7 @@ class Parchis < Gosu::Window
               @game_state_updater.event_processed(event_id: HTTPClient.post_token_moved(match_id: @match_id, token_color: player_in_turn.color, token_label: 'A', cells_to_move: @dice.last_roll, end_of_turn: end_of_turn))
               @board.perform_move(token_label: 'A', cells_to_move: @dice.last_roll, player: player_in_turn)
               if(end_of_turn)
+                @your_turn_played = false
                 @board.next_turn
                 @dice.set_unknown_state
               end
@@ -154,6 +161,7 @@ class Parchis < Gosu::Window
               @game_state_updater.event_processed(event_id: HTTPClient.post_token_moved(match_id: @match_id, token_color: player_in_turn.color, token_label: 'B', cells_to_move: @dice.last_roll, end_of_turn: end_of_turn))
               @board.perform_move(token_label: 'B', cells_to_move: @dice.last_roll, player: player_in_turn)
               if(end_of_turn)
+                @your_turn_played = false
                 @board.next_turn
                 @dice.set_unknown_state
               end
@@ -163,6 +171,7 @@ class Parchis < Gosu::Window
               @game_state_updater.event_processed(event_id: HTTPClient.post_token_moved(match_id: @match_id, token_color: player_in_turn.color, token_label: 'C', cells_to_move: @dice.last_roll, end_of_turn: end_of_turn))
               @board.perform_move(token_label: 'C', cells_to_move: @dice.last_roll, player: player_in_turn)
               if(end_of_turn)
+                @your_turn_played = false
                 @board.next_turn
                 @dice.set_unknown_state
               end
@@ -172,6 +181,7 @@ class Parchis < Gosu::Window
               @game_state_updater.event_processed(event_id: HTTPClient.post_token_moved(match_id: @match_id, token_color: player_in_turn.color, token_label: 'D', cells_to_move: @dice.last_roll, end_of_turn: end_of_turn))
               @board.perform_move(token_label: 'D', cells_to_move: @dice.last_roll, player: player_in_turn)
               if(end_of_turn)
+                @your_turn_played = false
                 @board.next_turn
                 @dice.set_unknown_state
               end
@@ -234,6 +244,7 @@ class Parchis < Gosu::Window
 
     # samples
     @rolling_dice_sfx = Gosu::Sample.new("#{ASSETS_PATH}/samples/rolling_dice.ogg")
+    @your_turn_sfx = Gosu::Sample.new("#{ASSETS_PATH}/samples/your_turn.ogg")
   end
 
   # @param error_message [String]

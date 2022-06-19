@@ -193,6 +193,6 @@ class Cell
   # @return [Boolean]
   # Don't ask this for a cell that is a finish cell.
   def barrier?
-    @tokens.size == 2 && (t1c = @tokens.first.color) && (@tokens.last.color == t1c)
+    (@tokens.size == 2) && (@tokens.first.color == @tokens.last.color)
   end
 end
