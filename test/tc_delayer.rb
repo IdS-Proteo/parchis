@@ -4,9 +4,9 @@ def setup
     #to be implemented
 end
 
-def test_self.update
+#def test_self.update
     #to be implemented
-end
+#end
 
 def test_initialize
     #to be implemented
