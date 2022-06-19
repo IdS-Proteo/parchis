@@ -1,7 +1,3 @@
-# TODO: Code end of turn due to timeout of the turn.
-
-require 'gosu'
-
 =begin
 The game could be in one of three phases:
   1. Start screen
@@ -28,7 +24,7 @@ class Parchis < Gosu::Window
     @hosting = true
     @match_id = '123456789'
     @players = [
-      Player.new(name: 'Self', local: true, host: !!@hosting),
+      Player.new(name: 'Self', local: true, host: true),
       Player.new(name: 'Foolano', local: false, host: false)
     ]
     initialize_phase_3()
@@ -326,7 +322,7 @@ class Parchis < Gosu::Window
     # widgets
     @v_countdown = VCountdown.new(font: @font_big_v)
     @v_actions = VActions.new(board: @board, dice: @dice, font: @font_v)
-    @v_stats = VStats.new(font: @font_v)
+    @v_stats = VStats.new(board: @board, font: @font_v)
     @v_tips = VTips.new(font: @font_v)
     @v_current_turn = VCurrentTurn.new(board: @board, font: @font_big_v)
     # subscribe some widgets to the Board#next_turn() event
@@ -395,8 +391,5 @@ class Parchis < Gosu::Window
     @tokens_v[token.color].draw(coords[:x], coords[:y], 1)
     # draw its label, i.e.: "A", "B", ...
     @font_v.draw_text(token.label, coords[:x] + 7, coords[:y] + 5, 2, 1, 1, 0xff_000000)
-  rescue
-    p token
-    p coords
   end
 end

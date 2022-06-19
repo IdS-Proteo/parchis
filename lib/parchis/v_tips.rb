@@ -1,10 +1,10 @@
 # Visual widget for phase #3. It shows different tips, feedback and else.
 class VTips < VWidget
 
-  # TODO: Agregar mantener presionado
   TIPS = ['Para ejecutar acción, presiona un momento la debida tecla.',
-          'Cuando sea tu turno, arrojas el dado manteniendo [Spacebar].',
+          'Cuando sea tu turno, arrojas el dado manteniendo [SpaceBar].',
           'Si arrojas un 6, tienes un segundo turno.',
+          'Si arrojas dos 6 seguidos, se activa el dado de 7 caras!',
           'Solo con un 5, puedes (debes) sacar una ficha de tu casa.',
           '2 fichas de igual color en un casillero forman una barrera.',
           'Tu barrera debe romperse si sacas un 6.',
@@ -13,7 +13,7 @@ class VTips < VWidget
           'Si te encuentras con una barrera, no puedes avanzar.',
           'En una celda "segura" pueden coexistir dos fichas cualquiera.',
           'Las celdas seguras son aquellas que tienen un círculo.',
-          'El 3° en arribar a celda segura llena, "come" el último.',
+          'El 3° en arribar a celda segura llena, "come" el último token.',
           'Tienes 2 minutos para actuar, luego de eso, tu turno termina.'].freeze
 
   X_POS = 716

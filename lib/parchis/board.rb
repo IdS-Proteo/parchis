@@ -96,6 +96,7 @@ class Board
   # Dice rolled by current player in turn.
   def dice_rolled(result:)
     player = @players[@player_turn] #: Player
+    player.add_roll(result)
     case result
       when 5
         # try to get a token out of the house
@@ -141,15 +142,28 @@ class Board
     # check if this is the special move of getting out a token from its house
     if(player.activity == :taking_token_out_of_its_house)
       # put this *token* in its house exit
-      @cells[Board.const_get("#{player.color.to_s.upcase}_HOUSE_EXIT_CELL".to_sym)].place_token(player[token_label])
+      cell = @cells[Board.const_get("#{player.color.to_s.upcase}_HOUSE_EXIT_CELL".to_sym)]
+      eaten_token = cell.place_token(player[token_label])
     else
       # inquire what is the target cell id
       cell_id = (token = player[token_label]).cell.id #: Integer
       cells_to_move.times {cell_id, going_backwards = get_next_player_cell_id(player: player, cell_id: cell_id, going_backwards: (going_backwards || false))}
       # perform the actual move
-      eaten_token = @cells[cell_id].place_token(token) #: nil or Token
-      send_token_to_its_house(eaten_token) if eaten_token
+      cell = @cells[cell_id]
+      eaten_token = cell.place_token(token) #: nil or Token
     end
+    # check if a token was eaten
+    if(eaten_token)
+      send_token_to_its_house(eaten_token)
+      # note this in the player (for stats)
+      player.tokens_eaten += 1
+    end
+    # check if a barrier were formed
+    if(cell.barrier?)
+      player.barriers_generated += 1
+    end
+    # updates moves on player (for stats)
+    player.cells_advanced += (player.activity == :taking_token_out_of_its_house ? 1 : cells_to_move)
     # activity completed
     player.activity = nil
     # alert subscribers
@@ -161,6 +175,7 @@ class Board
   # Removes all his tokens from the board, among other things.
   def player_quitted(player_id:)
     player = @players[player_id]
+    return if !player
     player.tokens.each do |token|
       token.cell.remove_token(token: token)
     end
