@@ -12,7 +12,7 @@ class Parchis < Gosu::Window
   HEIGHT = 705
   BORDERS = 11
   ASSETS_PATH = "#{File.dirname(File.dirname(File.dirname(__FILE__)))}/assets".freeze
-  VERSION = '1.0.0-beta.5'
+  VERSION = '1.0.0-beta.6'
 
   attr_reader :lobby_updater, :phase, :game_state_updater
 
@@ -196,10 +196,8 @@ class Parchis < Gosu::Window
         # update widgets
         @v_tips.update()
     end
-=begin
   rescue StandardError, SystemExit
     if(@phase.first == 2) then @lobby_updater.leave_lobby() end
-=end
   end
 
   # Called 60 times per second. Draws the graphics.

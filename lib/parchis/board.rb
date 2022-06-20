@@ -20,6 +20,7 @@ class Board
   GREEN_HOUSE_EXIT_CELL = 56
   GREEN_FINISH_CELL = 100
   GREEN_FIRST_PRE_FINISH_CELLS = [51, 93].freeze
+  LEAP_CELL = 68
 
 
   attr_reader :cells, :players, :player_turn
@@ -295,6 +296,8 @@ class Board
     finish_slot = Board.const_get("#{upcased_player_color}_FINISH_CELL".to_sym) #: Integer
     if(cell_id == pre_finish_cells.first)
       [pre_finish_cells.last, false]
+    elsif(cell_id == LEAP_CELL)
+      [1, false]
     elsif((cell_id == finish_slot) || going_backwards)
       [cell_id - 1, true]
     else
