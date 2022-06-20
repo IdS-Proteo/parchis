@@ -3,7 +3,7 @@ class Dice
   # @cant_roll_anymore_for_current_player will be true if the player rolled two six in a row. Must be restarted (through set_unkown_state()) on a new player turn
   attr_reader :last_roll, :cant_roll_anymore_for_current_player
 
-  # brings method Dice#roll()
+  # brings method Dice#roll!()
   include SixFacesDice
 
   # Constructor.
@@ -41,14 +41,3 @@ class Dice
     @last_roll
   end
 end
-
-
-
-
-
-
-
-
-
-
-

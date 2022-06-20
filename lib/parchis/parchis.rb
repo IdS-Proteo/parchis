@@ -10,7 +10,7 @@ class Parchis < Gosu::Window
   HEIGHT = 705
   BORDERS = 11
   ASSETS_PATH = "#{File.dirname(File.dirname(File.dirname(__FILE__)))}/assets".freeze
-  VERSION = '1.0.0-beta.3'
+  VERSION = '1.0.0-beta.4'
 
   attr_reader :lobby_updater, :phase, :game_state_updater
 
@@ -337,7 +337,7 @@ class Parchis < Gosu::Window
     @v_stats = VStats.new(board: @board, font: @font_v)
     @v_tips = VTips.new(font: @font_v)
     @v_current_turn = VCurrentTurn.new(board: @board, font: @font_big_v)
-    # subscribe some widgets to the Board#next_turn() event
+    # subscribe some widgets to the certain Board events
     @board.add_subscribers_to_next_turn(@v_countdown, @v_current_turn, @v_stats, @v_actions)
     @board.add_subscribers_to_dice_rolled(@v_stats, @v_actions)
     @board.add_subscribers_to_perform_move(@v_stats, @v_actions)
