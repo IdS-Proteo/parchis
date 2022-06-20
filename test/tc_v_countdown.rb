@@ -12,14 +12,18 @@ class TestVCountdown < MiniTest::Test
     @countdown = TURN_TIMEOUT - @delta
   end
 
+  def test_reset_countdown
+    #to be implemented
+  end
+
+  def test_update
+    #to be implemented
+  end
+
   def test_draw
     #UT118
     #this section only tests that the time shown is between 0 and 2 mins
     assert_in_delta(60, @countdown, 60)
-  end
-
-  def test_reset_countdown
-    #to be implemented
   end
 
 end

@@ -18,5 +18,6 @@ require_relative 'tc_v_current_turn'
 require_relative 'tc_v_stats'
 require_relative 'tc_v_tips'
 require_relative 'tc_v_widget'
+require_relative 'tc_delayer'
 
 
