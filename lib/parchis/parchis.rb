@@ -12,7 +12,7 @@ class Parchis < Gosu::Window
   HEIGHT = 705
   BORDERS = 11
   ASSETS_PATH = "#{File.dirname(File.dirname(File.dirname(__FILE__)))}/assets".freeze
-  VERSION = '1.0.0-beta.4'
+  VERSION = '1.0.0-beta.5'
 
   attr_reader :lobby_updater, :phase, :game_state_updater
 

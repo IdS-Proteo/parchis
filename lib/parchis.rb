@@ -26,6 +26,8 @@ require_relative 'parchis/game_state_updater'
 require_relative 'parchis/lobby_updater'
 require_relative 'parchis/delayer'
 
+# get SSL rid of the way (Ocra misses files that SSL need and couldn't detect which)
+OpenSSL::SSL::VERIFY_PEER = OpenSSL::SSL::VERIFY_NONE
 
 # ocra exe preventer
 if(defined?(Ocra))
